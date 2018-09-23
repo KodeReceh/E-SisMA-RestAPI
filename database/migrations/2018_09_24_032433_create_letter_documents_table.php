@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIncomingLettersTable extends Migration
+class CreateLetterDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateIncomingLettersTable extends Migration
      */
     public function up()
     {
-        Schema::create('incoming_letters', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('sender');
-            $table->string('receipt_date');
-            $table->integer('ordinal');
+        Schema::create('letter_documents', function (Blueprint $table) {
             $table->integer('letter_id')->unsigned();
+            $table->integer('document_id')->unsigned();
+            $table->string('description');
+
             $table->foreign('letter_id')->references('id')->on('letters')
                   ->onDelete('cascade');
+            $table->foreign('document_id')->references('id')->on('documents')
+                  ->onDelete('cascade');
+            $table->unique(['letter_id', 'document_id']);
         });
     }
 
@@ -31,6 +33,6 @@ class CreateIncomingLettersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incoming_letters');
+        Schema::dropIfExists('letter_documents');
     }
 }

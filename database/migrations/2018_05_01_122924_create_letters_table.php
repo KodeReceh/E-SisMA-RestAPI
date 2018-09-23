@@ -18,7 +18,8 @@ class CreateLettersTable extends Migration
             $table->string('letter_number');
             $table->date('letter_date');
             $table->string('subject');
-            $table->string('appendix');
+            $table->string('tendency');
+            $table->string('attachments');
             $table->string('to');
             $table->integer('letter_code_id')->nullable()->unsigned();
             $table->timestamps();
