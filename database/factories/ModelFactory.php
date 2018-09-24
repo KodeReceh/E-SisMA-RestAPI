@@ -11,9 +11,15 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
+        'birthplace' => $faker->country,
+        'birthdate' => $faker->date,
+        'password' => app('hash')->make('secret'),
+        'sex' => 1,
+        'address' => $faker->address,
+        'handphone' => '08282828282'
     ];
 });

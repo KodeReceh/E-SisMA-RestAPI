@@ -35,14 +35,8 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // if ($this->auth->guard($guard)->guest()) {
-        //     return response('Unauthorized.', 401);
-        // }
-
         if ($this->auth->guard($guard)->guest()) {
-            $response['code'] = '401';
-            $response['errorMsg'] = 'Invalid token!';
-            return response()->json($response);
+            return response('Unauthorized.', 401);
         }
  
         return $next($request);
