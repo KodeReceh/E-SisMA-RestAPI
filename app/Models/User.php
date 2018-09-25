@@ -41,4 +41,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'api_token'
     ];
 
+    public function dispositions()
+    {
+        return $this->hasMany(Disposition::class);
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'user_departments', 'user_id', 'department_id')
+                ->withPivot('status');
+    }
+
 }

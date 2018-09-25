@@ -15,8 +15,8 @@ class CreateSubSubLetterCodesTable extends Migration
     {
         Schema::create('sub_sub_letter_codes', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('sub_sub_letter_code');
-          $table->string('sub_sub_code_title');
+          $table->integer('code');
+          $table->string('title');
           $table->integer('sub_letter_code_id')->unsigned();
 
           $table->foreign('sub_letter_code_id')
