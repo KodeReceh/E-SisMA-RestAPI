@@ -9,8 +9,8 @@ class LetterCode extends Model
     protected $table = 'letter_codes';
 
     protected $fillable = [
-        'letter_code',
-        'code_title'
+        'code',
+        'title'
     ];
 
     protected $timestamps = false;
@@ -18,5 +18,10 @@ class LetterCode extends Model
     public function letters()
     {
         return $this->hasMany(Letter::class);
+    }
+
+    public function sub_letter_codes()
+    {
+        return $this->hasMany(SubLetterCode::class);
     }
 }

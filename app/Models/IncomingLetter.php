@@ -21,4 +21,9 @@ class IncomingLetter extends Model
     {
         return $this->belongsTo(Letter::class);
     }
+
+    public function disposition()
+    {
+        return $this->hasOne(Disposition::class);
+    }
 }

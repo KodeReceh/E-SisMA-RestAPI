@@ -15,8 +15,8 @@ class CreateLetterCodesTable extends Migration
     {
         Schema::create('letter_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('letter_code')->unique();
-            $table->string('code_title');
+            $table->integer('code')->unique();
+            $table->string('title');
         });
     }
 

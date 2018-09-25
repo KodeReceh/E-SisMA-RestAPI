@@ -25,4 +25,9 @@ class Archive extends Model
     {
         return $this->belongsTo(ArchiveType::class);
     }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

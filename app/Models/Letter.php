@@ -32,4 +32,9 @@ class Letter extends Model
     {
         return $this->hasOne(OutcomingLetter::class);
     }
+
+    public function letter_files()
+    {
+        return $this->hasMany(LetterFile::class);
+    }
 }

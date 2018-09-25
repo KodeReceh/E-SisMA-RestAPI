@@ -21,4 +21,9 @@ class File extends Model
     {
         return $this->belongsTo(Document::class);
     }
+
+    public function letter_files()
+    {
+        return $this->hasMany(LetterFile::class);
+    }
 }
