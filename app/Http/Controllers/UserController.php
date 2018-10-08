@@ -41,4 +41,60 @@ class UserController extends Controller
          ], 400);
         
     }
+
+    public function getUser($id)
+    {
+        $user = User::find($id);
+
+        if($user){
+            return response()->json([
+                'success' =>true,
+                'description' => '',
+                'data' => $user
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'User not found!',
+            'data' => null
+        ], 404);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if($user) {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->birthplace = $request->birthplace;
+            $user->birthdate = $request->birthdate;
+            $user->sex = $request->sex;
+            $user->address = $request->address;
+            $user->handphone = $request->handphone;
+            if($request->password)
+                $user->password = Hash::make($request->password);
+
+            if($user->update()){
+                return response()->json([
+                    'success' =>true,
+                    'description' => 'User succesfully updated!',
+                    'data' => $user
+                ], 201);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'description' => 'Something went wrong, not updated!',
+                    'data' => null
+                ], 401);
+            }
+        }else{
+            return response()->json([
+                'success' => false,
+                'description' => 'User not found!',
+                'data' => null
+            ], 404);
+        }
+    }
 }
