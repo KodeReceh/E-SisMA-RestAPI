@@ -7,4 +7,5 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('users', 'UserController@index');
     $router->get('users/{user}', 'UserController@getUser');
     $router->post('users/update/{user}', 'UserController@update');
+    $router->delete('users/delete/{user}', 'UserController@delete');
 });
