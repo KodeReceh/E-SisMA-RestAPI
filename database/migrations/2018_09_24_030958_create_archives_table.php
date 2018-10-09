@@ -15,8 +15,8 @@ class CreateArchivesTable extends Migration
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('archive_title');
-            $table->date('archive_date');
+            $table->string('title');
+            $table->date('date');
             $table->integer('department_id')->unsigned();
             $table->integer('archive_type_id')->unsigned();
             $table->string('description');

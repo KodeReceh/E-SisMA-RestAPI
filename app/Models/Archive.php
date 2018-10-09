@@ -9,17 +9,12 @@ class Archive extends Model
     protected $table = 'archives';
 
     protected $fillable = [
-        'archive_title',
-        'archive_date',
-        'department_id',
+        'title',
+        'date',
+        'role_id',
         'archive_type_id',
         'description'
     ];
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
 
     public function archive_type()
     {

@@ -9,8 +9,8 @@ class Letter extends Model
     protected $table = 'letters';
 
     protected $fillable = [
-        'letter_number',
-        'letter_date',
+        'number',
+        'date',
         'subject',
         'tendency',
         'attachments',
