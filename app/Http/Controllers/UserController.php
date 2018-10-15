@@ -11,12 +11,12 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with('role')->get();
 
         return response()->json([
             'request_time' => Carbon::now()->timestamp,
             'amount_of_data' => $users->count(),
-            'data' => User::all()
+            'data' => $users
         ], 200);
     }
 
@@ -44,8 +44,8 @@ class UserController extends Controller
 
     public function getUser($id)
     {
-        $user = User::find($id);
-
+        $user = User::with('role')->find($id);
+        
         if($user){
             return response()->json([
                 'success' =>true,
@@ -111,6 +111,26 @@ class UserController extends Controller
         return reponse()->json([
             'success' => false,
             'description' => 'Data gagal dihapus!'
+        ], 400);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if($user->status){
+            $user->status = false;
+        }else{
+            $user->status = true;
+        }
+        if($user->save())
+            return response()->json([
+                'success' => true,
+                'description' => 'Status user berhasil dirubah'
+            ], 201);
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Status user gagal dirubah'
         ], 400);
     }
 }

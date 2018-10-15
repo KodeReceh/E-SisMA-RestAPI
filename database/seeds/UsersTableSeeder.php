@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -11,6 +13,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\User::class, 5)->make();
+        // factory(App\Models\User::class, 5)->make();
+        $user = new User();
+        $user->name = 'Muhammad Fauzi';
+        $user->email = 'efzet@efzet.com';
+        $user->password = app('hash')->make('secret');
+        $user->birthplace = 'Padang';
+        $user->birthdate = '1996-02-02';
+        $user->sex = 1;
+        $user->address = 'Padang';
+        $user->handphone = '08222222222';
+        $role = Role::first();
+        $user->role()->associate($role);
+        $user->save();
     }
 }
