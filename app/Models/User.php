@@ -30,7 +30,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'address',
         'handphone',
         'role_id',
-        'role_id',
         'status'
     ];
 

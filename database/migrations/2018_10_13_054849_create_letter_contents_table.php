@@ -16,6 +16,7 @@ class CreateLetterContentsTable extends Migration
         Schema::create('letter_contents', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('letter_template_id')->unsigned();
+            $table->integer('ordinal');
             $table->integer('content_type');
             $table->foreign('letter_template_id')->references('id')->on('letter_templates')->onDelete('cascade');
             $table->timestamps();

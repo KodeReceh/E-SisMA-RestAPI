@@ -73,6 +73,7 @@ class UserController extends Controller
             $user->sex = $request->sex;
             $user->address = $request->address;
             $user->handphone = $request->handphone;
+            $user->role_id = $request->role_id;
             if($request->password)
                 $user->password = Hash::make($request->password);
 
