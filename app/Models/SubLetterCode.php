@@ -8,7 +8,7 @@ class SubLetterCode extends Model
 {
     protected $table = 'sub_letter_codes';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'code',
@@ -19,10 +19,5 @@ class SubLetterCode extends Model
     public function letter_code()
     {
         return $this->belongsTo(LetterCode::class);
-    }
-
-    public function sub_sub_letter_codes()
-    {
-        return $this->hasMany(SubSubLetterCode::class);
     }
 }

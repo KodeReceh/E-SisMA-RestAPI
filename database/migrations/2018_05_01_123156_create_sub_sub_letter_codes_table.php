@@ -32,8 +32,6 @@ class CreateSubSubLetterCodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sub_sub_letter_codes', function (Blueprint $table) {
-            //
-        });
+        Schema::drop('sub_sub_letter_codes');
     }
 }

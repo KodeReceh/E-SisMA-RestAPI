@@ -13,7 +13,7 @@ class LetterCode extends Model
         'title'
     ];
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function letters()
     {

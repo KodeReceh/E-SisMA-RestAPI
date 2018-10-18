@@ -33,7 +33,6 @@ class IncomingLetterController extends Controller
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id;
-        $letter->sub_sub_letter_code_id = $request->sub_sub_letter_code_id;
         $letter->save();
 
         $letter->incoming_letter()->save([

@@ -13,4 +13,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //role
     $router->get('roles', 'RoleController@index');
+
+    //letter
+    $router->post('letters/incoming-letter', 'IncomingLetterController@store');
 });
