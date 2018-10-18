@@ -16,4 +16,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //letter
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');
+    $router->get('letters/incoming-letter', 'IncomingLetterController@index');
+    $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
 });

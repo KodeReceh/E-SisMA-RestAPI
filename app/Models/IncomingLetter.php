@@ -28,6 +28,6 @@ class IncomingLetter extends Model
 
     public function disposition()
     {
-        return $this->hasOne(Disposition::class);
+        return $this->hasOne(Disposition::class, 'incoming_letter_id',  'letter_id');
     }
 }
