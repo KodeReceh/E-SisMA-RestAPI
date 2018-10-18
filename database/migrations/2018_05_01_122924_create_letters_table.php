@@ -21,7 +21,7 @@ class CreateLettersTable extends Migration
             $table->string('tendency');
             $table->string('attachments');
             $table->string('to');
-            $table->integer('letter_code_id')->nullable()->unsigned();
+            $table->integer('letter_code_id')->nullable()->unsigned()->default(null);
             $table->timestamps();
 
             $table->foreign('letter_code_id')

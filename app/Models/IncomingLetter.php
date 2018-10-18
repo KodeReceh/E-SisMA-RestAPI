@@ -8,7 +8,11 @@ class IncomingLetter extends Model
 {
     protected $table = 'incoming_letters';
 
-    protected $timestamps  = false;
+    protected $primaryKey = 'letter_id';
+
+    public $timestamps  = false;
+
+    public $incrementing = false;
 
     protected $fillable = [
         'sender',

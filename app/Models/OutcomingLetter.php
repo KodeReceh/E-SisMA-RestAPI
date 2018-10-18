@@ -8,7 +8,11 @@ class OutcomingLetter extends Model
 {
     protected $table = 'outcoming_letters';
 
-    protected $timestamps = false;
+    protected $primaryKey = 'letter_id';
+
+    public $timestamps = false;
+
+    public $incrementing = false;
 
     protected $fillable = [
         'letter_id',

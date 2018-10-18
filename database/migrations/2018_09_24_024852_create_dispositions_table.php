@@ -20,7 +20,7 @@ class CreateDispositionsTable extends Migration
             $table->date('processing_date');
             $table->string('information');
             $table->integer('user_id')->unsigned();
-            $table->foreign('incoming_letter_id')->references('id')->on('incoming_letters')
+            $table->foreign('incoming_letter_id')->references('letter_id')->on('incoming_letters')
                   ->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

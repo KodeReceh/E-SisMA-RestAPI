@@ -14,9 +14,8 @@ class CreateOutcomingLettersTable extends Migration
     public function up()
     {
         Schema::create('outcoming_letters', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('letter_id')->unsigned()->primary();
             $table->integer('ordinal');
-            $table->integer('letter_id')->unsigned();
             $table->foreign('letter_id')->references('id')->on('letters')
                   ->onDelete('cascade');
         });
