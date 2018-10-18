@@ -8,6 +8,20 @@ use App\Models\OutcomingLetter;
 
 class OutcomingLetterController extends Controller
 {
+    public function index()
+    {
+        $outcomingLetters = OutcomingLetter::with('letter')
+                                         ->with('letter.letter_code')
+                                         ->with('letter.sub_letter_code')
+                                         ->get();
+        
+        return response()->json([
+            'success' => true,
+            'amount_of_data' => $outcomingLetters->count(),
+            'data' => $outcomingLetters
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $letter = new Letter();
