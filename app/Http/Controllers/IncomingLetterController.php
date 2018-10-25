@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Letter;
 use App\Models\IncomingLetter;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Document;
+use App\Models\File;
+use App\Models\LetterFile;
 
 class IncomingLetterController extends Controller
 {
+    private $configDiskStorage;
+
+    public function __construct()
+    {
+        $this->configDiskStorage = config('esisma.dokumen.surat.masuk');
+    }
+    
     public function index()
     {
         $incomingLetters = IncomingLetter::with('disposition')
@@ -42,6 +53,30 @@ class IncomingLetterController extends Controller
         ]);
 
         $letter->incoming_letter()->save($incomingLetter);
+        $files = [];
+        if($request->has('files')){
+            $document = new Document();
+            $document->title = "Surat Masuk ".$letter->subject;
+            $document->date = $letter->date;
+            $document->description = $letter->tendency;
+            $document->save();
+
+            foreach ($request->file('files') as $key => $file) {
+                $ext = $file->getClientOriginalExtension();
+                $fileName = $letter->id.'.'.$ext;
+                $file->storeAs($this->configDiskStorage, $fileName);
+                $fileInst = new File([
+                    'path' => $fileName,
+                    'caption' => $document->title.'-'.$key,
+                    'ordinal' => $key
+                ]);
+
+                $document->files()->save($fileInst);
+
+                $files[] = $fileInst;
+            }
+            
+        }
 
         return response()->json([
             'success' => true,
@@ -49,7 +84,9 @@ class IncomingLetterController extends Controller
             'data' => $incomingLetter->letter()->with('incoming_letter')
                                      ->with('letter_code')
                                      ->with('sub_letter_code')
-                                     ->get()
+                                     ->with('letter_files')
+                                     ->get(),
+            'files' => $files
         ], 200);
 
     }

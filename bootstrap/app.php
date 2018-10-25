@@ -1,5 +1,7 @@
 <?php
 
+use Dingo\Api\Routing\Adapter\Lumen;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
@@ -56,6 +58,24 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton(
+    'filesystem', function ($app) { 
+        return $app->loadComponent(
+            'filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 
+            'filesystem'); 
+        }
+    );
+
+$app->singleton(
+    Illuminate\Contracts\Filesystem\Factory::class,
+    function ($app) {
+        return new Illuminate\Filesystem\FilesystemManager($app);
+    }
+);
+
+$app->configure('filesystems');
+$app->configure('esisma');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -91,6 +111,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
+
 
 
 /*

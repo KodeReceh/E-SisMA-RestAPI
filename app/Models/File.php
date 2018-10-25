@@ -15,7 +15,7 @@ class File extends Model
         'ordinal'
     ];
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function document()
     {

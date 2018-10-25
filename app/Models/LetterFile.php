@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class LetterFile extends Model
 {
-    protected $table = 'letter_documents';
+    protected $table = 'letter_files';
 
     protected $fillable = [
         'letter_id',
         'file_id',
     ];
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $increamenting = false;
 
