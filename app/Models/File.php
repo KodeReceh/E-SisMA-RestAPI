@@ -22,8 +22,8 @@ class File extends Model
         return $this->belongsTo(Document::class);
     }
 
-    public function letter_files()
+    public function letter()
     {
-        return $this->hasMany(LetterFile::class);
+        return $this->belongsTo(Letter::class);
     }
 }
