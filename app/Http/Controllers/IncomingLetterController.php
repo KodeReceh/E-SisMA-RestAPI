@@ -8,7 +8,6 @@ use App\Models\IncomingLetter;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Document;
 use App\Models\File;
-use App\Models\LetterFile;
 
 class IncomingLetterController extends Controller
 {
@@ -63,7 +62,7 @@ class IncomingLetterController extends Controller
 
             foreach ($request->file('files') as $key => $file) {
                 $ext = $file->getClientOriginalExtension();
-                $fileName = $letter->id.'.'.$ext;
+                $fileName = $letter->id.'-'.$key.'.'.$ext;
                 $file->storeAs($this->configDiskStorage, $fileName);
                 $fileInst = new File([
                     'path' => $fileName,
@@ -72,9 +71,11 @@ class IncomingLetterController extends Controller
                 ]);
 
                 $document->files()->save($fileInst);
-
                 $files[] = $fileInst;
             }
+
+            $letter->document()->associate($document);
+            $letter->save();
             
         }
 
@@ -84,9 +85,8 @@ class IncomingLetterController extends Controller
             'data' => $incomingLetter->letter()->with('incoming_letter')
                                      ->with('letter_code')
                                      ->with('sub_letter_code')
-                                     ->with('letter_files')
-                                     ->get(),
-            'files' => $files
+                                     ->with('document.files')
+                                     ->get()
         ], 200);
 
     }

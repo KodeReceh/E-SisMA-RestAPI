@@ -25,4 +25,9 @@ class Document extends Model
     {
         return $this->hasMany(File::class);
     }
+
+    public function letter()
+    {
+        return $this->hasOne(Letter::class);
+    }
 }

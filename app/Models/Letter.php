@@ -15,7 +15,9 @@ class Letter extends Model
         'tendency',
         'attachments',
         'to',
-        'letter_code_id'
+        'letter_code_id',
+        'sub_letter_code_id',
+        'document_id'
     ];
 
     public function letter_code()
@@ -38,8 +40,8 @@ class Letter extends Model
         return $this->hasOne(OutcomingLetter::class);
     }
 
-    public function files()
+    public function document()
     {
-        return $this->hasMany(File::class);
+        return $this->belongsTo(Document::class);
     }
 }

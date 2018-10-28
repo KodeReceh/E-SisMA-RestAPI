@@ -21,9 +21,4 @@ class File extends Model
     {
         return $this->belongsTo(Document::class);
     }
-
-    public function letter()
-    {
-        return $this->belongsTo(Letter::class);
-    }
 }
