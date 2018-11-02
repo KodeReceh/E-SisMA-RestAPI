@@ -13,6 +13,7 @@ class OutcomingLetterController extends Controller
         $outcomingLetters = OutcomingLetter::with('letter')
                                          ->with('letter.letter_code')
                                          ->with('letter.sub_letter_code')
+                                         ->with('letter.document.files')
                                          ->get();
         
         return response()->json([
@@ -47,6 +48,7 @@ class OutcomingLetterController extends Controller
             'data' => $outcomingLetter->letter()->with('outcoming_letter')
                                      ->with('letter_code')
                                      ->with('sub_letter_code')
+                                     ->with('document.files')
                                      ->get()
         ], 200);
     }

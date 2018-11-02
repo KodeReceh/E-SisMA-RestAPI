@@ -24,6 +24,7 @@ class IncomingLetterController extends Controller
                                          ->with('letter')
                                          ->with('letter.letter_code')
                                          ->with('letter.sub_letter_code')
+                                         ->with('letter.document.files')
                                          ->get();
         
         return response()->json([
@@ -52,7 +53,7 @@ class IncomingLetterController extends Controller
         ]);
 
         $letter->incoming_letter()->save($incomingLetter);
-        $files = [];
+
         if($request->has('files')){
             $document = new Document();
             $document->title = "Surat Masuk ".$letter->subject;
@@ -71,7 +72,6 @@ class IncomingLetterController extends Controller
                 ]);
 
                 $document->files()->save($fileInst);
-                $files[] = $fileInst;
             }
 
             $letter->document()->associate($document);
@@ -89,5 +89,25 @@ class IncomingLetterController extends Controller
                                      ->get()
         ], 200);
 
+    }
+
+    public function getList()
+    {
+        $incomingLetters = IncomingLetter::join('letters', 'incoming_letters.letter_id', 'letters.id')
+                                        ->select(
+                                            'letters.id as id',
+                                            'letters.number as number',
+                                            'letters.date as date',
+                                            'letters.subject as subject',
+                                            'letters.tendency as tendency',
+                                            'incoming_letters.sender as sender'
+                                            )
+                                        ->get();
+        
+        return response()->json([
+            'success' => true,
+            'amount_of_data' => $incomingLetters->count(),
+            'data' => $incomingLetters
+        ], 200);
     }
 }
