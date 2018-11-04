@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(LetterCodesTableSeeder::class);
+        $this->call(SubLetterCodesTableSeeder::class);
         Model::reguard();
     }
 }

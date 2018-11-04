@@ -18,10 +18,16 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //incoming-letter
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');
-    $router->get('letters/incoming-letter', 'IncomingLetterController@index');
-    $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
+    $router->get('letters/incoming-letter', 'IncomingLetterController@getList');
+    // $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
     
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
     $router->get('letters/outcoming-letter', 'OutcomingLetterController@index');
+
+    //sub-letter-code
+    $router->get('letter-codes/{id}/sub-letter-codes', 'SubLetterCodeController@getByLetterCodeId');
+
+    //letter-code
+    $router->get('letter-codes', 'LetterCodeController@getList');
 });
