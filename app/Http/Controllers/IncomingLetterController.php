@@ -41,7 +41,7 @@ class IncomingLetterController extends Controller
         $letter->date = $request->date;
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
-        $letter->attachments = 1; //$request->attachments;
+        $letter->attachments = $request->attachments;
         $letter->to = $request->to;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
