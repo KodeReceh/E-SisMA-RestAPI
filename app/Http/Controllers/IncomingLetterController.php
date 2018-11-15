@@ -110,7 +110,7 @@ class IncomingLetterController extends Controller
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil disimpan.',
-            'data' => $incomingLetter,
+            'data' => $letter->incoming_letter,
         ], 200);
 
     }
