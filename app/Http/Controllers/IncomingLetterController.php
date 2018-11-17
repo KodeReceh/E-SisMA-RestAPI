@@ -159,4 +159,20 @@ class IncomingLetterController extends Controller
             'data' => $incomingLetter
         ], 200);
     }
+
+    public function delete($id) {
+        $incomingLetter = IncomingLetter::find($id);
+
+        if($incomingLetter->delete()){
+            return response()->json([
+                'success' => true,
+                'description' => 'Data berhasil dihapus'
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Ada kesalahan,data gagal dihapus.'
+        ], 417);
+    }
 }

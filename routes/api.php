@@ -21,6 +21,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('letters/incoming-letter', 'IncomingLetterController@getList');
     $router->get('letters/incoming-letter/{id}', 'IncomingLetterController@get');
     $router->put('letters/incoming-letter/{id}', 'IncomingLetterController@update');
+    $router->delete('letters/incoming-letter/{id}', 'IncomingLetterController@delete');
     // $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
     
     //outcoming-letter

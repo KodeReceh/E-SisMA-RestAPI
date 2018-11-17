@@ -19,7 +19,7 @@ class SubLetterCodeController extends Controller
         ], 200);
     }
 
-    public function get($code, $subCode, Request $request)
+    public function get($code, $subCode)
     {
         $subLetterCode = SubLetterCode::find($subCode);
 
