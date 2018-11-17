@@ -19,4 +19,15 @@ class LetterCodeController extends Controller
             'data' => $letterCodes
         ], 200);
     }
+
+    public function get($id)
+    {
+        $letteCode = LetterCode::find($id);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Data berhasil diambil',
+            'data' => $letteCode
+        ], 200);
+    }
 }

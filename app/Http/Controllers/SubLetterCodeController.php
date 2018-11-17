@@ -18,4 +18,15 @@ class SubLetterCodeController extends Controller
             'data' => $subLetterCodes
         ], 200);
     }
+
+    public function get($code, $subCode, Request $request)
+    {
+        $subLetterCode = SubLetterCode::find($subCode);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Data berhasil diambil',
+            'data' => $subLetterCode
+        ], 200);
+    }
 }

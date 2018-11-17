@@ -29,7 +29,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //sub-letter-code
     $router->get('letter-codes/{id}/sub-letter-codes', 'SubLetterCodeController@getByLetterCodeId');
+    $router->get('letter-codes/{code}/sub-letter-codes/{subCode}', 'SubLetterCodeController@get');
 
     //letter-code
     $router->get('letter-codes', 'LetterCodeController@getList');
+    $router->get('letter-codes/{id}', 'LetterCodeController@get');
 });
