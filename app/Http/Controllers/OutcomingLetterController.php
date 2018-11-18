@@ -37,7 +37,7 @@ class OutcomingLetterController extends Controller
         $letter->save();
 
         $outcomingLetter = new OutcomingLetter([
-            'ordinal' => $request->ordinal
+            'ordinal' => 1 //$request->ordinal
         ]);
 
         $letter->outcoming_letter()->save($outcomingLetter);
@@ -45,11 +45,27 @@ class OutcomingLetterController extends Controller
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil disimpan.',
-            'data' => $outcomingLetter->letter()->with('outcoming_letter')
-                                     ->with('letter_code')
-                                     ->with('sub_letter_code')
-                                     ->with('document.files')
-                                     ->get()
+            'data' => $outcomingLetter
+        ], 200);
+    }
+
+    public function getList()
+    {
+        $outcomingLetters = OutcomingLetter::join('letters', 'outcoming_letters.letter_id', 'letters.id')
+                                        ->select(
+                                            'letters.id as id',
+                                            'letters.number as number',
+                                            'letters.date as date',
+                                            'letters.subject as subject',
+                                            'letters.tendency as tendency',
+                                            'letters.to as to'
+                                            )
+                                        ->get();
+        
+        return response()->json([
+            'success' => true,
+            'amount_of_data' => $outcomingLetters->count(),
+            'data' => $outcomingLetters
         ], 200);
     }
 }

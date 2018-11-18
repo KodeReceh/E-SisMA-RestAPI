@@ -26,7 +26,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
-    $router->get('letters/outcoming-letter', 'OutcomingLetterController@index');
+    $router->get('letters/outcoming-letter', 'OutcomingLetterController@getList');
 
     //sub-letter-code
     $router->get('letter-codes/{id}/sub-letter-codes', 'SubLetterCodeController@getByLetterCodeId');
