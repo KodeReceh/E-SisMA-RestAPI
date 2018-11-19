@@ -27,7 +27,10 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
     $router->get('letters/outcoming-letter', 'OutcomingLetterController@getList');
-
+    $router->get('letters/outcoming-letter/{id}', 'OutcomingLetterController@get');
+    $router->put('letters/outcoming-letter/{id}', 'OutcomingLetterController@update');
+    $router->delete('letters/outcoming-letter/{id}', 'OutcomingLetterController@delete');
+    
     //sub-letter-code
     $router->get('letter-codes/{id}/sub-letter-codes', 'SubLetterCodeController@getByLetterCodeId');
     $router->get('letter-codes/{code}/sub-letter-codes/{subCode}', 'SubLetterCodeController@get');
