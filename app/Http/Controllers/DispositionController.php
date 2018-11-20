@@ -10,32 +10,25 @@ class DispositionController extends Controller
 {
     public function storeDisposition($id, Request $request)
     {
-        $incomingLetter = IncomingLetter::find($id);
-        $disposition = new Disposition([
-            'summary' => $request->summary,
-            'processing_date' => $request->processing_date,
-            'information' => $request->information,
-            'user_id' => $request->user->id
-        ]);
-
-        $incomingLetter->disposition()->save($disposition);
+        $disposition = Disposition::create($request->all());
 
         return response()->json([
             'success' => true,
             'description' => 'Berhasil disimpan.',
-            'data' => $incomingLetter
-        ], 200);
+            'data' => $disposition
+        ], 201);
     }
 
     public function updateDisposition($id, Request $request)
     {
         $disposition = Disposition::find($id);
+
         if($disposition->update($request->all())){
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil diupdate.',
                 'data' => $disposition
-            ], 200);
+            ], 201);
         }
 
         return response()->json([
@@ -47,10 +40,19 @@ class DispositionController extends Controller
     public function get($id)
     {
         $disposition = Disposition::find($id);
+
+        if($disposition){
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil ambil data.',
+                'data' => $disposition
+            ], 200);
+        }
+
         return response()->json([
-            'success' => true,
-            'description' => 'Berhasil ambil data.',
-            'data' => $disposition
-        ], 200);
+            'success' => false,
+            'description' => 'Data tidak ditemukan.'
+        ], 404);
+        
     }
 }
