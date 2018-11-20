@@ -14,8 +14,7 @@ class CreateDispositionsTable extends Migration
     public function up()
     {
         Schema::create('dispositions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('incoming_letter_id')->unsigned();
+            $table->integer('incoming_letter_id')->unsigned()->primary();
             $table->string('summary');
             $table->date('processing_date');
             $table->string('information');

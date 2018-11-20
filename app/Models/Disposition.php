@@ -8,6 +8,10 @@ class Disposition extends Model
 {
     protected $table = 'dispositions';
 
+    protected $primaryKey = 'incoming_letter_id';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'incoming_letter_id',
         'summary',

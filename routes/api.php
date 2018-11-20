@@ -20,6 +20,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');
     $router->get('letters/incoming-letter', 'IncomingLetterController@getList');
     $router->get('letters/incoming-letter/{id}', 'IncomingLetterController@get');
+    $router->put('letters/incoming-letter/{id}/disposition', 'DispositionController@updateDisposition');
+    $router->post('letters/incoming-letter/{id}/disposition', 'DispositionController@storeDisposition');
+    $router->get('letters/incoming-letter/{id}/disposisi', 'DispositionController@get');
     $router->put('letters/incoming-letter/{id}', 'IncomingLetterController@update');
     $router->delete('letters/incoming-letter/{id}', 'IncomingLetterController@delete');
     // $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
