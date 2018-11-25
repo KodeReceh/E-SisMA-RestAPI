@@ -9,7 +9,7 @@ class DocumentController extends Controller
 {
     public function index() 
     {
-        $documents = Document::all();
+        $documents = Document::with('archive')->get();
 
         return response()->json([
             'success' => true,

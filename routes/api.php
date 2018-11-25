@@ -44,8 +44,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //document
     $router->get('documents', 'DocumentController@index');
-    $router->get('documents/{id}', 'DocumentController@get');
     $router->post('documents', 'DocumentController@store');
     $router->put('documents/{id}', 'DocumentController@update');
     $router->delete('documents/{id}', 'DocumentController@delete');
+    $router->get('documents/{id}', 'DocumentController@get');
 });
