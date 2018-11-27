@@ -21,6 +21,8 @@ class CreateFilesTable extends Migration
             $table->integer('ordinal');
             $table->foreign('document_id')->references('id')->on('documents')
                   ->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
