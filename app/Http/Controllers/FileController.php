@@ -47,12 +47,31 @@ class FileController extends Controller
 
     public function getListByDocument($document)
     {
-        $files = File::where('document_id', $document)->get();
+        $files = File::where('document_id', $document)->orderBy('ordinal', 'asc')->get();
 
         return response()->json([
             'success' => true,
             'description' => 'Berhasil mengambil data.',
             'data' => $files
+        ], 200);
+    }
+
+    public function lastOrdinal($document)
+    {
+        $file = File::where('document_id', $document)->orderBy('ordinal', 'desc')->first();
+
+        if($file){
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil mengambil data',
+                'data' => $file->ordinal
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data',
+            'data' => 0,
         ], 200);
     }
 

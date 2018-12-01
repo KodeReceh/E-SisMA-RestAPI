@@ -55,4 +55,5 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('files', 'FileController@store');
     $router->put('files/{id}', 'FileController@update');
     $router->get('documents/{document}/files', 'FileController@getByDocument');
+    $router->get('documents/{document}/getLastOrdinal', 'FileController@lastOrdinal');
 });
