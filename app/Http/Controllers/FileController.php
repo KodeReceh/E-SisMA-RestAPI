@@ -13,12 +13,12 @@ class FileController extends Controller
         $file->document_id = $request->document_id;
         $file->ordinal = $request->ordinal;
         $file->caption = $request->caption;
-        if($theFile = $request->file('file')){
-            $ext = $theFile->getClientOriginalExtension();
-            $fileName = $letter->id.'-'.$key.'.'.$ext;
-            $fitheFilele->storeAs(config('esisma.dokumen.surat.masuk'), $fileName);
-            $file->path = $fileName;
-        }
+        $theFile = $request->file('file');
+        $ext = $theFile->getClientOriginalExtension();
+        $fileName = $file->document_id.'-'.time().'.'.$ext;
+        $theFile->storeAs(config('esisma.dokumen.surat.masuk'), $fileName);
+        $file->path = $fileName;
+
         if($file->save()){
             return response()->json([
                 'success' => true,
