@@ -122,6 +122,10 @@ class FileController extends Controller
             'Content-Type' => 'application/*'
         ];
 
-        return response()->download(storage_path('app/'.$file->path_file));
+        return response()->download(
+            storage_path('app/'.$file->path_file), 
+            $file->document->title.'('.$file->caption.').'.pathinfo($file->path_file, PATHINFO_EXTENSION),
+            $headers
+        );
     }
 }
