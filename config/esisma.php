@@ -5,6 +5,7 @@ return [
         'surat' => [
             'masuk' => 'dokumen/surat/masuk',
             'keluar' => 'dokumen/surat/keluar'
-        ]
+        ],
+        'general' => 'dokumen/general'
     ]
 ];

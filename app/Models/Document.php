@@ -30,4 +30,18 @@ class Document extends Model
     {
         return $this->hasOne(Letter::class);
     }
+    public function getPathFile()
+    {
+        if($letter = $this->letter){
+            if($letter->incoming_letter){
+                return config('esisma.dokumen.surat.masuk');
+            }else{
+                return config('esisma.dokumen.surat.keluar');
+            }
+        }else{
+            return config('esisma.dokumen.general');
+        }
+
+        return null;
+    }
 }

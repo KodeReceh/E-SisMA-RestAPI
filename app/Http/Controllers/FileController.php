@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\File;
 
 class FileController extends Controller
@@ -16,7 +17,7 @@ class FileController extends Controller
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
         $fileName = $file->document_id.'-'.time().'.'.$ext;
-        $theFile->storeAs(config('esisma.dokumen.surat.masuk'), $fileName);
+        $theFile->storeAs($file->getPathFile(), $fileName);
         $file->path = $fileName;
 
         if($file->save()){
@@ -48,6 +49,8 @@ class FileController extends Controller
     public function getListByDocument($document)
     {
         $files = File::where('document_id', $document)->orderBy('ordinal', 'asc')->get();
+
+        d(Storage::exists($this->getFilePath));
 
         return response()->json([
             'success' => true,
@@ -110,5 +113,15 @@ class FileController extends Controller
             'success' => false,
             'description' => 'Gagal menyimpan.'
         ], 417);
+    }
+
+    public function responseFile($path)
+    {
+        $file = File::where('path', $path)->first();
+        $headers = [
+            'Content-Type' => 'application/*'
+        ];
+
+        return response()->download(storage_path('app/'.$file->path_file));
     }
 }

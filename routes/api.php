@@ -42,18 +42,18 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('letter-codes', 'LetterCodeController@getList');
     $router->get('letter-codes/{id}', 'LetterCodeController@get');
 
+    // file
+    $router->get('files/{id}', 'FileController@get');
+    $router->delete('files/{id}', 'FileController@delete');
+    $router->post('files', 'FileController@store');
+    $router->put('files/{id}', 'FileController@update');
+    $router->get('documents/{document}/files', 'FileController@getListByDocument');
+    $router->get('documents/{document}/getLastOrdinal', 'FileController@lastOrdinal');
+
     //document
     $router->get('documents', 'DocumentController@index');
     $router->post('documents', 'DocumentController@store');
     $router->put('documents/{id}', 'DocumentController@update');
     $router->delete('documents/{id}', 'DocumentController@delete');
     $router->get('documents/{id}', 'DocumentController@get');
-
-    // file
-    $router->get('files/{id}', 'FileController@get');
-    $router->delete('files/{id}', 'FileController@delete');
-    $router->post('files', 'FileController@store');
-    $router->put('files/{id}', 'FileController@update');
-    $router->get('documents/{document}/files', 'FileController@getByDocument');
-    $router->get('documents/{document}/getLastOrdinal', 'FileController@lastOrdinal');
 });
