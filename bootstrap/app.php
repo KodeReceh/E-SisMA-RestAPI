@@ -88,7 +88,8 @@ $app->configure('esisma');
 */
 
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
+    App\Http\Middleware\HandlePutFormData::class
 ]);
 
 $app->routeMiddleware([

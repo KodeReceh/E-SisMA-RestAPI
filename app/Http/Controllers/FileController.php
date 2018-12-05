@@ -17,7 +17,7 @@ class FileController extends Controller
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
         $fileName = $file->document_id.'-'.time().'.'.$ext;
-        $theFile->storeAs($file->getPathFile(), $fileName);
+        $theFile->storeAs($file->path_file, $fileName);
         $file->path = $fileName;
 
         if($file->save()){
@@ -92,10 +92,15 @@ class FileController extends Controller
         $file->document_id = $request->document_id;
         $file->ordinal = $request->ordinal;
         $file->caption = $request->caption;
-        if($theFile = $request->file('file')){
+        if($request->file){
+            if(Storage::exists($file->path_file)){
+                Storage::delete($file->path_file);
+            }
+            $file->path = '';
+            $theFile = $request->file('file');
             $ext = $theFile->getClientOriginalExtension();
-            $fileName = $letter->id.'-'.$key.'.'.$ext;
-            $fitheFilele->storeAs(config('esisma.dokumen.surat.masuk'), $fileName);
+            $fileName = $file->document_id.'-'.time().'.'.$ext;
+            $theFile->storeAs($file->path_file, $fileName);
             $file->path = $fileName;
         }
         if($file->update()){

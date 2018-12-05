@@ -18,7 +18,7 @@ class File extends Model
 
     public $timestamps = true;
 
-    protected $appends = ['path_file'];
+    protected $appends = ['file_extension'];
 
     public function document()
     {
@@ -37,5 +37,9 @@ class File extends Model
         }
 
         return null;
+    }
+    public function getFileExtensionAttribute()
+    {
+        return pathinfo($this->path_file, PATHINFO_EXTENSION);
     }
 }
