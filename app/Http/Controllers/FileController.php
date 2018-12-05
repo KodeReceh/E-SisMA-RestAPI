@@ -37,8 +37,9 @@ class FileController extends Controller
     public function delete($id)
     {
         $file = File::find($id);
-
+        $path = $file->path_file;
         if($file->delete()){
+            if(Storage::exists($path)) Storage::delete($path);
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dihapus.',
