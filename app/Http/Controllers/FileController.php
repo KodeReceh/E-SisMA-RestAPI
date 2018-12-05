@@ -49,9 +49,6 @@ class FileController extends Controller
     public function getListByDocument($document)
     {
         $files = File::where('document_id', $document)->orderBy('ordinal', 'asc')->get();
-
-        d(Storage::exists($this->getFilePath));
-
         return response()->json([
             'success' => true,
             'description' => 'Berhasil mengambil data.',
