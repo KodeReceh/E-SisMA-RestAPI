@@ -14,7 +14,9 @@ class ModifyUsersTableAgain extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['department_id']);
+            if(env('DB_CONNECTION') == 'mysql'){
+                $table->dropForeign(['department_id']);
+            }
             $table->dropColumn('department_id');
         });
     }
