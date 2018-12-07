@@ -15,12 +15,12 @@ class CreateLetterParagraphContentsTable extends Migration
     {
         Schema::create('letter_paragraph_contents', function (Blueprint $table) {
             $table->integer('letter_content_id')->unsigned();
-            $table->integer('font_size')->default(11);
+            $table->float('font_size')->default(11);
             $table->string('font_color')->default('#000000'); //default black
-            $table->integer('indent')->default(1);
-            $table->integer('line_space')->default(1.5);
+            $table->float('indent')->default(1);
+            $table->float('line_space')->default(1.5);
             $table->text('text');
-            $table->integer('alignment')->default(1);
+            $table->float('alignment')->default(1);
             $table->foreign('letter_content_id')->references('id')->on('letter_contents')->onDelete('cascade');
             $table->primary(['letter_content_id']);
         });
