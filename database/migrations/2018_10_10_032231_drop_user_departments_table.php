@@ -19,7 +19,7 @@ class DropUserDepartmentsTable extends Migration
             Schema::dropIfExists('user_departments');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }else{
-            DB::statement("DROP TABLE if exists user_departments cascade;");
+            DB::statement("DROP TABLE if exists user_departments;");
         }
         
     }
