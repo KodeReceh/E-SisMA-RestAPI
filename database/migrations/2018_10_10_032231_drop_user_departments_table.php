@@ -19,9 +19,7 @@ class DropUserDepartmentsTable extends Migration
             Schema::dropIfExists('user_departments');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }else{
-            DB::statement("SET session_replication_role = 'replica';");
-            Schema::dropIfExists('user_departments');
-            DB::statement("SET session_replication_role = 'origin';");
+            DB::statement("DROP TABLE if exists user_departments cascade;");
         }
         
     }
