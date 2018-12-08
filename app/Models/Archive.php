@@ -8,6 +8,8 @@ class Archive extends Model
 {
     protected $table = 'archives';
 
+    protected $appends = ['type'];
+
     protected $fillable = [
         'title',
         'date',
@@ -24,5 +26,9 @@ class Archive extends Model
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+    public function getTypeAttribute()
+    {
+        return $this->archive_type->type;
     }
 }

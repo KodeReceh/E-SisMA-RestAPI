@@ -59,4 +59,21 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     // download file
     $router->get('get-file/{path}', 'FileController@responseFile');
+
+    //archive type
+    $router->group(['prefix' => 'archives'], function () use ($router) {
+        $router->get('types','ArchiveTypeController@getList');
+        $router->get('types/{id}', 'ArchiveTypeController@get');
+        $router->post('types', 'ArchiveTypeController@store');
+        $router->put('types/{id}', 'ArchiveTypeController@update');
+        $router->delete('types/{id}', 'ArchiveTypeController@delete');
+    });
+
+    // archive
+    $router->get('archives', 'ArchiveController@getList');
+    $router->get('archives/{id}', 'ArchiveController@get');
+    $router->post('archives', 'ArchiveController@store');
+    $router->put('archives/{id}', 'ArchiveController@update');
+    $router->delete('archives/{id}', 'ArchiveController@delete');
+    
 });
