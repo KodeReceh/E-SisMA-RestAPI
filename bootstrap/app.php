@@ -75,6 +75,7 @@ $app->singleton(
 
 $app->configure('filesystems');
 $app->configure('esisma');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
@@ -88,8 +89,9 @@ $app->configure('esisma');
 */
 
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class,
-    App\Http\Middleware\HandlePutFormData::class
+    // App\Http\Middleware\CorsMiddleware::class,
+    App\Http\Middleware\HandlePutFormData::class,
+    \Barryvdh\Cors\HandleCors::class,
 ]);
 
 $app->routeMiddleware([
@@ -109,6 +111,7 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Barryvdh\Cors\ServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(Dingo\Api\Provider\LumenServiceProvider::class);

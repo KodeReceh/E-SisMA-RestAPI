@@ -56,4 +56,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('documents/{id}', 'DocumentController@update');
     $router->delete('documents/{id}', 'DocumentController@delete');
     $router->get('documents/{id}', 'DocumentController@get');
+
+    // download file
+    $router->get('get-file/{path}', 'FileController@responseFile');
 });

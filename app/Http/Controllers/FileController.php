@@ -122,7 +122,8 @@ class FileController extends Controller
     {
         $file = File::where('path', $path)->first();
         $headers = [
-            'Content-Type' => 'application/*'
+            'Content-Type' => 'application/*',
+            'content-disposition'              => 'attachment'
         ];
 
         return response()->download(
