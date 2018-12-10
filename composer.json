@@ -13,7 +13,8 @@
         "symfony/config": "^4.1",
         "league/flysystem": "^1.0",
         "barryvdh/laravel-cors": "^0.11.2",
-        "phpoffice/phpword": "dev-master"
+        "phpoffice/phpword": "dev-master",
+        "chillerlan/php-qrcode": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
