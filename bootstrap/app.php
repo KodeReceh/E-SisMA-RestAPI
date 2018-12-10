@@ -76,7 +76,6 @@ $app->singleton(
 $app->configure('filesystems');
 $app->configure('esisma');
 $app->configure('cors');
-$app->configure('dompdf');
 
 /*
 |--------------------------------------------------------------------------
@@ -116,7 +115,6 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
-$app->register(\Barryvdh\DomPDF\ServiceProvider::class);
 
 
 

@@ -7,5 +7,6 @@ return [
             'keluar' => 'dokumen/surat/keluar'
         ],
         'general' => 'dokumen/general'
-    ]
+    ],
+    'templates' => 'templates',
 ];

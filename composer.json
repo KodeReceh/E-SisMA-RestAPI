@@ -13,7 +13,7 @@
         "symfony/config": "^4.1",
         "league/flysystem": "^1.0",
         "barryvdh/laravel-cors": "^0.11.2",
-        "barryvdh/laravel-dompdf": "^0.8.3"
+        "phpoffice/phpword": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -43,5 +43,11 @@
     "prefer-stable": true,
     "config": {
         "optimize-autoloader": true
+    },
+    "repositories": {
+        "PHPword": {
+            "type": "vcs",
+            "url": "https://github.com/fauzipadlaw/PHPWord.git"
+        }
     }
 }
