@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLetterContentsTable extends Migration
+class CreateTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateLetterContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('letter_contents', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('letter_template_id')->unsigned();
-            $table->integer('ordinal');
-            $table->integer('content_type');
-            $table->foreign('letter_template_id')->references('id')->on('letter_templates')->onDelete('cascade');
+            $table->string('title');
+            $table->integer('needs_villager_data')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateLetterContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('letter_contents');
+        Schema::dropIfExists('templates');
     }
 }

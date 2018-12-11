@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLetterFieldContentsTable extends Migration
+class CreateTemplateFieldsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateLetterFieldContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('letter_field_contents', function (Blueprint $table) {
+        Schema::create('template_fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('letter_content_id')->unsigned();
-            $table->string('label');
-            $table->string('value')->nullable();
+            $table->string('name');
+            $table->integer('type');
+            $table->integer('role_id')->unsigned()->nullable();
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateLetterFieldContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('letter_table_contents');
+        Schema::dropIfExists('template_fields');
     }
 }
