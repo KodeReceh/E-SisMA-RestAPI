@@ -27,13 +27,13 @@ class ModifyLetterTemplatesTable extends Migration
                 'villager_id',
                 'title'
             ]);
-            $table->integer('template_id')->unsigned();
-            $table->integer('letter_id')->unsigned()->nullable();
-            $table->json('data')->nullable();
-
+            $table->json('data')->nullable()->after('id');
+            $table->integer('status')->default(0)->after('id');
+            $table->integer('letter_id')->unsigned()->nullable()->after('id');
+            $table->integer('template_id')->unsigned()->after('id');
+            
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
             $table->foreign('letter_id')->references('id')->on('letters')->onDelete('set null');
-
 
         });
     }
