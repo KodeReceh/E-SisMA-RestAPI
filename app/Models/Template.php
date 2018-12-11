@@ -10,7 +10,8 @@ class Template extends Model
 
     protected $fillable = [
         'title',
-        'needs_villager_data'
+        'needs_villager_data',
+        'template_file'
     ];
 
     public function template_fields()

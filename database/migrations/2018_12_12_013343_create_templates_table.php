@@ -16,6 +16,7 @@ class CreateTemplatesTable extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('template_file');
             $table->integer('needs_villager_data')->default(0);
             $table->timestamps();
         });
