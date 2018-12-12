@@ -7,6 +7,28 @@ use App\Models\Template;
 
 class TemplateController extends Controller
 {
+    public function list()
+    {
+        $templates = Template::all();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $templates
+        ], 200);
+    }
+
+    public function get($id)
+    {
+        $template = Template::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $template
+        ], 200);
+    }
+
     public function create(Request $request)
     {
         $template = new Template();

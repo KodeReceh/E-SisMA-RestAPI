@@ -77,7 +77,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('archives/{id}', 'ArchiveController@delete');
 
     //templates
+    $router->get('templates', 'TemplateController@list');
     $router->post('templates', 'TemplateController@create');
+    $router->get('templates/{id}', 'TemplateController@get');
     $router->post('templates/{id}/fields', 'TemplateController@addField');
 
     // ltter_templates

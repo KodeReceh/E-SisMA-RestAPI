@@ -14,6 +14,8 @@ class Template extends Model
         'template_file'
     ];
 
+    protected $appends = ['needs_villager_data_string'];
+
     public function template_fields()
     {
         return $this->hasMany(TemplateField::class);
@@ -22,6 +24,11 @@ class Template extends Model
     public function letter_templates()
     {
         return $this->hasMany(LetterTemplate::class);
+    }
+
+    public function getNeedsVillagerDataStringAttribute()
+    {
+        return $this->needs_villager_data ? 'Ya' : 'Tidak';
     }
 
 
