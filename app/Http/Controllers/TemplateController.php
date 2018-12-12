@@ -10,8 +10,18 @@ class TemplateController extends Controller
     public function create(Request $request)
     {
         $template = new Template();
+        $template->title = $request->title;
+        $template->needs_villager_data = $request->needs_villager_data;
+        if($request->file('template_file')){
+            $theFile = $request->file('template_file');
+            $path = config('esisma.templates');
+            $ext = $theFile->getClientOriginalExtension();
+            $fileName = 'template-'.time().'.'.$ext;
+            $theFile->storeAs($path, $fileName);
+            $template->template_file = $fileName;
+        }
 
-        if($template->create($request->all())){
+        if($template->save()){
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dibuat.',

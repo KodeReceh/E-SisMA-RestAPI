@@ -75,5 +75,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('archives', 'ArchiveController@store');
     $router->put('archives/{id}', 'ArchiveController@update');
     $router->delete('archives/{id}', 'ArchiveController@delete');
+
+    //templates
+    $router->post('templates', 'TemplateController@create');
+    $router->post('templates/{id}/fields', 'TemplateController@addField');
     
 });

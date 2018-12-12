@@ -15,6 +15,8 @@ class TemplateField extends Model
         'role_id'
     ];
 
+    public $timestamps = false;
+
     public function role()
     {
         return $this->belongsTo(Role::class);
