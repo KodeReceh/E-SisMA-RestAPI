@@ -79,5 +79,10 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //templates
     $router->post('templates', 'TemplateController@create');
     $router->post('templates/{id}/fields', 'TemplateController@addField');
+
+    // ltter_templates
+    $router->post('templates/{id}/letter_templates', 'LetterTemplateController@saveFieldData');
+    $router->get('templates/{template}/letter_templates/{id}/generate', 'LetterTemplateController@generateDoc');
+
     
 });
