@@ -10,5 +10,11 @@ return [
     ],
     'templates' => 'templates',
     'template_data_image' => 'templates/img',
-    'signatures' => 'signatures'
+    'signatures' => 'signatures',
+    'field_types' => [
+        1 => 'Text',
+        'Gambar',
+        'Data Penduduk',
+        'Tanda Tangan'
+    ]
 ];

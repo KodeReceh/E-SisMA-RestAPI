@@ -15,16 +15,16 @@ class CreateVillagersTable extends Migration
     {
         Schema::create('villagers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('birthplace');
-            $table->date('birthdate');
-            $table->string('job')->nullable();
-            $table->integer('religion');
-            $table->integer('tribe')->nullable();
-            $table->string('NIK')->unique();
-            $table->string('status')->nullable();
-            $table->text('address');
-            $table->string('photo')->nullable();
+            $table->string('name')->comment('Nama Penduduk');
+            $table->string('birthplace')->comment('Tempat Lahir');
+            $table->date('birthdate')->comment('Tanggal Lahir');
+            $table->string('job')->nullable()->comment('Pekerjaan');
+            $table->integer('religion')->comment('Agama');
+            $table->integer('tribe')->nullable()->comment('Suku');
+            $table->string('NIK')->unique()->comment('NIK');
+            $table->string('status')->nullable()->comment('Status Kependudukan');
+            $table->text('address')->comment('Alamat');
+            $table->string('photo')->nullable()->comment('Foto');
             $table->timestamps();
         });
     }

@@ -81,10 +81,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('templates', 'TemplateController@create');
     $router->get('templates/{id}', 'TemplateController@get');
     $router->post('templates/{id}/fields', 'TemplateController@addField');
+    $router->get('templates/{id}/fields', 'TemplateController@fields');
+    $router->get('villager_columns', 'TemplateController@villagerColumns');
 
     // ltter_templates
     $router->post('templates/{id}/letter_templates', 'LetterTemplateController@saveFieldData');
     $router->get('templates/{template}/letter_templates/{id}/generate', 'LetterTemplateController@generateDoc');
 
-    
 });

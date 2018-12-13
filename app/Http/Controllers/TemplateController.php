@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Template;
+use App\Models\TemplateField;
+use Schema;
+use Illuminate\Support\Facades\DB;
+use Helpers;
+
 
 class TemplateController extends Controller
 {
@@ -26,6 +31,17 @@ class TemplateController extends Controller
             'success' => true,
             'description' => 'Berhasil mengambil data.',
             'data' => $template
+        ], 200);
+    }
+
+    public function fields($id) 
+    {
+        $template = Template::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $template->template_fields
         ], 200);
     }
 
@@ -74,5 +90,21 @@ class TemplateController extends Controller
             'description' => 'Gagal dibuat.',
             'data' => null
         ], 417);
+    }
+
+    public function villagerColumns()
+    {
+        $columns = [
+            '"name"',
+            '"birthplace"',
+            '"birthdate"',
+            '"job"',
+            '"religion"',
+            '"tribe"',
+            '"NIK"',
+            '"status"',
+            '"address"'
+        ];
+        return Helpers::showFullColumn('villagers', $columns);
     }
 }

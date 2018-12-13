@@ -20,11 +20,11 @@ class LetterTemplateController extends Controller
         foreach($template->template_fields as $field){
             $name = $field->name;
             switch ($field->type) {
-                case 0:
+                case 1:
                     $templateData[$name] = $request->$name;
                     break;
 
-                case 1:
+                case 2:
                     if($request->file($name)){
                         $path = config('esisma.template_data_image');
                         $theFile = $request->file($name);
@@ -35,7 +35,7 @@ class LetterTemplateController extends Controller
                     }
                     break;
 
-                case 2:
+                case 3:
                     $villager_id = $request->$name[0];
                     $villager_field = $request->$name[1];
                     $villager = Villager::find($villager_id);
@@ -83,18 +83,18 @@ class LetterTemplateController extends Controller
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
             switch ($field->type) {
-                case 0:
+                case 1:
                     $templateFile->setValue($name, $data->$name);
                     break;
 
-                case 1:
+                case 2:
                     $imgPath = config('esisma.template_data_image');
                     $templateFile->setImageValue($name, storage_path('app/'.$imgPath.'/'.$data->$name));
 
-                case 2:
+                case 3:
                     break;
 
-                case 3:
+                case 4:
                     break;
                 
                 default:

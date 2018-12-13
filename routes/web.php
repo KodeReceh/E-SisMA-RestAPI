@@ -18,4 +18,3 @@ $router->get('/', function () use ($router) {
 $router->get('pdf', 'LetterTemplateController@generateFromTemplate');
 $router->get('testQR', 'LetterTemplateController@testQRCode');
 
-

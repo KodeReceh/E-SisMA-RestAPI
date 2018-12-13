@@ -15,6 +15,11 @@ class TemplateField extends Model
         'role_id'
     ];
 
+    protected $appends = [
+        'type_name',
+        'role_name'
+    ];
+
     public $timestamps = false;
 
     public function role()
@@ -25,5 +30,22 @@ class TemplateField extends Model
     public function template()
     {
         return $this->belongsTo(Template::class);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        $types = config('esisma.field_types');
+        try {
+            return $types[$this->type];
+        } catch (\Throwable $th) {
+            return 'Tidak diketahui.';
+        }
+
+        return 'Tidak diketahui.';
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return $this->role ? $this->role->title : 'Tidak Diperlukan';
     }
 }
