@@ -16,6 +16,7 @@ class CreateDocumentsTable extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('path');
             $table->date('date');
             $table->integer('archive_id')->nullable()->unsigned();
             $table->string('description')->nullable();

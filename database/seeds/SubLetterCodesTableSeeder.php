@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\SubLetterCode;
 use App\Models\LetterCode;
 
 class SubLetterCodesTableSeeder extends Seeder
@@ -17,7 +16,7 @@ class SubLetterCodesTableSeeder extends Seeder
 
         foreach ($letterCodes as $key => $value) {
             for ($i=0; $i < 7; $i++) { 
-                $value->sub_letter_codes()->save(new SubLetterCode(['code' => $key+1, 'title' => 'Sub Letter Code ke-'.($key+1)]));
+                $value->sub_letter_codes()->save(new LetterCode(['code' => $key+1, 'title' => 'Sub Letter Code ke-'.($key+1)]));
             }
         }
     }

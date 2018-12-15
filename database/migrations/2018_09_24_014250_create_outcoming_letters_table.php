@@ -15,6 +15,7 @@ class CreateOutcomingLettersTable extends Migration
     {
         Schema::create('outcoming_letters', function (Blueprint $table) {
             $table->integer('letter_id')->unsigned()->primary();
+            $table->string('recipient');
             $table->integer('ordinal');
             $table->foreign('letter_id')->references('id')->on('letters')
                   ->onDelete('cascade');

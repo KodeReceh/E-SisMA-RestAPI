@@ -17,11 +17,8 @@ class CreateArchivesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->date('date');
-            $table->integer('department_id')->unsigned();
             $table->integer('archive_type_id')->unsigned();
             $table->string('description');
-            $table->foreign('department_id')->references('id')->on('departments')
-                  ->onDelete('cascade');
             $table->foreign('archive_type_id')->references('id')->on('archive_types')->onDelete('cascade');
             $table->timestamps();
         });

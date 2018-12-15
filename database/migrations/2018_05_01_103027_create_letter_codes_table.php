@@ -15,8 +15,11 @@ class CreateLetterCodesTable extends Migration
     {
         Schema::create('letter_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('code')->unique();
+            $table->integer('code');
             $table->string('title');
+            $table->integer('letter_code_id')->unsigned()->nullable();
+
+            $table->foreign('letter_code_id')->references('id')->on('letter_codes')->onDelete('cascade');
         });
     }
 

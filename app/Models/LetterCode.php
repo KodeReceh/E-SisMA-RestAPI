@@ -22,6 +22,6 @@ class LetterCode extends Model
 
     public function sub_letter_codes()
     {
-        return $this->hasMany(SubLetterCode::class);
+        return $this->hasMany(LetterCode::class);
     }
 }

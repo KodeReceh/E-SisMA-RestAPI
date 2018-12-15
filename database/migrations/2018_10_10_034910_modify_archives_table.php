@@ -14,8 +14,6 @@ class ModifyArchivesTable extends Migration
     public function up()
     {
         Schema::table('archives', function (Blueprint $table) {
-            $table->dropForeign(['department_id']);
-            $table->dropColumn('department_id');
             $table->integer('role_id')->unsigned()->after('date');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
@@ -31,9 +29,6 @@ class ModifyArchivesTable extends Migration
         Schema::table('archives', function (Blueprint $table) {
             $table->dropForeign(['role_id']);
             $table->dropColumn('role_id');
-            $table->integer('department_id')->unsigned();
-            $table->foreign('department_id')->references('id')->on('departments')
-                  ->onDelete('cascade');
         });
     }
 }
