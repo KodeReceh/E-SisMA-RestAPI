@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -31,47 +32,74 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
-        if($document = Document::create($request->all())){
+        $document = new Document();
+        $document->title = $request->title;
+        $document->date = $request->date;
+        $document->desciption = $request->description;
+        $theFile = $request->file('file');
+        $ext = $theFile->getClientOriginalExtension();
+        $fileName = 'document-'.time().'.'.$ext;
+        $theFile->storeAs($document->path_file, $fileName);
+        $document->path = $fileName;
+
+        if($document->save()){
             return response()->json([
                 'success' => true,
-                'description' => 'Berhasil menyimpan data.',
+                'description' => 'Berhasil disimpan',
                 'data' => $document
             ], 201);
         }
 
         return response()->json([
             'success' => false,
-            'description' => 'Gagal menyimpan data.'
+            'description' => 'Gagal menyimpan.'
         ], 417);
     }
 
 
     public function update($id, Request $request)
     {
-        $document = Document::find($id);
+        $document = Document::findOrFail($id);
+        $document->title = $request->title;
+        $document->date = $request->date;
+        $document->desciption = $request->description;
 
-        if($document->update($request->all())){
+        if($request->file){
+            if(Storage::exists($document->path_file)){
+                Storage::delete($document->path_file);
+            }
+            $document->path = '';
+            $theFile = $request->file('file');
+            $ext = $theFile->getClientOriginalExtension();
+            $fileName = 'document-'.time().'.'.$ext;
+            $theFile->storeAs($document->path_file, $fileName);
+            $document->path = $fileName;
+        }
+
+        if($document->update()){
             return response()->json([
                 'success' => true,
-                'description' => 'Berhasil update data.',
+                'description' => 'Berhasil disimpan',
                 'data' => $document
             ], 201);
         }
 
         return response()->json([
             'success' => false,
-            'description' => 'Gagal menyimpan data.'
+            'description' => 'Gagal menyimpan.'
         ], 417);
     }
 
     public function delete($id)
     {
         $document = Document::find($id);
+        $path = $document->path_file;
 
         if($document->delete()){
+            if(Storage::exists($path)) Storage::delete($path);
             return response()->json([
                 'success' => true,
-                'description' => 'Berhasil menghapus data.'
+                'description' => 'Berhasil dihapus.',
             ], 200);
         }
 
@@ -79,5 +107,20 @@ class DocumentController extends Controller
             'success' => false,
             'description' => 'Gagal menghapus data.'
         ], 417);
+    }
+
+    public function responseFile($path)
+    {
+        $document = Document::where('path', $path)->first();
+        $headers = [
+            'Content-Type' => 'application/*',
+            'content-disposition' => 'attachment'
+        ];
+
+        return response()->download(
+            storage_path('app/'.$document->path_file), 
+            $document->title.'.'.pathinfo($file->path_file, PATHINFO_EXTENSION),
+            $headers
+        );
     }
 }
