@@ -26,7 +26,7 @@ class CreateDispositionsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
-        DB::statement("ALTER TABLE `$tableName` comment 'Tabel ini juga berperan sebagai recipient surat masuk'");
+        // DB::statement("ALTER TABLE `$tableName` comment 'Tabel ini juga berperan sebagai recipient surat masuk'");
     }
 
     /**

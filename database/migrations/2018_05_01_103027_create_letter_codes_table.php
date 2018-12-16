@@ -23,7 +23,7 @@ class CreateLetterCodesTable extends Migration
             $table->foreign('letter_code_id')->references('id')->on('letter_codes')->onDelete('cascade');
         });
 
-        DB::statement("ALTER TABLE `$tableName` comment 'Tabel untuk Kode dan Sub Kode Surat'");
+        // DB::statement("ALTER TABLE `$tableName` comment 'Tabel untuk Kode dan Sub Kode Surat'");
 
     }
 
