@@ -33,11 +33,11 @@ class OutcomingLetterController extends Controller
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
-        $letter->to = $request->to;
         $letter->save();
 
         $outcomingLetter = new OutcomingLetter([
-            'ordinal' => 1 //$request->ordinal
+            'ordinal' => 1, //$request->ordinal
+            'receipient' => $request->recipient
         ]);
 
         $letter->outcoming_letter()->save($outcomingLetter);
@@ -57,8 +57,7 @@ class OutcomingLetterController extends Controller
                                             'letters.number as number',
                                             'letters.date as date',
                                             'letters.subject as subject',
-                                            'letters.tendency as tendency',
-                                            'letters.to as to'
+                                            'letters.tendency as tendency'
                                             )
                                         ->get();
         
@@ -77,13 +76,13 @@ class OutcomingLetterController extends Controller
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
-        $letter->to = $request->to;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
         $letter->save();
 
         $letter->outcoming_letter->update([
-            'ordinal' => 1
+            'ordinal' => 1,
+            'recipient' => $request->recipient
         ]);
 
         return response()->json([
@@ -104,7 +103,6 @@ class OutcomingLetterController extends Controller
                                             'date',
                                             'subject',
                                             'tendency',
-                                            'to',
                                             'attachments',
                                             'letter_code_id',
                                             'sub_letter_code_id'
