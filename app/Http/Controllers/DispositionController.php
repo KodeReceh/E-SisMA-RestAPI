@@ -10,7 +10,10 @@ class DispositionController extends Controller
 {
     public function storeDisposition($id, Request $request)
     {
-        $disposition = Disposition::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = app('auth')->user()->id;
+        $data['incoming_letter_id'] = $id;
+        $disposition = Disposition::create($data);
 
         return response()->json([
             'success' => true,
@@ -21,7 +24,8 @@ class DispositionController extends Controller
 
     public function updateDisposition($id, Request $request)
     {
-        $disposition = Disposition::find($id);
+        $userId = app('auth')->user()->id;
+        $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
 
         if($disposition->update($request->all())){
             return response()->json([
@@ -39,7 +43,7 @@ class DispositionController extends Controller
 
     public function get($id)
     {
-        $disposition = Disposition::find($id);
+        $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
 
         if($disposition){
             return response()->json([
