@@ -23,7 +23,7 @@ class LetterCode extends Model
 
     public static function getLeterCodes()
     {
-        return LetterCode::where('letter_code_id', null)->get();
+        return LetterCode::where('letter_code_id', null);
     }
 
     public function sub_letter_codes()

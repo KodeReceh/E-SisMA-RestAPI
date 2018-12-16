@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\DB;
 
 class LetterCodeController extends Controller
 {
-    public function getList() 
+    public function getLetterCodeList() 
     {
-        $letterCodes = LetterCode::select(
+        $letterCodes = LetterCode::getLetterCodes()->select(
                         'id',
                         DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title")
                         )->get();
@@ -17,6 +17,20 @@ class LetterCodeController extends Controller
             'success' => true,
             'description' => 'Data berhasil diambil.',
             'data' => $letterCodes
+        ], 200);
+    }
+
+    public function getSubLetterCodeList($letter_code) 
+    {
+        $letterCode = LetterCode::find($letter_code);
+        $subLetterCodes = $letterCode->sub_letter_codes()
+                            ->select('id', DB::raw("CONCAT(sub_letter_codes.code,' - ',sub_letter_codes.title) as code_title"))
+                            ->get();
+        
+        return response()->json([
+            'success' => true,
+            'description' => 'Data berhasil diambil.',
+            'data' => $subLetterCodes
         ], 200);
     }
 

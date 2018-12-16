@@ -35,12 +35,13 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('letters/outcoming-letter/{id}', 'OutcomingLetterController@delete');
     
     //sub-letter-code
-    $router->get('letter-codes/{id}/sub-letter-codes', 'SubLetterCodeController@getByLetterCodeId');
-    $router->get('letter-codes/{code}/sub-letter-codes/{subCode}', 'SubLetterCodeController@get');
+    $router->get('letter-codes/{id}/sub-letter-codes', 'LetterCodeController@getSubLetterCodeList');
 
     //letter-code
-    $router->get('letter-codes', 'LetterCodeController@getList');
-    $router->get('letter-codes/{id}', 'LetterCodeController@get');
+    $router->get('letter-codes', 'LetterCodeController@getLetterCodeList');
+
+    //get letter code or sub letter code
+    $router->get('letter-codes/{id}', 'LetterCodeController@get'); 
 
     //document
     $router->get('documents', 'DocumentController@index');
