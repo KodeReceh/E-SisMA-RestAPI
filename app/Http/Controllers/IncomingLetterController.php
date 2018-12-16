@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Letter;
 use App\Models\IncomingLetter;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Document;
-use App\Models\File;
 
 class IncomingLetterController extends Controller
 {
@@ -42,7 +39,6 @@ class IncomingLetterController extends Controller
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
-        $letter->to = $request->to;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
         $letter->save();
@@ -54,31 +50,6 @@ class IncomingLetterController extends Controller
         ]);
 
         $letter->incoming_letter()->save($incomingLetter);
-
-        // if($request->has('files')){
-        //     $document = new Document();
-        //     $document->title = "Surat Masuk ".$letter->subject;
-        //     $document->date = $letter->date;
-        //     $document->description = $letter->tendency;
-        //     $document->save();
-
-        //     foreach ($request->file('files') as $key => $file) {
-        //         $ext = $file->getClientOriginalExtension();
-        //         $fileName = $letter->id.'-'.$key.'.'.$ext;
-        //         $file->storeAs($this->configDiskStorage, $fileName);
-        //         $fileInst = new File([
-        //             'path' => $fileName,
-        //             'caption' => $document->title.'-'.$key,
-        //             'ordinal' => $key
-        //         ]);
-
-        //         $document->files()->save($fileInst);
-        //     }
-
-        //     $letter->document()->associate($document);
-        //     $letter->save();
-            
-        // }
 
         return response()->json([
             'success' => true,
@@ -96,7 +67,6 @@ class IncomingLetterController extends Controller
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
-        $letter->to = $request->to;
         $letter->letter_code_id = $request->letter_code_id;
         $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
         $letter->save();
@@ -147,7 +117,6 @@ class IncomingLetterController extends Controller
                                             'subject',
                                             'tendency',
                                             'sender',
-                                            'to',
                                             'attachments',
                                             'letter_code_id',
                                             'sub_letter_code_id'
