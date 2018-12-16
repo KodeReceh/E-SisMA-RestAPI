@@ -25,9 +25,9 @@ class ModifyLetterTemplatesTable extends Migration
                 'font_family',
                 'title'
             ]);
-            $table->json('data')->nullable()->after('id');
-            $table->integer('status')->default(0)->after('id');
-            $table->integer('template_id')->unsigned()->after('id');
+            $table->json('data')->nullable()->after('id')->comment('Data raw untuk men-generate Surat');
+            $table->integer('status')->default(0)->after('id')->comment('Status Raw Surat');
+            $table->integer('template_id')->unsigned()->after('id')->comment('ID Template Surat');
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
         });
     }

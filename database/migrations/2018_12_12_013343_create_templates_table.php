@@ -15,9 +15,9 @@ class CreateTemplatesTable extends Migration
     {
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('template_file');
-            $table->integer('needs_villager_data')->default(0);
+            $table->string('title')->comment('Nama Template');
+            $table->string('template_file')->comment('File Template; Dalam doc atau docx');
+            $table->integer('needs_villager_data')->default(0)->comment('Apakah membutuhkan data penduduk?; 0=false, 1=true');
             $table->timestamps();
         });
     }

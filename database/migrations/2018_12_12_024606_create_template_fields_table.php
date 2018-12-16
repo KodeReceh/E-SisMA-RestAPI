@@ -15,10 +15,10 @@ class CreateTemplateFieldsTable extends Migration
     {
         Schema::create('template_fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('template_id')->unsigned();
-            $table->integer('type');
-            $table->integer('role_id')->unsigned()->nullable();
+            $table->string('name')->comment('Nama Field');
+            $table->integer('template_id')->unsigned()->comment('ID Template Surat');
+            $table->integer('type')->comment('Tipe Field; Text, Gambar, Data Penduduk, atau Tanda Tangan');
+            $table->integer('role_id')->unsigned()->nullable()->comment('ID Peran Pengguna jika tipe Field adalah Tanda Tangan');
 
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');

@@ -15,8 +15,8 @@ class CreateLetterTemplatesTable extends Migration
     {
         Schema::create('letter_templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('villager_id')->unsigned()->nullable();
-            $table->string('title');
+            $table->integer('villager_id')->unsigned()->nullable()->comment('ID Penduduk');
+            $table->string('title')->comment('Nama Raw Data Surat');
             $table->integer('length_unit')->default(1);
             $table->integer('paper_size')->default(1);
             $table->integer('margin_left')->default(4);
