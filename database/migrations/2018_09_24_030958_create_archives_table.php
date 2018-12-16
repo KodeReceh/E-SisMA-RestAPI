@@ -15,10 +15,10 @@ class CreateArchivesTable extends Migration
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->date('date');
-            $table->integer('archive_type_id')->unsigned();
-            $table->string('description');
+            $table->string('title')->comment('Nama Arsip');
+            $table->date('date')->comment('Tanggal Arsip');
+            $table->integer('archive_type_id')->unsigned()->comment('ID Tipe Arsip');
+            $table->string('description')->comment('Keterangan Arsip');
             $table->foreign('archive_type_id')->references('id')->on('archive_types')->onDelete('cascade');
             $table->timestamps();
         });

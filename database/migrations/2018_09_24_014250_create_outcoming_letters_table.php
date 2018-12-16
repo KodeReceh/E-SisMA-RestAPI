@@ -14,9 +14,9 @@ class CreateOutcomingLettersTable extends Migration
     public function up()
     {
         Schema::create('outcoming_letters', function (Blueprint $table) {
-            $table->integer('letter_id')->unsigned()->primary();
-            $table->string('recipient');
-            $table->integer('ordinal');
+            $table->integer('letter_id')->unsigned()->primary()->comment('1-1; ID surat menjadi Primary Key');
+            $table->string('recipient')->comment('Penerima Surat');
+            $table->integer('ordinal')->comment('Urutan Surat');
             $table->foreign('letter_id')->references('id')->on('letters')
                   ->onDelete('cascade');
         });

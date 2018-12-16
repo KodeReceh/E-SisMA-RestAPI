@@ -13,14 +13,18 @@ class CreateLetterCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('letter_codes', function (Blueprint $table) {
+        $tableName = 'letter_codes';
+        Schema::create($tableName, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('code');
-            $table->string('title');
-            $table->integer('letter_code_id')->unsigned()->nullable();
+            $table->integer('code')->comment('Kode Surat atau Sub Kode Surat');
+            $table->string('title')->comment('Judul kode atau sub kode surat');
+            $table->integer('letter_code_id')->unsigned()->nullable()->comment('Jika null berarti Sub Kode Surat; Relasi ke tabel sendiri');
 
             $table->foreign('letter_code_id')->references('id')->on('letter_codes')->onDelete('cascade');
         });
+
+        DB::statement("ALTER TABLE `$tableName` comment 'Tabel untuk Kode dan Sub Kode Surat'");
+
     }
 
     /**

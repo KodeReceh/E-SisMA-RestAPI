@@ -16,11 +16,11 @@ class CreateDispositionsTable extends Migration
     {
         $tableName = 'dispositions';
         Schema::create($tableName, function (Blueprint $table) {
-            $table->integer('incoming_letter_id')->unsigned();
-            $table->integer('user_id')->unsigned();            
-            $table->string('summary')->nullable();
-            $table->date('processing_date')->nullable();
-            $table->string('information')->nullable();
+            $table->integer('incoming_letter_id')->unsigned()->comment('ID Surat Masuk; Sama dengan ID Surat');
+            $table->integer('user_id')->unsigned()->comment('ID Pengguna; Recipient');            
+            $table->string('summary')->nullable()->comment('Disposisi; Ringkasan');
+            $table->date('processing_date')->nullable()->comment('Tanggal Proses');
+            $table->string('information')->nullable()->comment('Informasi');
             $table->foreign('incoming_letter_id')->references('letter_id')->on('incoming_letters')
                   ->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -14,9 +14,9 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->increments('id')->comment('ID Peran User; Department');
+            $table->string('title')->comment('Nama Seksi atau Department atau Peran');
+            $table->string('description')->nullable()->comment('Keterangan');
         });
     }
 

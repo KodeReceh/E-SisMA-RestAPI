@@ -14,12 +14,12 @@ class CreateDocumentsTable extends Migration
     public function up()
     {
         Schema::create('documents', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('path');
-            $table->date('date');
-            $table->integer('archive_id')->nullable()->unsigned();
-            $table->string('description')->nullable();
+            $table->increments('id')->comment('ID Dokumen');
+            $table->string('title')->comment('Nama Dokumen');
+            $table->string('path')->comment('Path; Nama File Dokumen');
+            $table->date('date')->comment('Tanggal Dokumen');
+            $table->integer('archive_id')->nullable()->unsigned()->comment('ID Arsip');
+            $table->string('description')->nullable()->comment('Keterangan');
 
             $table->foreign('archive_id')->references('id')->on('archives')
                   ->onDelete('cascade');

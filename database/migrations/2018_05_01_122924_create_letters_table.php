@@ -15,12 +15,12 @@ class CreateLettersTable extends Migration
     {
         Schema::create('letters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('number');
-            $table->date('date');
-            $table->string('subject');
-            $table->string('tendency');
-            $table->string('attachments');
-            $table->integer('letter_code_id')->nullable()->unsigned()->default(null);
+            $table->string('number')->comment('Nomor Surat');
+            $table->date('date')->comment('Tanggal Surat');
+            $table->string('subject')->comment('Judul Surat');
+            $table->string('tendency')->comment('Perihal Surat');
+            $table->string('attachments')->comment('Banyak Lampiran Surat');
+            $table->integer('letter_code_id')->nullable()->unsigned()->default(null)->comment('Kode atau Sub Kode Surat');
             $table->timestamps();
 
             $table->foreign('letter_code_id')
