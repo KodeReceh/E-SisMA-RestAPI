@@ -24,7 +24,7 @@ class LetterCodeController extends Controller
     {
         $letterCode = LetterCode::find($letter_code);
         $subLetterCodes = $letterCode->sub_letter_codes()
-                            ->select('id', DB::raw("CONCAT(sub_letter_codes.code,' - ',sub_letter_codes.title) as code_title"))
+                            ->select('id', DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"))
                             ->get();
         
         return response()->json([
