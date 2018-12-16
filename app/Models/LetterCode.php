@@ -30,4 +30,9 @@ class LetterCode extends Model
     {
         return $this->hasMany(LetterCode::class);
     }
+
+    public function letter_code()
+    {
+        return $this->belongsTo(LetterCode::class);
+    }
 }

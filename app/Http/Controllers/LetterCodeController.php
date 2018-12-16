@@ -44,4 +44,20 @@ class LetterCodeController extends Controller
             'data' => $letteCode
         ], 200);
     }
+
+    public function getLetterCodeName($id)
+    {
+        $code = LetterCode::find($id);
+        $name = $code->code.'. '.$code->title;
+
+        if($code->letter_code)
+            $name = $code->letter_code->code.'.'.$code->code.' '.$code->title;
+    
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $name
+        ], 200);
+    }
 }

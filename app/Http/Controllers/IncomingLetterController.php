@@ -40,7 +40,6 @@ class IncomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
         $letter->save();
 
         $incomingLetter = new IncomingLetter([
@@ -68,7 +67,6 @@ class IncomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
         $letter->save();
 
         $letter->incoming_letter->update([

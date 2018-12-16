@@ -32,12 +32,14 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
+        if($request->sub_letter_code_id) {
+            $letter->letter_code_id = $request->sub_letter_code_id;
+        }
         $letter->save();
 
         $outcomingLetter = new OutcomingLetter([
             'ordinal' => 1, //$request->ordinal
-            'receipient' => $request->recipient
+            'recipient' => $request->recipient
         ]);
 
         $letter->outcoming_letter()->save($outcomingLetter);
@@ -57,7 +59,8 @@ class OutcomingLetterController extends Controller
                                             'letters.number as number',
                                             'letters.date as date',
                                             'letters.subject as subject',
-                                            'letters.tendency as tendency'
+                                            'letters.tendency as tendency',
+                                            'outcoming_letters.recipient as recipient'
                                             )
                                         ->get();
         
@@ -77,7 +80,9 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        $letter->sub_letter_code_id = $request->sub_letter_code_id ?: null;
+        if($request->sub_letter_code_id) {
+            $letter->letter_code_id = $request->sub_letter_code_id;
+        }
         $letter->save();
 
         $letter->outcoming_letter->update([
@@ -104,10 +109,17 @@ class OutcomingLetterController extends Controller
                                             'subject',
                                             'tendency',
                                             'attachments',
-                                            'letter_code_id',
-                                            'sub_letter_code_id'
+                                            'recipient',
+                                            'letter_code_id'
                                         )
                                         ->first();
+        $letterCode = \App\Models\LetterCode::find($outcomingLetter->letter_code_id);
+        if($code = $letterCode->letter_code){
+            $subLetterCodeId = $outcomingLetter->letter_code_id;
+            $outcomingLetter->sub_letter_code_id = $subLetterCodeId;
+            $outcomingLetter->letter_code_id = $code->id;
+        }
+
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil',

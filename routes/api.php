@@ -42,6 +42,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //get letter code or sub letter code
     $router->get('letter-codes/{id}', 'LetterCodeController@get'); 
+    $router->get('letter-codes/{id}/get-name', 'LetterCodeController@getLetterCodeName');
 
     //document
     $router->get('documents', 'DocumentController@index');
