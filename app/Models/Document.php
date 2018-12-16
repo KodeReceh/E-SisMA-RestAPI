@@ -10,20 +10,17 @@ class Document extends Model
 
     protected $fillable = [
         'title',
+        'path',
         'date',
         'description',
         'archive_id'
     ];
 
+    protected $appends = ['file_extension'];
 
     public function archive()
     {
         return $this->belongsTo(Archive::class);
-    }
-
-    public function files()
-    {
-        return $this->hasMany(File::class);
     }
 
     public function letter()
@@ -43,5 +40,25 @@ class Document extends Model
         }
 
         return null;
+    }
+
+    public function getPathFileAttribute()
+    {
+        if($letter = $this->letter){
+            if($letter->incoming_letter){
+                return config('esisma.dokumen.surat.masuk').'/'.$this->path;
+            }else{
+                return config('esisma.dokumen.surat.keluar').'/'.$this->path;
+            }
+        }else{
+            return config('esisma.dokumen.general').'/'.$this->path;
+        }
+
+        return null;
+    }
+
+    public function getFileExtensionAttribute()
+    {
+        return pathinfo($this->path_file, PATHINFO_EXTENSION);
     }
 }

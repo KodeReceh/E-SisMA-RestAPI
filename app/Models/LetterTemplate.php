@@ -10,7 +10,6 @@ class LetterTemplate extends Model
 
     protected $fillable = [
         'template_id',
-        'letter_id',
         'data',
         'status'
     ];

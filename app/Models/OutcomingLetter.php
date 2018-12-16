@@ -16,6 +16,7 @@ class OutcomingLetter extends Model
 
     protected $fillable = [
         'letter_id',
+        'recipient',
         'ordinal'
     ];
 

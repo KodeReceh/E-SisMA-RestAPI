@@ -10,7 +10,8 @@ class LetterCode extends Model
 
     protected $fillable = [
         'code',
-        'title'
+        'title',
+        'letter_code_id'
     ];
 
     public $timestamps = false;
@@ -18,6 +19,11 @@ class LetterCode extends Model
     public function letters()
     {
         return $this->hasMany(Letter::class);
+    }
+
+    public static function getLeterCodes()
+    {
+        return LetterCode::where('letter_code_id', null)->get();
     }
 
     public function sub_letter_codes()
