@@ -21,7 +21,7 @@ class LetterCode extends Model
         return $this->hasMany(Letter::class);
     }
 
-    public static function getLeterCodes()
+    public static function getLetterCodes()
     {
         return LetterCode::where('letter_code_id', null);
     }
