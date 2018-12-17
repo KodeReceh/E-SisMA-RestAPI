@@ -120,6 +120,8 @@ class IncomingLetterController extends Controller
                                             'sub_letter_code_id'
                                         )
                                         ->first();
+        $code = LetterCode::find($incomingLetter->letter_code_id);
+        $incomingLetter->letter_code_name = $code->letter_code_name;
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil',

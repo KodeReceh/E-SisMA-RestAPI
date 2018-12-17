@@ -114,6 +114,7 @@ class OutcomingLetterController extends Controller
                                         )
                                         ->first();
         $letterCode = \App\Models\LetterCode::find($outcomingLetter->letter_code_id);
+        $outcomingLetter->letter_code_name = $letterCode->letter_code_name;
         if($code = $letterCode->letter_code){
             $subLetterCodeId = $outcomingLetter->letter_code_id;
             $outcomingLetter->sub_letter_code_id = $subLetterCodeId;
