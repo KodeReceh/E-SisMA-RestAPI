@@ -66,8 +66,8 @@ class IncomingLetterController extends Controller
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
-        $letter->letter_code_id = $request->letter_code_id;
-        $letter->save();
+        $letter->letter_code_id = $request->sub_letter_code_id ?: $request->letter_code_id;
+        $letter->update();
 
         $letter->incoming_letter->update([
             'sender' => $request->sender,
@@ -116,12 +116,18 @@ class IncomingLetterController extends Controller
                                             'tendency',
                                             'sender',
                                             'attachments',
-                                            'letter_code_id',
-                                            'sub_letter_code_id'
-                                        )
-                                        ->first();
-        $code = LetterCode::find($incomingLetter->letter_code_id);
-        $incomingLetter->letter_code_name = $code->letter_code_name;
+                                            'letter_code_id'
+                                        )->first();
+
+        $letterCode = \App\Models\LetterCode::find($incomingLetter->letter_code_id);
+        $incomingLetter->letter_code_name = $letterCode->letter_code_name;
+        $incomingLetter->sub_letter_code_id = null;
+        if($code = $letterCode->letter_code){
+            $subLetterCodeId = $incomingLetter->letter_code_id;
+            $incomingLetter->sub_letter_code_id = $subLetterCodeId;
+            $incomingLetter->letter_code_id = $code->id;
+        }
+
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil',
