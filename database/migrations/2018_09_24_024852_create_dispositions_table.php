@@ -21,6 +21,7 @@ class CreateDispositionsTable extends Migration
             $table->string('summary')->nullable()->comment('Disposisi; Ringkasan');
             $table->date('processing_date')->nullable()->comment('Tanggal Proses');
             $table->string('information')->nullable()->comment('Informasi');
+            $table->unique(['incoming_letter_id', 'user_id']);
             $table->foreign('incoming_letter_id')->references('letter_id')->on('incoming_letters')
                   ->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\IncomingLetter;
 use App\Models\Disposition;
+use App\Models\User;
 
 class RecipientController extends Controller
 {
@@ -13,7 +14,7 @@ class RecipientController extends Controller
         $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();
         $data = $incomingLetter->dispositions()->join('users', 'dispositions.user_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'users.role_id')
-                ->select('users_id', 'users.name as name', 'roles.title as role')
+                ->select('user_id', 'users.name as name', 'roles.title as role')
                 ->get();
 
         return response()->json([
@@ -40,21 +41,39 @@ class RecipientController extends Controller
         ], 200);
     }
 
+    public function availableRecipients($letter_id)
+    {
+        $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();
+
+        $users = $incomingLetter->users()->pluck('id');
+
+        $usersAvailable = User::whereNotIn('id', $users)->get();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $usersAvailable
+        ], 200);
+    }
+
     public function store($letter_id, Request $request)
     {
         $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();
 
-        if($incomingLetter->users()->attach($request->user_id)){
+        try {
+            $incomingLetter->users()->attach($request->user_id);
             return response()->json([
                 'success' => true,
                 'descripiton' => 'Berhasil menambahkan data.'
             ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'description' => $th->getMessage()
+            ], 417);
         }
 
-        return response()->json([
-            'success' => false,
-            'description' => 'Gagal menambahkan data.'
-        ], 417);
+        
     }
 
     public function delete($letter_id, $user_id)

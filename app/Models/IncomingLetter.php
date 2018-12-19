@@ -33,6 +33,6 @@ class IncomingLetter extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'dispositions');
+        return $this->belongsToMany(User::class, 'dispositions', 'incoming_letter_id', 'user_id');
     }
 }
