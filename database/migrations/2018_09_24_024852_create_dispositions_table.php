@@ -17,7 +17,8 @@ class CreateDispositionsTable extends Migration
         $tableName = 'dispositions';
         Schema::create($tableName, function (Blueprint $table) {
             $table->integer('incoming_letter_id')->unsigned()->comment('ID Surat Masuk; Sama dengan ID Surat');
-            $table->integer('user_id')->unsigned()->comment('ID Pengguna; Recipient');            
+            $table->integer('user_id')->unsigned()->comment('ID Pengguna; Recipient'); 
+            $table->boolean('status')->default(false);           
             $table->string('summary')->nullable()->comment('Disposisi; Ringkasan');
             $table->date('processing_date')->nullable()->comment('Tanggal Proses');
             $table->string('information')->nullable()->comment('Informasi');
