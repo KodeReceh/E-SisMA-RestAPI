@@ -53,4 +53,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo(Role::class);
     }
 
+    public function incoming_letters()
+    {
+        return $this->belongsToMany(IncomingLetter::class, 'dispositions');
+    }
+
 }

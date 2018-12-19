@@ -26,8 +26,13 @@ class IncomingLetter extends Model
         return $this->belongsTo(Letter::class);
     }
 
-    public function disposition()
+    public function dispositions()
     {
-        return $this->hasOne(Disposition::class, 'incoming_letter_id',  'letter_id');
+        return $this->hasMany(Disposition::class, 'incoming_letter_id',  'letter_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'dispositions');
     }
 }
