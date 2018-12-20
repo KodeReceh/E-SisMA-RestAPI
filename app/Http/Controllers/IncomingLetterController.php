@@ -49,6 +49,8 @@ class IncomingLetterController extends Controller
         ]);
 
         $letter->incoming_letter()->save($incomingLetter);
+        
+        $letter->incoming_letter->users()->attach($request->user_id);
 
         return response()->json([
             'success' => true,
@@ -74,6 +76,8 @@ class IncomingLetterController extends Controller
             'receipt_date' => $request->receipt_date,
             'ordinal' => 1
         ]);
+
+        $letter->incoming_letter->users()->sync($request->user_id);
 
         return response()->json([
             'success' => true,
@@ -127,6 +131,7 @@ class IncomingLetterController extends Controller
             $incomingLetter->sub_letter_code_id = $subLetterCodeId;
             $incomingLetter->letter_code_id = $code->id;
         }
+        $incomingLetter->user_id = IncomingLetter::where('letter_id', $incomingLetter->id)->first()->users()->pluck('id');
 
         return response()->json([
             'success' => true,

@@ -58,7 +58,7 @@ class RecipientController extends Controller
 
     public function allUsers()
     {
-        $users = User::all();
+        $users = User::select('id', 'name')->get();
 
         return response()->json([
             'success' => true,
