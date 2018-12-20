@@ -3,6 +3,9 @@
 $router->post('login', 'AuthController@login');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
+    // logout
+    $router->post('logout', 'AuthController@logout');
+    
     //user
     $router->post('users/register', 'UserController@register');
     $router->get('users', 'UserController@index');

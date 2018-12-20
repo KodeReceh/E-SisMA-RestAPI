@@ -43,4 +43,23 @@ class AuthController extends Controller
             'data' => ''
         ], 401);
    }
+
+   public function logout() 
+   {
+        $user = app('auth')->user();
+
+        $user->api_token = null;
+
+        if ($user->update()) {
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil logout.'
+            ], 201);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal logout pada server.'
+        ], 417);
+   }
 }
