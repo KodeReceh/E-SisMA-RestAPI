@@ -56,6 +56,17 @@ class RecipientController extends Controller
         ], 200);
     }
 
+    public function allUsers()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $users
+        ], 200);
+    }
+
     public function store($letter_id, Request $request)
     {
         $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();

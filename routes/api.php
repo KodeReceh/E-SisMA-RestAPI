@@ -88,5 +88,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('recipients/{letter_id}/user/{user_id}', 'RecipientController@get');
     $router->post('recipients/{letter_id}', 'RecipientController@store');
     $router->delete('recipients/{letter_id}/user/{user_id}', 'RecipientController@delete');
+    $router->get('recipients/user/all', 'RecipientController@allUsers');
 
 });
