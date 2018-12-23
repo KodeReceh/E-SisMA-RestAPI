@@ -50,9 +50,9 @@ $router->post('webhook', function(Request $request) {
             if(strpos($commit->message, 'do composer update') !== false){
                 $composerUpdate = true;
                 
-            }
-            
+            }  
         }
+
         $output .= '<br><br>';
         if($composerUpdate) $cmd .= ' && composer update';
             
