@@ -24,6 +24,8 @@ $router->post('webhook', function(Request $request) {
     $cmd = 'cd .. && git pull origin master';
     $output = '';
 
+    return $request->payload;
+    
     if($commits = $request->payload->commits){
         $output .= 'commits:<br><br>';
         foreach ($commits as $commit) {
