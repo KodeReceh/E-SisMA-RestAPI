@@ -31,6 +31,6 @@ $router->post('webhook', function(Request $request) {
 });
 
 $router->post('testwebhook', function (Request $request){
-    return $request;
+    return $request->payload;
 });
 
