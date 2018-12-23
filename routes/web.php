@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -18,9 +20,9 @@ $router->get('/', function () use ($router) {
 $router->get('pdf', 'LetterTemplateController@generateFromTemplate');
 $router->get('testQR', 'LetterTemplateController@testQRCode');
 
-$router->get('pull', function() {
+$router->get('pull', function(Request $request) {
     $cmd = 'cd .. && git pull origin master';
-    if(request()->input('force')){
+    if($request->input('force')){
         $cmd .= ' --force';
     }
 
