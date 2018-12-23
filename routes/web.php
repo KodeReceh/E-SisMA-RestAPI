@@ -67,14 +67,14 @@ $router->post('webhook', function(Request $request) {
             $cmd .= ' && php artisan migrate';  
             if($seed) $cmd .= ' && php artisan db:seed';
         }
-}
+    }
 
     try {
         $output = 'output command: <br>'.shell_exec($cmd);
     } catch (\Throwable $th) {
         $output = $th->getMessage();
     }
-    
+
     return response()->json(['output' => $output], 200);
 });
 
