@@ -52,6 +52,7 @@ $router->post('webhook', function(Request $request) {
                 
             }  
         }
+        
         $output .= '<br><br>';
 
         if($composerUpdate) $cmd .= ' && composer update';
