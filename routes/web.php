@@ -27,27 +27,46 @@ $router->post('webhook', function(Request $request) {
 
     if($commits = $payload->commits){
         $output .= 'commits:<br><br>';
+        $migrateFresh = false;
+        $migrateRefresh = false;
+        $migrate = false;
+        $seed = false;
+        $composerUpdate = false;
+
         foreach ($commits as $commit) {
             $output .= '- '.$commit->message.'<br>';
             if(strpos($commit->message, 'do fresh migrate') !== false){
-                $cmd .= ' && php artisan migrate:fresh';
+                $migrateFresh = true;
             }elseif (strpos($commit->message, 'do refresh migrate') !== false) {
-                $cmd .= ' && php artisan migrate:refresh';                
+                $migrateRefresh = true;
             }elseif (strpos($commit->message, 'do migrate') !== false) {
-                $cmd .= ' && php artisan migrate';
+                $migrate = true;
             }
 
             if(strpos($commit->message, 'do db:seed') !== false){
-                $cmd .= ' && php artisan db:seed';
+                $seed = true;
             }
 
             if(strpos($commit->message, 'do composer update') !== false){
-                $cmd .= ' && composer update';
+                $composerUpdate = true;
+                
             }
             
         }
         $output .= '<br><br>';
-    }
+        if($composerUpdate) $cmd .= ' && composer update';
+            
+        if($migrateFresh) {
+            $cmd .= ' && php artisan migrate:fresh';
+            if($seed) $cmd .= ' && php artisan db:seed';
+        }elseif ($migrateRefresh) {
+            $cmd .= ' && php artisan migrate:refresh';    
+            if($seed) $cmd .= ' && php artisan db:seed';
+        }elseif ($migrate) {
+            $cmd .= ' && php artisan migrate';  
+            if($seed) $cmd .= ' && php artisan db:seed';
+        }
+}
 
     $output = 'output command: <br>'.shell_exec($cmd);
     return '<pre>'. $output .'</pre>';
