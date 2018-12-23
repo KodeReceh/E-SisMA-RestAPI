@@ -20,7 +20,7 @@ $router->get('/', function () use ($router) {
 $router->get('pdf', 'LetterTemplateController@generateFromTemplate');
 $router->get('testQR', 'LetterTemplateController@testQRCode');
 
-$router->get('pull', function(Request $request) {
+$router->post('webhook', function(Request $request) {
     $cmd = 'cd .. && git pull origin master';
     if($request->input('force')){
         $cmd .= ' --force';
@@ -28,5 +28,9 @@ $router->get('pull', function(Request $request) {
 
     $output = shell_exec($cmd);
     return '<pre>'. $output .'</pre>';
+});
+
+$router->post('testwebhook', function (Request $request){
+    return $request;
 });
 
