@@ -54,7 +54,7 @@ $router->post('webhook', function(Request $request) {
         }
 
         $output .= '<br><br>';
-        
+
         if($composerUpdate) $cmd .= ' && composer update';
             
         if($migrateFresh) {
@@ -69,7 +69,12 @@ $router->post('webhook', function(Request $request) {
         }
 }
 
-    $output = 'output command: <br>'.shell_exec($cmd);
-    return '<pre>'. $output .'</pre>';
+    try {
+        $output = 'output command: <br>'.shell_exec($cmd);
+    } catch (\Throwable $th) {
+        $output = $th->getMessage();
+    }
+    
+    return response()->json(['output' => $output], 200);
 });
 
