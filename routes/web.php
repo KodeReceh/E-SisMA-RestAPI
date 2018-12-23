@@ -22,15 +22,34 @@ $router->get('testQR', 'LetterTemplateController@testQRCode');
 
 $router->post('webhook', function(Request $request) {
     $cmd = 'cd .. && git pull origin master';
-    if($request->input('force')){
-        $cmd .= ' --force';
+    $output = '';
+
+    if($commits = $request->payload->commits){
+        $output .= 'commits:<br><br>';
+        foreach ($commits as $commit) {
+            $output .= '- '.$commit->message.'<br>';
+            if(strpos($commit->message, 'do fresh migrate') !== false){
+                $cmd .= ' && php artisan migrate:fresh';
+            }elseif (strpos($commit->message, 'do refresh migrate') !== false) {
+                $cmd .= ' && php artisan migrate:refresh';                
+            }elseif (strpos($commit->message, 'do migrate') !== false) {
+                $cmd .= ' && php artisan migrate';
+            }
+
+            if(strpos($commit->message, 'do db:seed') !== false){
+                $cmd .= ' && php artisan db:seed';
+            }
+
+            if(strpos($commit->message, 'do composer update') !== false){
+                $cmd .= ' && composer update';
+            }
+
+            
+        }
+        $output .= '<br><br>';
     }
 
-    $output = shell_exec($cmd);
+    $output = 'output command: <br>'.shell_exec($cmd);
     return '<pre>'. $output .'</pre>';
-});
-
-$router->post('testwebhook', function (Request $request){
-    return $request->payload;
 });
 
