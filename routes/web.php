@@ -18,3 +18,13 @@ $router->get('/', function () use ($router) {
 $router->get('pdf', 'LetterTemplateController@generateFromTemplate');
 $router->get('testQR', 'LetterTemplateController@testQRCode');
 
+$router->get('pull', function() {
+    $cmd = 'cd .. && git pull origin master';
+    if(request()->input('force')){
+        $cmd .= ' --force';
+    }
+
+    $output = shell_exec($cmd);
+    return '<pre>'. $output .'</pre>';
+});
+
