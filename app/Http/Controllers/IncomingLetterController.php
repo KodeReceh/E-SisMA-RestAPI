@@ -39,7 +39,7 @@ class IncomingLetterController extends Controller
         $letter->subject = $request->subject;
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
-        $letter->letter_code_id = $request->letter_code_id;
+        $letter->letter_code_id = $request->sub_letter_code_id ?: $request->letter_code_id;
         $letter->save();
 
         $incomingLetter = new IncomingLetter([
@@ -141,9 +141,9 @@ class IncomingLetterController extends Controller
     }
 
     public function delete($id) {
-        $incomingLetter = IncomingLetter::find($id);
+        $letter = Letter::find($id);
 
-        if($incomingLetter->delete()){
+        if($letter->delete()){
             return response()->json([
                 'success' => true,
                 'description' => 'Data berhasil dihapus'

@@ -122,16 +122,16 @@
         },
         {
             "name": "chillerlan/php-qrcode",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chillerlan/php-qrcode.git",
-                "reference": "3c8af1916d937d8ea1a5e79ea84a2363aed522a7"
+                "reference": "ba81dab259d687d246295e6998533c314367847a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/3c8af1916d937d8ea1a5e79ea84a2363aed522a7",
-                "reference": "3c8af1916d937d8ea1a5e79ea84a2363aed522a7",
+                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/ba81dab259d687d246295e6998533c314367847a",
+                "reference": "ba81dab259d687d246295e6998533c314367847a",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.4"
+                "phpunit/phpunit": "^7.5"
             },
             "type": "library",
             "extra": {
@@ -162,7 +162,7 @@
                     "homepage": "https://github.com/kazuhikoarase"
                 },
                 {
-                    "name": "smiley",
+                    "name": "Smiley",
                     "email": "smiley@chillerlan.net",
                     "homepage": "https://github.com/codemasher"
                 }
@@ -172,7 +172,7 @@
             "keywords": [
                 "qr code"
             ],
-            "time": "2018-11-10T18:29:12+00:00"
+            "time": "2018-12-20T15:37:46+00:00"
         },
         {
             "name": "chillerlan/php-settings-container",

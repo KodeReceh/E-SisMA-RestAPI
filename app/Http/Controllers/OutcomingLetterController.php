@@ -130,9 +130,9 @@ class OutcomingLetterController extends Controller
     }
 
     public function delete($id) {
-        $outcomingLetter = OutcomingLetter::find($id);
+        $letter = Letter::find($id);
 
-        if($outcomingLetter->delete()){
+        if($letter->delete()){
             return response()->json([
                 'success' => true,
                 'description' => 'Data berhasil dihapus'
