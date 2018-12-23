@@ -43,7 +43,6 @@ $router->post('webhook', function(Request $request) {
             if(strpos($commit->message, 'do composer update') !== false){
                 $cmd .= ' && composer update';
             }
-
             
         }
         $output .= '<br><br>';
