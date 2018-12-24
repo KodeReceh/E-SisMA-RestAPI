@@ -35,7 +35,7 @@ class DocumentController extends Controller
         $document = new Document();
         $document->title = $request->title;
         $document->date = $request->date;
-        $document->desciption = $request->description;
+        $document->description = $request->description;
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
         $fileName = 'document-'.time().'.'.$ext;
@@ -62,9 +62,9 @@ class DocumentController extends Controller
         $document = Document::findOrFail($id);
         $document->title = $request->title;
         $document->date = $request->date;
-        $document->desciption = $request->description;
+        $document->description = $request->description;
 
-        if($request->file){
+        if($request->hasFile('file')){
             if(Storage::exists($document->path_file)){
                 Storage::delete($document->path_file);
             }
@@ -119,7 +119,7 @@ class DocumentController extends Controller
 
         return response()->download(
             storage_path('app/'.$document->path_file), 
-            $document->title.'.'.pathinfo($file->path_file, PATHINFO_EXTENSION),
+            $document->title.'.'.pathinfo($document->path_file, PATHINFO_EXTENSION),
             $headers
         );
     }
