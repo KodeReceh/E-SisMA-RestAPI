@@ -17,6 +17,7 @@ class CreateDocumentsTable extends Migration
             $table->increments('id')->comment('ID Dokumen');
             $table->string('title')->comment('Nama Dokumen');
             $table->string('path')->comment('Path; Nama File Dokumen');
+            $table->string('file_type')->nullable()->comment('Tipe File');
             $table->date('date')->comment('Tanggal Dokumen');
             $table->integer('archive_id')->nullable()->unsigned()->comment('ID Arsip');
             $table->string('description')->nullable()->comment('Keterangan');

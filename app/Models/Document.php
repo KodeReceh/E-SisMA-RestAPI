@@ -13,7 +13,8 @@ class Document extends Model
         'path',
         'date',
         'description',
-        'archive_id'
+        'archive_id',
+        'file_type'
     ];
 
     protected $appends = ['file_extension'];

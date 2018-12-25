@@ -41,6 +41,7 @@ class DocumentController extends Controller
         $fileName = 'document-'.time().'.'.$ext;
         $theFile->storeAs($document->path_file, $fileName);
         $document->path = $fileName;
+        $document->file_type = $request->file_type;
 
         if($document->save()){
             return response()->json([
@@ -74,6 +75,7 @@ class DocumentController extends Controller
             $fileName = 'document-'.time().'.'.$ext;
             $theFile->storeAs($document->path_file, $fileName);
             $document->path = $fileName;
+            $document->file_type = $request->file_type;
         }
 
         if($document->update()){
@@ -113,7 +115,7 @@ class DocumentController extends Controller
     {
         $document = Document::where('path', $path)->first();
         $headers = [
-            'Content-Type' => 'application/*',
+            'Content-Type' => $document->file_type,
             'content-disposition' => 'attachment'
         ];
 
