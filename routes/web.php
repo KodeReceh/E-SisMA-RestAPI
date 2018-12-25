@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 $router->get('/', function (){
-    return redirect('https://efzet.id');
+    return redirect('https://esisma.efzet.id');
 });
 
 $router->get('pdf', 'LetterTemplateController@generateFromTemplate');
