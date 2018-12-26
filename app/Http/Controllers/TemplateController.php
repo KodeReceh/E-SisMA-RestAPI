@@ -162,4 +162,20 @@ class TemplateController extends Controller
         ];
         return Helpers::showFullColumn('villagers', $columns);
     }
+
+    public function removeField($templateId, $id)
+    {
+        $templateField = TemplateField::find($id);
+
+        if($templateField->delete())
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil menghapus data.'
+            ], 200);
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal menghapus data.'
+        ], 417);
+    }
 }
