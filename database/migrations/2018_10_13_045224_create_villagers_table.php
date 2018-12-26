@@ -18,6 +18,7 @@ class CreateVillagersTable extends Migration
             $table->string('name')->comment('Nama Penduduk');
             $table->string('birthplace')->comment('Tempat Lahir');
             $table->date('birthdate')->comment('Tanggal Lahir');
+            $table->integer('sex');
             $table->string('job')->nullable()->comment('Pekerjaan');
             $table->integer('religion')->comment('Agama');
             $table->integer('tribe')->nullable()->comment('Suku');

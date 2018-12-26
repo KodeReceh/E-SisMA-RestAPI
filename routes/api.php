@@ -96,4 +96,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('recipients/{letter_id}/user/{user_id}', 'RecipientController@delete');
     $router->get('recipients/user/all', 'RecipientController@allUsers');
 
+    // villagers
+    $router->get('villagers', 'VillagerController@all');
+
 });
