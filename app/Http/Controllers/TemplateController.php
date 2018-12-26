@@ -8,6 +8,7 @@ use App\Models\TemplateField;
 use Schema;
 use Illuminate\Support\Facades\DB;
 use Helpers;
+use Illuminate\Support\Facades\Storage;
 
 
 class TemplateController extends Controller
@@ -50,7 +51,7 @@ class TemplateController extends Controller
         $template = new Template();
         $template->title = $request->title;
         $template->needs_villager_data = $request->needs_villager_data;
-        if($request->file('template_file')){
+        if($request->hasFile('template_file')){
             $theFile = $request->file('template_file');
             $path = config('esisma.templates');
             $ext = $theFile->getClientOriginalExtension();
@@ -74,10 +75,64 @@ class TemplateController extends Controller
         ], 417);
     }
 
+    public function update($id, Request $request)
+    {
+        $template = Template::find($id);
+        $template->title = $request->title;
+        $template->needs_villager_data = $request->needs_villager_data;
+        if($request->hasFile('template_file')){
+            $theFile = $request->file('template_file');
+            $oldFile = $template->template_file;
+            $path = config('esisma.templates');
+            $oldPath = $path.'/'.$oldFile;
+            if(Storage::exists($oldPath)) Storage::delete($oldPath);
+            $ext = $theFile->getClientOriginalExtension();
+            $fileName = 'template-'.time().'.'.$ext;
+            $theFile->storeAs($path, $fileName);
+            $template->template_file = $fileName;
+        }
+
+        if($template->update()){
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil diperbarui.',
+                'data' => $template
+            ], 201);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal memperbarui.',
+            'data' => null
+        ], 417);
+    }
+
+    public function delete($id)
+    {
+        $template = Template::find($id);
+
+        $path = config('esisma.templates').'/'.$template->template_file;
+        if(Storage::exists($path)) Storage::delete($path);
+        if($template->delete()){
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil dihapus.'
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal menghapus data di database, file erhasil dihapus di storage server'
+        ], 417);
+
+    }
+
     public function addField($id, Request $request)
     {
         $template = Template::findOrFail($id);
-        if($template->template_fields()->create($request->all())){
+        $data = $request->all();
+        if($request->type != 4) unset($data['role_id']);
+        if($template->template_fields()->create($data)){
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dibuat.',
