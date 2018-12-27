@@ -18,10 +18,10 @@ class CreateTemplateFieldsTable extends Migration
             $table->string('name')->comment('Nama Field');
             $table->integer('template_id')->unsigned()->comment('ID Template Surat');
             $table->integer('type')->comment('Tipe Field; Text, Gambar, Data Penduduk, atau Tanda Tangan');
-            $table->integer('role_id')->unsigned()->nullable()->comment('ID Peran Pengguna jika tipe Field adalah Tanda Tangan');
+            $table->integer('user_id')->unsigned()->nullable()->comment('ID Pengguna penanda tangan jika tipe Field adalah Tanda Tangan');
 
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
