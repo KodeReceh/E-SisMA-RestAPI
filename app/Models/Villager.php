@@ -26,4 +26,9 @@ class Villager extends Model
     {
         return $this->name.' - '.$this->NIK;
     }
+
+    public static function getFIelds()
+    {
+        return config('esisma.villager_field');
+    }
 }

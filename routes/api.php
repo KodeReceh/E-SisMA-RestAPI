@@ -86,7 +86,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('templates/{id}/fields', 'TemplateController@fields');
     $router->get('villager_columns', 'TemplateController@villagerColumns');
 
-    // ltter_templates
+    // letter_templates
+    $router->get('outcoming-letter-drafts/{id}/download', 'LetterTemplateController@download');
+    $router->get('outcoming-letter-drafts', 'LetterTemplateController@getList');
     $router->post('templates/{id}/letter_templates', 'LetterTemplateController@saveFieldData');
     $router->get('templates/{template}/letter_templates/{id}/generate', 'LetterTemplateController@generateDoc');
 
@@ -100,5 +102,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     // villagers
     $router->get('villagers', 'VillagerController@all');
+    $router->get('villagers/fields', 'VillagerController@getFields');
 
 });

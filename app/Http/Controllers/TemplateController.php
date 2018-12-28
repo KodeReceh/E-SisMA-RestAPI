@@ -131,7 +131,7 @@ class TemplateController extends Controller
     {
         $template = Template::findOrFail($id);
         $data = $request->all();
-        if($request->type != 4) unset($data['role_id']);
+        if($request->type != 4) unset($data['user_id']);
         if($template->template_fields()->create($data)){
             return response()->json([
                 'success' => true,

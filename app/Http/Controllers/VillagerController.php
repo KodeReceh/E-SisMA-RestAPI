@@ -18,4 +18,13 @@ class VillagerController extends Controller
             'data' => $villagers
         ], 200);
     }
+
+    public function getFields()
+    {
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => Villager::getFields()
+        ], 200);
+    }
 }

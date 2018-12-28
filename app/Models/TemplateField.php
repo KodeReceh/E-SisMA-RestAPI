@@ -12,7 +12,6 @@ class TemplateField extends Model
         'name',
         'template_id',
         'type',
-        'role_id'
     ];
 
     protected $appends = [

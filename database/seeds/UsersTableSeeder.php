@@ -15,9 +15,9 @@ class UsersTableSeeder extends Seeder
     {
         // factory(App\Models\User::class, 5)->make();
         $user = new User();
-        $user->name = 'Muhammad Fauzi';
-        $user->email = 'efzet@efzet.com';
-        $user->password = app('hash')->make('secret');
+        $user->name = 'Nama Saya Pengguna';
+        $user->email = 'email@email.com';
+        $user->password = app('hash')->make('rahasia');
         $user->birthplace = 'Padang';
         $user->birthdate = '1996-02-02';
         $user->sex = 1;

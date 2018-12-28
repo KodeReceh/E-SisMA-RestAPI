@@ -10,6 +10,7 @@ use App\Models\Template;
 use App\Models\Villager;
 use App\Models\LetterTemplate;
 use App\Models\User;
+use App\Models\TemplateField;
 
 class LetterTemplateController extends Controller
 {
@@ -105,13 +106,7 @@ class LetterTemplateController extends Controller
         
         try {
             $templateFile->saveAs(storage_path('app/generated_docs/'.$template->id.'-'.$letterTemplate->id.'-'.time().'.'.$extensionDoc));   
-            return response()->json([
-                'success' => true,
-                'description' => 'Berhasil membuat dokumen.',
-                'data' => [
-                    'path' => storage_path('app/generated_docs/'.$template->id.'-'.$letterTemplate->id.'-'.time().'.'.$extensionDoc)
-                ]
-                ], 201);         
+            return response()->download(storage_path('app/generated_docs/'.$template->id.'-'.$letterTemplate->id.'-'.time().'.'.$extensionDoc));         
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -150,7 +145,7 @@ class LetterTemplateController extends Controller
     public function storeFieldData($id, Request $request)
     {
         $template = Template::find($id);
-        $text = $template->template_field()->where('type', 1)->get();
+        $text = $template->template_fields()->where('type', 1)->get();
         $image = $template->template_fields()->where('type', 2)->get();
 
         $data = [];
@@ -159,13 +154,13 @@ class LetterTemplateController extends Controller
             $data[$name] = $request->$name;
         }
 
-        foreach ($image as $key => $field) {
-            $name = $field->name;
+        foreach ($image as $key => $gambar) {
+            $name = $gambar->name;
             if($request->hasFile($name)){
                 $theFile = $request->file($name);
                 $ext = $theFile->getClientOriginalExtension();
                 $fileName = 'raw-image-'.time().'.'.$ext;
-                $theFile->storeAs($document->path_file, $fileName);
+                $theFile->storeAs(config('esisma.raw_images'), $fileName);
                 $data[$name] = $fileName;
             }
         }
@@ -178,16 +173,89 @@ class LetterTemplateController extends Controller
 
         if($letter->save()){
             return response()->json([
-                'success' => true,
-                'description' => 'Berhasil meenyimpan data.',
+                'success' => false,
+                'description' => 'Gagal menyimpan data',
                 'data' => $letter
-            ], 200);
+            ], 201);  
         }
 
         return response()->json([
             'success' => false,
             'description' => 'Gagal menyimpan data',
             'data' => null
-        ], 517);
+        ], 417);
+    }
+
+    public function getList()
+    {
+        $letterTemplates = LetterTemplate::all();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $letterTemplates
+        ], 200);
+    }
+
+    public function download($id)
+    {
+        $letter = LetterTemplate::find($id);
+        $template = $letter->template;
+        $data = json_decode($letter->data);
+        $templatePath = config('esisma.templates');
+        $templateFile = new TemplateProcessor(storage_path('app/'.$templatePath.'/'.$template->template_file));
+        $extensionDoc = pathinfo($templatePath.'/'.$template->template_file, PATHINFO_EXTENSION);
+        
+        foreach ($template->template_fields as $key => $field) {
+            $name = $field->name;
+            switch ($field->type) {
+                case 1:
+                    $templateFile->setValue($name, $data->$name);
+                    break;
+
+                case 2:
+                    $templateFile->setImageValue($name, storage_path('app/'.config('esisma.raw_images').'/'.$data->$name));
+
+                case 3:
+                    break;
+
+                case 4:
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+        
+        try {
+            if (!file_exists(storage_path('app/generated_docs'))){
+                mkdir(storage_path('app/generated_docs'), 0777, true);
+            }
+            $thisIsTheFileName = $template->id.'-'.$letter->id.'-'.time().'.'.$extensionDoc;
+            $templateFile->saveAs(storage_path('app/generated_docs/'.$thisIsTheFileName)); 
+            ob_end_clean();
+            $contentType = $extensionDoc == 'doc' ? 
+                'application/msword' : 
+                $extensionDoc == 'docx' ?
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+                '';
+
+            $headers = [
+                'Content-Type' => $contentType,
+                'content-disposition' => 'attachment',
+                'content-ext' => $extensionDoc
+            ];
+            return response()->download(
+                storage_path('app/generated_docs/'.$thisIsTheFileName),
+                null,
+                $headers
+            );         
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'descripton' => $th->getMessage(),
+                'data' => null
+            ], 417);
+        }
     }
 }

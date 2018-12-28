@@ -19,16 +19,49 @@ return [
         'Tanda Tangan'
     ],
     'villager_field' => [
-        'name' => 'Nama',
-        'birthplace' => 'Tempat Lahir',
-        'birthdate' => 'Tanggal Lahir',
-        'sex' => 'Jenis Kelamin',
-        'job' => 'Pekerjaan',
-        'religion' => 'Agama',
-        'tribe' => 'Suku',
-        'NIK' => 'NIK',
-        'status' => 'Status',
-        'address' => 'Alamat',
-        'photo' => 'Foto'
+        [
+            'id' => 'name',
+            'title' => 'Nama'
+        ],
+        [
+            'id' => 'birthplace',
+            'title' => 'Tempat Lahir'
+        ],
+        [
+            'id' => 'birthdate',
+            'title' => 'Tanggal Lahir'
+        ],
+        [
+            'id' => 'sex',
+            'title' => 'Jenis Kelamin'
+        ],
+        [
+            'id' => 'job',
+            'title' => 'Pekerjaan'
+        ],
+        [
+            'id' => 'religion',
+            'title' => 'Agama'
+        ],
+        [
+            'id' => 'tribe',
+            'title' => 'Suku'
+        ],
+        [
+            'id' => 'NIK',
+            'title' => 'NIK'
+        ],
+        [
+            'id' => 'status',
+            'title' => 'Status'
+        ],
+        [
+            'id' => 'address',
+            'title' => 'Alamat'
+        ],
+        [
+            'id' => 'photo',
+            'title' => 'Foto'
+        ],
     ]
 ];
