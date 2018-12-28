@@ -17,14 +17,14 @@ class TemplateField extends Model
 
     protected $appends = [
         'type_name',
-        'role_name'
+        'label'
     ];
 
     public $timestamps = false;
 
-    public function role()
+    public function user()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(User::class);
     }
 
     public function template()
@@ -44,8 +44,8 @@ class TemplateField extends Model
         return 'Tidak diketahui.';
     }
 
-    public function getRoleNameAttribute()
+    public function getLabelAttribute()
     {
-        return $this->role ? $this->role->title : 'Tidak Diperlukan';
+       return str_replace('_', ' ', ucwords($this->name, '_'));
     }
 }

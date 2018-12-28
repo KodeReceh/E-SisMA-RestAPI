@@ -8,6 +8,8 @@ class Villager extends Model
 {
     protected $table = 'villagers';
 
+    protected $appends = ['select_name'];
+
     protected $fillable = [
         'name',
         'birthplace',
@@ -19,4 +21,9 @@ class Villager extends Model
         'address',
         'photo'
     ];
+
+    public function  getSelectNameAttribute()
+    {
+        return $this->name.' - '.$this->NIK;
+    }
 }

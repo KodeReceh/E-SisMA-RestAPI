@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Villager;
+use Illuminate\Support\Facades\DB;
 
 class VillagerController extends Controller
 {
     public function all()
     {
-        $villagers = Villager::pluck('name', 'id');
+        $villagers = Villager::orderBy('name', 'asc')->get();
 
         return response()->json([
             'success' => true,

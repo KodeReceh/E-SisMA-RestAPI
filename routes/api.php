@@ -81,6 +81,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('templates/{id}', 'TemplateController@delete');
     $router->delete('templates/{templateId}/fields/{id}', 'TemplateController@removeField');
     $router->post('templates/{id}/fields', 'TemplateController@addField');
+    $router->post('templates/{id}/field-form', 'LetterTemplateController@storeFieldData');
+    $router->get('templates/{id}/field-form', 'LetterTemplateController@getFields');
     $router->get('templates/{id}/fields', 'TemplateController@fields');
     $router->get('villager_columns', 'TemplateController@villagerColumns');
 

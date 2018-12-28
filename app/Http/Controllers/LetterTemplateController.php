@@ -9,6 +9,7 @@ use chillerlan\QRCode\QRCode;
 use App\Models\Template;
 use App\Models\Villager;
 use App\Models\LetterTemplate;
+use App\Models\User;
 
 class LetterTemplateController extends Controller
 {
@@ -119,5 +120,74 @@ class LetterTemplateController extends Controller
             ], 417);
         }
         
+    }
+
+    public function getFields($id)
+    {
+        $template = Template::findOrFail($id);
+
+        $text = $template->template_fields()->where('type', 1)->get();
+        $image = $template->template_fields()->where('type', 2)->get();
+        $villagers = [];
+        if($template->needs_villager_data) 
+            $villagers = Villager::orderBy('name')->get();
+
+        $data = [
+            'villagers' => $villagers,
+            'text' => $text,
+            'image' => $image,
+            'template' => $template
+        ];
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $data
+        ], 200);
+
+    }
+
+    public function storeFieldData($id, Request $request)
+    {
+        $template = Template::find($id);
+        $text = $template->template_field()->where('type', 1)->get();
+        $image = $template->template_fields()->where('type', 2)->get();
+
+        $data = [];
+        foreach ($text as $key => $field) {
+            $name = $field->name;
+            $data[$name] = $request->$name;
+        }
+
+        foreach ($image as $key => $field) {
+            $name = $field->name;
+            if($request->hasFile($name)){
+                $theFile = $request->file($name);
+                $ext = $theFile->getClientOriginalExtension();
+                $fileName = 'raw-image-'.time().'.'.$ext;
+                $theFile->storeAs($document->path_file, $fileName);
+                $data[$name] = $fileName;
+            }
+        }
+        $letter = new LetterTemplate();
+        $letter->template_id = $id;
+        $letter->status = 0;
+        if($template->needs_villager_data)
+            $letter->villager_id = $request->villager_id;
+        $letter->data = json_encode($data);
+
+        if($letter->save()){
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil meenyimpan data.',
+                'data' => $letter
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal menyimpan data',
+            'data' => null
+        ], 517);
     }
 }
