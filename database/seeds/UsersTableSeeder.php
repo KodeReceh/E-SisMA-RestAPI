@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        
         // factory(App\Models\User::class, 5)->make();
         $user = new User();
         $user->name = 'Nama Saya Pengguna';
