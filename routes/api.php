@@ -76,6 +76,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //templates
     $router->get('templates', 'TemplateController@list');
     $router->post('templates', 'TemplateController@create');
+    $router->get('templates/get-field-resources', 'TemplateController@getResources');
     $router->get('templates/{id}', 'TemplateController@get');
     $router->put('templates/{id}', 'TemplateController@update');
     $router->delete('templates/{id}', 'TemplateController@delete');

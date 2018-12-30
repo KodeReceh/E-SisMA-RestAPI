@@ -20,6 +20,8 @@ class CreateTemplateFieldsTable extends Migration
             $table->integer('type')->comment('Tipe Field; Text, Gambar, Data Penduduk, atau Tanda Tangan');
             $table->integer('user_id')->unsigned()->nullable()->comment('ID Pengguna penanda tangan jika tipe Field adalah Tanda Tangan');
 
+            $table->unique(['name', 'template_id']);
+            $table->unique(['template_id', 'user_id']);
             $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });

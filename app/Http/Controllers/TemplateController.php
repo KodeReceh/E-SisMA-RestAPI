@@ -131,7 +131,9 @@ class TemplateController extends Controller
     {
         $template = Template::findOrFail($id);
         $data = $request->all();
+
         if ($request->type != 4) unset($data['user_id']);
+
         if ($template->template_fields()->create($data)) {
             return response()->json([
                 'success' => true,
@@ -161,6 +163,20 @@ class TemplateController extends Controller
             'success' => false,
             'description' => 'Gagal menghapus data.'
         ], 417);
+    }
+
+    public function getResources()
+    {
+        $data = [
+            'villager_fields' => \App\Models\Villager::getFIelds(),
+            'users' => \App\Models\User::getSelectOptions()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $data
+        ], 200);
     }
 
 

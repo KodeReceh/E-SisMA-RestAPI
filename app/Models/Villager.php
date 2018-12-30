@@ -29,6 +29,15 @@ class Villager extends Model
 
     public static function getFIelds()
     {
-        return config('esisma.villager_field');
+        $fields = [];
+
+        foreach (config('esisma.villager_fields') as $field => $column) {
+            $fields[] = [
+                'id' => $field,
+                'title' => ucwords(str_replace("_", " ", $field))
+            ];
+        }
+
+        return $fields;
     }
 }

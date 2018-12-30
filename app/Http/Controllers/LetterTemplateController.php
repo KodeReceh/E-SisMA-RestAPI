@@ -203,8 +203,10 @@ class LetterTemplateController extends Controller
 
                 case 2:
                     $templateFile->setImageValue($name, storage_path('app/' . config('esisma.raw_images') . '/' . $data->$name));
-
+                    break;
                 case 3:
+                    $field = config('esisma.villager_fields')[$name];
+                    $templateFile->setValue($name, $letter->villager->$field);
                     break;
 
                 case 4:

@@ -58,4 +58,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany(IncomingLetter::class, 'dispositions', 'user_id', 'incoming_letter_id');
     }
 
+    public static function getSelectOptions()
+    {
+        return User::select('id', 'name')->orderBy('name', 'asc')->get();
+    }
+
 }
