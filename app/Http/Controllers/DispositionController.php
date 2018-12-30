@@ -27,7 +27,7 @@ class DispositionController extends Controller
         $userId = app('auth')->user()->id;
         $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
 
-        if($disposition->update($request->all())){
+        if ($disposition->update($request->all())) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil diupdate.',
@@ -45,7 +45,7 @@ class DispositionController extends Controller
     {
         $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
 
-        if($disposition){
+        if ($disposition) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil ambil data.',
@@ -57,6 +57,6 @@ class DispositionController extends Controller
             'success' => false,
             'description' => 'Data tidak ditemukan.'
         ], 404);
-        
+
     }
 }

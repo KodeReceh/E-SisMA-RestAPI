@@ -23,7 +23,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');
     $router->get('letters/incoming-letter', 'IncomingLetterController@getList');
     $router->get('letters/incoming-letter/{id}', 'IncomingLetterController@get');
-    $router->get('letters/incoming-letter/{id}/disposition', 'DispositionController@get');    
+    $router->get('letters/incoming-letter/{id}/disposition', 'DispositionController@get');
     $router->post('letters/incoming-letter/{id}/disposition', 'DispositionController@storeDisposition');
     $router->put('letters/incoming-letter/{id}/disposition', 'DispositionController@updateDisposition');
     $router->put('letters/incoming-letter/{id}', 'IncomingLetterController@update');
@@ -44,7 +44,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('letter-codes', 'LetterCodeController@getLetterCodeList');
 
     //get letter code or sub letter code
-    $router->get('letter-codes/{id}', 'LetterCodeController@get'); 
+    $router->get('letter-codes/{id}', 'LetterCodeController@get');
     $router->get('letter-codes/{id}/get-name', 'LetterCodeController@getLetterCodeName');
 
     //document
@@ -59,7 +59,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //archive type
     $router->group(['prefix' => 'archives'], function () use ($router) {
-        $router->get('types','ArchiveTypeController@getList');
+        $router->get('types', 'ArchiveTypeController@getList');
         $router->get('types/{id}', 'ArchiveTypeController@get');
         $router->post('types', 'ArchiveTypeController@store');
         $router->put('types/{id}', 'ArchiveTypeController@update');
@@ -84,7 +84,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('templates/{id}/field-form', 'LetterTemplateController@storeFieldData');
     $router->get('templates/{id}/field-form', 'LetterTemplateController@getFields');
     $router->get('templates/{id}/fields', 'TemplateController@fields');
-    $router->get('villager_columns', 'TemplateController@villagerColumns');
 
     // letter_templates
     $router->get('outcoming-letter-drafts/download/{id}', 'LetterTemplateController@download');

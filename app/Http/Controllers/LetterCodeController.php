@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\LetterCode;
 use Illuminate\Support\Facades\DB;
 
 class LetterCodeController extends Controller
 {
-    public function getLetterCodeList() 
+    public function getLetterCodeList()
     {
         $letterCodes = LetterCode::getLetterCodes()->select(
-                        'id',
-                        DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title")
-                        )->get();
-        
+            'id',
+            DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title")
+        )->get();
+
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil.',
@@ -20,13 +21,13 @@ class LetterCodeController extends Controller
         ], 200);
     }
 
-    public function getSubLetterCodeList($letter_code) 
+    public function getSubLetterCodeList($letter_code)
     {
         $letterCode = LetterCode::find($letter_code);
         $subLetterCodes = $letterCode->sub_letter_codes()
-                            ->select('id', DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"))
-                            ->get();
-        
+            ->select('id', DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"))
+            ->get();
+
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil.',
@@ -48,11 +49,11 @@ class LetterCodeController extends Controller
     public function getLetterCodeName($id)
     {
         $code = LetterCode::find($id);
-        $name = $code->code.'. '.$code->title;
+        $name = $code->code . '. ' . $code->title;
 
-        if($code->letter_code)
-            $name = $code->letter_code->code.'.'.$code->code.' '.$code->title;
-    
+        if ($code->letter_code)
+            $name = $code->letter_code->code . '.' . $code->code . ' ' . $code->title;
+
 
         return response()->json([
             'success' => true,

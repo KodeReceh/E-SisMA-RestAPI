@@ -17,7 +17,7 @@ class ArchiveController extends Controller
             'description' => 'Berhasil mengambil data.',
             'data' => $archives
         ], 200);
-        
+
     }
 
     public function get($id)
@@ -39,9 +39,9 @@ class ArchiveController extends Controller
         $archive->role_id = $userRoleId;
         $archive->date = $request->date;
         $archive->archive_type_id = $request->archive_type_id;
-        $archive->description = $request->description;        
+        $archive->description = $request->description;
 
-        if($archive->save()){
+        if ($archive->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Sukses menyimpan data.',
@@ -62,9 +62,9 @@ class ArchiveController extends Controller
         $archive->title = $request->title;
         $archive->date = $request->date;
         $archive->archive_type_id = $request->archive_type_id;
-        $archive->description = $request->description;  
+        $archive->description = $request->description;
 
-        if($archive->update()){
+        if ($archive->update()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Sukses menyimpan data.',
@@ -83,7 +83,7 @@ class ArchiveController extends Controller
     {
         $archive = Archive::findOrFail($id);
 
-        if($archive->delete()){
+        if ($archive->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menghapus data.'

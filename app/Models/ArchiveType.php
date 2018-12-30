@@ -8,7 +8,7 @@ class ArchiveType extends Model
 {
     protected $table = 'archive_types';
 
-    protected $timestamps  = false;
+    protected $timestamps = false;
 
     protected $fillable = [
         'type',

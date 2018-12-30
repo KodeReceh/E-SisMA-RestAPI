@@ -38,10 +38,10 @@ class LetterCode extends Model
 
     public function getLetterCodeNameAttribute()
     {
-        $name = $this->code.'. '.$this->title;
+        $name = $this->code . '. ' . $this->title;
 
-        if($this->letter_code)
-            $name = $this->letter_code->code.'.'.$this->code.' '.$this->title;
+        if ($this->letter_code)
+            $name = $this->letter_code->code . '.' . $this->code . ' ' . $this->title;
 
         return $name;
     }

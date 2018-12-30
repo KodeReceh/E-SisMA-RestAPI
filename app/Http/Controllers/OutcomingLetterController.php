@@ -11,11 +11,11 @@ class OutcomingLetterController extends Controller
     public function index()
     {
         $outcomingLetters = OutcomingLetter::with('letter')
-                                         ->with('letter.letter_code')
-                                         ->with('letter.sub_letter_code')
-                                         ->with('letter.document.files')
-                                         ->get();
-        
+            ->with('letter.letter_code')
+            ->with('letter.sub_letter_code')
+            ->with('letter.document.files')
+            ->get();
+
         return response()->json([
             'success' => true,
             'amount_of_data' => $outcomingLetters->count(),
@@ -32,7 +32,7 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        if($request->sub_letter_code_id) {
+        if ($request->sub_letter_code_id) {
             $letter->letter_code_id = $request->sub_letter_code_id;
         }
         $letter->save();
@@ -54,16 +54,16 @@ class OutcomingLetterController extends Controller
     public function getList()
     {
         $outcomingLetters = OutcomingLetter::join('letters', 'outcoming_letters.letter_id', 'letters.id')
-                                        ->select(
-                                            'letters.id as id',
-                                            'letters.number as number',
-                                            'letters.date as date',
-                                            'letters.subject as subject',
-                                            'letters.tendency as tendency',
-                                            'outcoming_letters.recipient as recipient'
-                                            )
-                                        ->get();
-        
+            ->select(
+                'letters.id as id',
+                'letters.number as number',
+                'letters.date as date',
+                'letters.subject as subject',
+                'letters.tendency as tendency',
+                'outcoming_letters.recipient as recipient'
+            )
+            ->get();
+
         return response()->json([
             'success' => true,
             'amount_of_data' => $outcomingLetters->count(),
@@ -80,7 +80,7 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        if($request->sub_letter_code_id) {
+        if ($request->sub_letter_code_id) {
             $letter->letter_code_id = $request->sub_letter_code_id;
         }
         $letter->save();
@@ -101,22 +101,22 @@ class OutcomingLetterController extends Controller
     public function get($id)
     {
         $outcomingLetter = OutcomingLetter::where('letter_id', $id)
-                                        ->join('letters', 'outcoming_letters.letter_id', 'letters.id')
-                                        ->select(
-                                            'id',
-                                            'number',
-                                            'date',
-                                            'subject',
-                                            'tendency',
-                                            'attachments',
-                                            'recipient',
-                                            'letter_code_id'
-                                        )
-                                        ->first();
+            ->join('letters', 'outcoming_letters.letter_id', 'letters.id')
+            ->select(
+                'id',
+                'number',
+                'date',
+                'subject',
+                'tendency',
+                'attachments',
+                'recipient',
+                'letter_code_id'
+            )
+            ->first();
         $letterCode = \App\Models\LetterCode::find($outcomingLetter->letter_code_id);
         $outcomingLetter->letter_code_name = $letterCode->letter_code_name;
         $outcomingLetter->sub_letter_code_id = null;
-        if($code = $letterCode->letter_code){
+        if ($code = $letterCode->letter_code) {
             $subLetterCodeId = $outcomingLetter->letter_code_id;
             $outcomingLetter->sub_letter_code_id = $subLetterCodeId;
             $outcomingLetter->letter_code_id = $code->id;
@@ -129,10 +129,11 @@ class OutcomingLetterController extends Controller
         ], 200);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $letter = Letter::find($id);
 
-        if($letter->delete()){
+        if ($letter->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Data berhasil dihapus'

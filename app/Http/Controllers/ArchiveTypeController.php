@@ -35,7 +35,7 @@ class ArchiveTypeController extends Controller
         $archiveType->type = $request->type;
         $archiveType->description = $request->description;
 
-        if($archiveType->save()){
+        if ($archiveType->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menyimpan data.',
@@ -56,7 +56,7 @@ class ArchiveTypeController extends Controller
         $archiveType->type = $request->type;
         $archiveType->description = $request->description;
 
-        if($archiveType->update()){
+        if ($archiveType->update()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menyimpan data.',
@@ -74,8 +74,8 @@ class ArchiveTypeController extends Controller
     public function delete($id)
     {
         $archiveType = ArchiveType::findOrFail($id);
-        
-        if($archiveType->delete()){
+
+        if ($archiveType->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menghapus data.'

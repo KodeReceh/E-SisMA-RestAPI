@@ -10,7 +10,7 @@ class IncomingLetter extends Model
 
     protected $primaryKey = 'letter_id';
 
-    public $timestamps  = false;
+    public $timestamps = false;
 
     public $incrementing = false;
 
@@ -28,7 +28,7 @@ class IncomingLetter extends Model
 
     public function dispositions()
     {
-        return $this->hasMany(Disposition::class, 'incoming_letter_id',  'letter_id');
+        return $this->hasMany(Disposition::class, 'incoming_letter_id', 'letter_id');
     }
 
     public function users()

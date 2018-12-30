@@ -30,13 +30,13 @@ class Document extends Model
     }
     public function getPathFile()
     {
-        if($letter = $this->letter){
-            if($letter->incoming_letter){
+        if ($letter = $this->letter) {
+            if ($letter->incoming_letter) {
                 return config('esisma.dokumen.surat.masuk');
-            }else{
+            } else {
                 return config('esisma.dokumen.surat.keluar');
             }
-        }else{
+        } else {
             return config('esisma.dokumen.general');
         }
 
@@ -45,14 +45,14 @@ class Document extends Model
 
     public function getPathFileAttribute()
     {
-        if($letter = $this->letter){
-            if($letter->incoming_letter){
-                return config('esisma.dokumen.surat.masuk').'/'.$this->path;
-            }else{
-                return config('esisma.dokumen.surat.keluar').'/'.$this->path;
+        if ($letter = $this->letter) {
+            if ($letter->incoming_letter) {
+                return config('esisma.dokumen.surat.masuk') . '/' . $this->path;
+            } else {
+                return config('esisma.dokumen.surat.keluar') . '/' . $this->path;
             }
-        }else{
-            return config('esisma.dokumen.general').'/'.$this->path;
+        } else {
+            return config('esisma.dokumen.general') . '/' . $this->path;
         }
 
         return null;

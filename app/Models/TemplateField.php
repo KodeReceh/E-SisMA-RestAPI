@@ -45,6 +45,6 @@ class TemplateField extends Model
 
     public function getLabelAttribute()
     {
-       return str_replace('_', ' ', ucwords($this->name, '_'));
+        return str_replace('_', ' ', ucwords($this->name, '_'));
     }
 }

@@ -22,9 +22,9 @@ class Villager extends Model
         'photo'
     ];
 
-    public function  getSelectNameAttribute()
+    public function getSelectNameAttribute()
     {
-        return $this->name.' - '.$this->NIK;
+        return $this->name . ' - ' . $this->NIK;
     }
 
     public static function getFIelds()

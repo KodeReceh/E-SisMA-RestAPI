@@ -13,9 +13,9 @@ class RecipientController extends Controller
     {
         $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();
         $data = $incomingLetter->dispositions()->join('users', 'dispositions.user_id', '=', 'users.id')
-                ->join('roles', 'roles.id', '=', 'users.role_id')
-                ->select('user_id', 'users.name as name', 'roles.title as role')
-                ->get();
+            ->join('roles', 'roles.id', '=', 'users.role_id')
+            ->select('user_id', 'users.name as name', 'roles.title as role')
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -30,9 +30,9 @@ class RecipientController extends Controller
             'incoming_letter_id' => $letter_id,
             'user_id' => $user_id
         ])->join('users', 'users.id', '=', 'dispositions.user_id')
-        ->join('roles', 'roles.id', '=', 'users.role_id')
-        ->select('users_id', 'users.name as name', 'roles.title as role')
-        ->first();
+            ->join('roles', 'roles.id', '=', 'users.role_id')
+            ->select('users_id', 'users.name as name', 'roles.title as role')
+            ->first();
 
         return response()->json([
             'success' => true,
@@ -84,14 +84,14 @@ class RecipientController extends Controller
             ], 417);
         }
 
-        
+
     }
 
     public function delete($letter_id, $user_id)
     {
         $recipient = Disposition::where(['incoming_letter_id' => $letter_id, 'user_id' => $user_id])->first();
 
-        if($recipient->delete()){
+        if ($recipient->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menghapus data.'

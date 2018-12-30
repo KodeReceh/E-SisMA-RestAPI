@@ -27,28 +27,28 @@ class UserController extends Controller
 
         $save = User::create($request->all());
 
-        if($save)
+        if ($save)
             return response()->json([
-                'success' => true,
-                'description' => 'Register successed!',
-                'data' => $save
-            ], 201);
+            'success' => true,
+            'description' => 'Register successed!',
+            'data' => $save
+        ], 201);
 
         return response()->json([
             'success' => false,
             'description' => 'Register failed!',
-              'data' => ''
-         ], 400);
-        
+            'data' => ''
+        ], 400);
+
     }
 
     public function getUser($id)
     {
         $user = User::with('role')->find($id);
-        
-        if($user){
+
+        if ($user) {
             return response()->json([
-                'success' =>true,
+                'success' => true,
                 'description' => '',
                 'data' => $user
             ], 200);
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if($user) {
+        if ($user) {
             $user->name = $request->name;
             $user->email = $request->email;
             $user->birthplace = $request->birthplace;
@@ -74,23 +74,23 @@ class UserController extends Controller
             $user->address = $request->address;
             $user->handphone = $request->handphone;
             $user->role_id = $request->role_id;
-            if($request->password)
+            if ($request->password)
                 $user->password = Hash::make($request->password);
 
-            if($user->update()){
+            if ($user->update()) {
                 return response()->json([
-                    'success' =>true,
+                    'success' => true,
                     'description' => 'User succesfully updated!',
                     'data' => $user
                 ], 201);
-            }else{
+            } else {
                 return response()->json([
                     'success' => false,
                     'description' => 'Something went wrong, not updated!',
                     'data' => null
                 ], 401);
             }
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'description' => 'User not found!',
@@ -99,10 +99,11 @@ class UserController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $user = User::find($id);
 
-        if($user->delete()) {
+        if ($user->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Data berhasil dihapus!'
@@ -118,16 +119,16 @@ class UserController extends Controller
     public function changeStatus(Request $request)
     {
         $user = User::find($request->user_id);
-        if($user->status){
+        if ($user->status) {
             $user->status = false;
-        }else{
+        } else {
             $user->status = true;
         }
-        if($user->save())
+        if ($user->save())
             return response()->json([
-                'success' => true,
-                'description' => 'Status user berhasil dirubah'
-            ], 201);
+            'success' => true,
+            'description' => 'Status user berhasil dirubah'
+        ], 201);
 
         return response()->json([
             'success' => false,

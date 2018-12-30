@@ -20,11 +20,11 @@ $factory->define(App\Models\Villager::class, function (Faker\Generator $faker) {
         'birthdate' => $faker->date,
         'job' => $faker->company,
         'religion' => rand(1, 5),
-        'sex' => rand(1,2),
-        'tribe' => rand(1,6),
+        'sex' => rand(1, 2),
+        'tribe' => rand(1, 6),
         'address' => $faker->address,
         'NIK' => $faker->unique()->randomNumber($nbDigits = 8),
-        'status' => rand(1,3),
+        'status' => rand(1, 3),
         'photo' => $faker->imageUrl($width = 640, $height = 480),
     ];
 });

@@ -10,18 +10,18 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-   public function login(Request $request)
-   {
+    public function login(Request $request)
+    {
         $user = User::where('email', $request->email)->first();
 
-        if(!$user)
+        if (!$user)
             return response()->json([
-                'success' => false,
-                'message' => 'Email tidak ditemukan!',
-                'data' => ''
-            ], 404);
+            'success' => false,
+            'message' => 'Email tidak ditemukan!',
+            'data' => ''
+        ], 404);
 
-        if(Hash::check($request->password, $user->password)){
+        if (Hash::check($request->password, $user->password)) {
             $api_token = base64_encode(str_random(40));
             $user->update([
                 'api_token' => $api_token
@@ -42,10 +42,10 @@ class AuthController extends Controller
             'message' => 'Kombinasi password tidak cocok!',
             'data' => ''
         ], 401);
-   }
+    }
 
-   public function logout() 
-   {
+    public function logout()
+    {
         $user = app('auth')->user();
 
         $user->api_token = null;
@@ -61,5 +61,5 @@ class AuthController extends Controller
             'success' => false,
             'description' => 'Gagal logout pada server.'
         ], 417);
-   }
+    }
 }

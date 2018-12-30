@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
-    public function index() 
+    public function index()
     {
         $documents = Document::with('archive')->get();
 
@@ -38,12 +38,12 @@ class DocumentController extends Controller
         $document->description = $request->description;
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
-        $fileName = 'document-'.time().'.'.$ext;
+        $fileName = 'document-' . time() . '.' . $ext;
         $theFile->storeAs($document->path_file, $fileName);
         $document->path = $fileName;
         $document->file_type = $request->file_type;
 
-        if($document->save()){
+        if ($document->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil disimpan',
@@ -65,20 +65,20 @@ class DocumentController extends Controller
         $document->date = $request->date;
         $document->description = $request->description;
 
-        if($request->hasFile('file')){
-            if(Storage::exists($document->path_file)){
+        if ($request->hasFile('file')) {
+            if (Storage::exists($document->path_file)) {
                 Storage::delete($document->path_file);
             }
             $document->path = '';
             $theFile = $request->file('file');
             $ext = $theFile->getClientOriginalExtension();
-            $fileName = 'document-'.time().'.'.$ext;
+            $fileName = 'document-' . time() . '.' . $ext;
             $theFile->storeAs($document->path_file, $fileName);
             $document->path = $fileName;
             $document->file_type = $request->file_type;
         }
 
-        if($document->update()){
+        if ($document->update()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil disimpan',
@@ -97,8 +97,8 @@ class DocumentController extends Controller
         $document = Document::find($id);
         $path = $document->path_file;
 
-        if($document->delete()){
-            if(Storage::exists($path)) Storage::delete($path);
+        if ($document->delete()) {
+            if (Storage::exists($path)) Storage::delete($path);
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dihapus.',
@@ -120,8 +120,8 @@ class DocumentController extends Controller
         ];
 
         return response()->download(
-            storage_path('app/'.$document->path_file), 
-            $document->title.'.'.pathinfo($document->path_file, PATHINFO_EXTENSION),
+            storage_path('app/' . $document->path_file),
+            $document->title . '.' . pathinfo($document->path_file, PATHINFO_EXTENSION),
             $headers
         );
     }

@@ -35,7 +35,7 @@ class TemplateController extends Controller
         ], 200);
     }
 
-    public function fields($id) 
+    public function fields($id)
     {
         $template = Template::findOrFail($id);
 
@@ -51,16 +51,16 @@ class TemplateController extends Controller
         $template = new Template();
         $template->title = $request->title;
         $template->needs_villager_data = $request->needs_villager_data;
-        if($request->hasFile('template_file')){
+        if ($request->hasFile('template_file')) {
             $theFile = $request->file('template_file');
             $path = config('esisma.templates');
             $ext = $theFile->getClientOriginalExtension();
-            $fileName = 'template-'.time().'.'.$ext;
+            $fileName = 'template-' . time() . '.' . $ext;
             $theFile->storeAs($path, $fileName);
             $template->template_file = $fileName;
         }
 
-        if($template->save()){
+        if ($template->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dibuat.',
@@ -80,19 +80,19 @@ class TemplateController extends Controller
         $template = Template::find($id);
         $template->title = $request->title;
         $template->needs_villager_data = $request->needs_villager_data;
-        if($request->hasFile('template_file')){
+        if ($request->hasFile('template_file')) {
             $theFile = $request->file('template_file');
             $oldFile = $template->template_file;
             $path = config('esisma.templates');
-            $oldPath = $path.'/'.$oldFile;
-            if(Storage::exists($oldPath)) Storage::delete($oldPath);
+            $oldPath = $path . '/' . $oldFile;
+            if (Storage::exists($oldPath)) Storage::delete($oldPath);
             $ext = $theFile->getClientOriginalExtension();
-            $fileName = 'template-'.time().'.'.$ext;
+            $fileName = 'template-' . time() . '.' . $ext;
             $theFile->storeAs($path, $fileName);
             $template->template_file = $fileName;
         }
 
-        if($template->update()){
+        if ($template->update()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil diperbarui.',
@@ -111,9 +111,9 @@ class TemplateController extends Controller
     {
         $template = Template::find($id);
 
-        $path = config('esisma.templates').'/'.$template->template_file;
-        if(Storage::exists($path)) Storage::delete($path);
-        if($template->delete()){
+        $path = config('esisma.templates') . '/' . $template->template_file;
+        if (Storage::exists($path)) Storage::delete($path);
+        if ($template->delete()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dihapus.'
@@ -131,8 +131,8 @@ class TemplateController extends Controller
     {
         $template = Template::findOrFail($id);
         $data = $request->all();
-        if($request->type != 4) unset($data['user_id']);
-        if($template->template_fields()->create($data)){
+        if ($request->type != 4) unset($data['user_id']);
+        if ($template->template_fields()->create($data)) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil dibuat.',
@@ -147,31 +147,15 @@ class TemplateController extends Controller
         ], 417);
     }
 
-    public function villagerColumns()
-    {
-        $columns = [
-            '"name"',
-            '"birthplace"',
-            '"birthdate"',
-            '"job"',
-            '"religion"',
-            '"tribe"',
-            '"NIK"',
-            '"status"',
-            '"address"'
-        ];
-        return Helpers::showFullColumn('villagers', $columns);
-    }
-
     public function removeField($templateId, $id)
     {
         $templateField = TemplateField::find($id);
 
-        if($templateField->delete())
+        if ($templateField->delete())
             return response()->json([
-                'success' => true,
-                'description' => 'Berhasil menghapus data.'
-            ], 200);
+            'success' => true,
+            'description' => 'Berhasil menghapus data.'
+        ], 200);
 
         return response()->json([
             'success' => false,
@@ -179,5 +163,5 @@ class TemplateController extends Controller
         ], 417);
     }
 
-    
+
 }
