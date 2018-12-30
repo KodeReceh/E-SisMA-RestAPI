@@ -247,4 +247,29 @@ class LetterTemplateController extends Controller
 
         return new BinaryFileResponse($path, 200, $headers);
     }
+
+    public function delete($id)
+    {
+        $letter = LetterTemplate::find($id);
+
+        if ($letter->generated_file && Storage::exists(config('esisma.generated_docs') . '/' . $letter->generated_file)) {
+            Storage::delete(config('esisma.generated_docs') . '/' . $letter->generated_file);
+        }
+
+        $images = $letter->template->template_fields()->where('type', 2)->get();
+        $data = json_decode($letter->data);
+
+        foreach ($images as $key => $image) {
+            $name = $image->name;
+            if (Storage::exists(config('esisma.raw_images') . '/' . $data->$name))
+                Storage::delete(config('esisma.raw_images') . '/' . $data->$name);
+        }
+
+        $letter->delete();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil menghapus.'
+        ], 200);
+    }
 }
