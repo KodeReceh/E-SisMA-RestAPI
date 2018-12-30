@@ -16,17 +16,7 @@ class CreateLetterTemplatesTable extends Migration
         Schema::create('letter_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('villager_id')->unsigned()->nullable()->comment('ID Penduduk');
-            $table->string('title')->comment('Nama Raw Data Surat');
-            $table->integer('length_unit')->default(1);
-            $table->integer('paper_size')->default(1);
-            $table->integer('margin_left')->default(4);
-            $table->integer('margin_top')->default(3);
-            $table->integer('margin_right')->default(3);
-            $table->integer('margin_bottom')->default(3);
-            $table->integer('orientation')->default(1);
-            $table->integer('font_family')->default(1);
-            $table->foreign('villager_id')->references('id')->on('villagers')->onDelete('set null');
-            $table->timestamps();
+            $table->string('letter_name')->comment('Nama Raw Data Surat');
         });
     }
 

@@ -11,6 +11,7 @@ use App\Models\Villager;
 use App\Models\LetterTemplate;
 use App\Models\User;
 use App\Models\TemplateField;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class LetterTemplateController extends Controller
 {
@@ -19,7 +20,7 @@ class LetterTemplateController extends Controller
         $template = Template::findOrFail($id);
         $templateData = [];
 
-        foreach($template->template_fields as $field){
+        foreach ($template->template_fields as $field) {
             $name = $field->name;
             switch ($field->type) {
                 case 1:
@@ -27,11 +28,11 @@ class LetterTemplateController extends Controller
                     break;
 
                 case 2:
-                    if($request->file($name)){
+                    if ($request->file($name)) {
                         $path = config('esisma.template_data_image');
                         $theFile = $request->file($name);
                         $ext = $theFile->getClientOriginalExtension();
-                        $fileName = $field->id.'-'.time().'.'.$ext;
+                        $fileName = $field->id . '-' . time() . '.' . $ext;
                         $theFile->storeAs($path, $fileName);
                         $templateData[$name] = $fileName;
                     }
@@ -52,7 +53,7 @@ class LetterTemplateController extends Controller
         $letterTemplate = new LetterTemplate();
         $letterTemplate->template_id = $id;
         $letterTemplate->data = $jsonDataTemplate;
-        if($letterTemplate->save()){
+        if ($letterTemplate->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menyimpan.',
@@ -70,51 +71,7 @@ class LetterTemplateController extends Controller
     public function testQRCode()
     {
         $data = "I know I am awesome! ありがごう！";
-        return '<img src="'.(new QRCode)->render($data).'" />';
-    }
-
-    public function generateDoc($template, $id)
-    {
-        $template = Template::findOrFail($template);
-        $letterTemplate = LetterTemplate::findOrFail($id);
-        $data = json_decode($letterTemplate->data);
-        $templatePath = config('esisma.templates');
-        $templateFile = new TemplateProcessor(storage_path('app/'.$templatePath.'/'.$template->template_file));
-        $extensionDoc = pathinfo($templatePath.'/'.$template->template_file, PATHINFO_EXTENSION);
-        
-        foreach ($template->template_fields as $key => $field) {
-            $name = $field->name;
-            switch ($field->type) {
-                case 1:
-                    $templateFile->setValue($name, $data->$name);
-                    break;
-
-                case 2:
-                    $imgPath = config('esisma.template_data_image');
-                    $templateFile->setImageValue($name, storage_path('app/'.$imgPath.'/'.$data->$name));
-
-                case 3:
-                    break;
-
-                case 4:
-                    break;
-                
-                default:
-                    break;
-            }
-        }
-        
-        try {
-            $templateFile->saveAs(storage_path('app/generated_docs/'.$template->id.'-'.$letterTemplate->id.'-'.time().'.'.$extensionDoc));   
-            return response()->download(storage_path('app/generated_docs/'.$template->id.'-'.$letterTemplate->id.'-'.time().'.'.$extensionDoc));         
-        } catch (\Throwable $th) {
-            return response()->json([
-                'success' => false,
-                'descripton' => $th->getMessage(),
-                'data' => null
-            ], 417);
-        }
-        
+        return '<img src="' . (new QRCode)->render($data) . '" />';
     }
 
     public function getFields($id)
@@ -124,7 +81,7 @@ class LetterTemplateController extends Controller
         $text = $template->template_fields()->where('type', 1)->get();
         $image = $template->template_fields()->where('type', 2)->get();
         $villagers = [];
-        if($template->needs_villager_data) 
+        if ($template->needs_villager_data)
             $villagers = Villager::orderBy('name')->get();
 
         $data = [
@@ -156,10 +113,10 @@ class LetterTemplateController extends Controller
 
         foreach ($image as $key => $gambar) {
             $name = $gambar->name;
-            if($request->hasFile($name)){
+            if ($request->hasFile($name)) {
                 $theFile = $request->file($name);
                 $ext = $theFile->getClientOriginalExtension();
-                $fileName = 'raw-image-'.time().'.'.$ext;
+                $fileName = 'raw-image-' . time() . '.' . $ext;
                 $theFile->storeAs(config('esisma.raw_images'), $fileName);
                 $data[$name] = $fileName;
             }
@@ -167,16 +124,17 @@ class LetterTemplateController extends Controller
         $letter = new LetterTemplate();
         $letter->template_id = $id;
         $letter->status = 0;
-        if($template->needs_villager_data)
+        $letter->letter_name = $request->letter_name;
+        if ($template->needs_villager_data)
             $letter->villager_id = $request->villager_id;
         $letter->data = json_encode($data);
 
-        if($letter->save()){
+        if ($letter->save()) {
             return response()->json([
                 'success' => false,
                 'description' => 'Gagal menyimpan data',
                 'data' => $letter
-            ], 201);  
+            ], 201);
         }
 
         return response()->json([
@@ -200,12 +158,41 @@ class LetterTemplateController extends Controller
     public function download($id)
     {
         $letter = LetterTemplate::find($id);
+
+        if ($letter->generated_file && Storage::exists(config('esisma.generated_docs') . '/' . $letter->generated_file)) {
+            $path = storage_path('app/' . config('esisma.generated_docs') . '/' . $letter->generated_file);
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+            $size = filesize($path);
+            $mime = mime_content_type($path);
+
+            return $this->responseFile($path, $ext, $size, $mime);
+        } else {
+            $generated = $this->generateDoc($letter);
+            if ($generated && is_bool($generated)) {
+                $path = storage_path('app/' . config('esisma.generated_docs') . '/' . $letter->generated_file);
+                $ext = pathinfo($path, PATHINFO_EXTENSION);
+                $size = filesize($path);
+                $mime = mime_content_type($path);
+
+                return $this->responseFile($path, $ext, $size, $mime);
+            }
+
+            return response()->json([
+                'success' => false,
+                'description' => $generated->getMessage(),
+            ], 417);
+        }
+
+    }
+
+    protected function generateDoc(LetterTemplate $letter)
+    {
         $template = $letter->template;
         $data = json_decode($letter->data);
         $templatePath = config('esisma.templates');
-        $templateFile = new TemplateProcessor(storage_path('app/'.$templatePath.'/'.$template->template_file));
-        $extensionDoc = pathinfo($templatePath.'/'.$template->template_file, PATHINFO_EXTENSION);
-        
+        $templateFile = new TemplateProcessor(storage_path('app/' . $templatePath . '/' . $template->template_file));
+        $extensionDoc = pathinfo($templatePath . '/' . $template->template_file, PATHINFO_EXTENSION);
+
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
             switch ($field->type) {
@@ -214,48 +201,49 @@ class LetterTemplateController extends Controller
                     break;
 
                 case 2:
-                    $templateFile->setImageValue($name, storage_path('app/'.config('esisma.raw_images').'/'.$data->$name));
+                    $templateFile->setImageValue($name, storage_path('app/' . config('esisma.raw_images') . '/' . $data->$name));
 
                 case 3:
                     break;
 
                 case 4:
                     break;
-                
+
                 default:
                     break;
             }
         }
-        
-        try {
-            if (!file_exists(storage_path('app/generated_docs'))){
-                mkdir(storage_path('app/generated_docs'), 0777, true);
-            }
-            $thisIsTheFileName = $template->id.'-'.$letter->id.'-'.time().'.'.$extensionDoc;
-            $templateFile->saveAs(storage_path('app/generated_docs/'.$thisIsTheFileName)); 
-            ob_end_clean();
-            $contentType = $extensionDoc == 'doc' ? 
-                'application/msword' : 
-                $extensionDoc == 'docx' ?
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                '';
 
-            $headers = [
-                'Content-Type' => $contentType,
-                'content-disposition' => 'attachment',
-                'content-ext' => $extensionDoc
-            ];
-            return response()->download(
-                storage_path('app/generated_docs/'.$thisIsTheFileName),
-                null,
-                $headers
-            );         
+        try {
+            if (!file_exists(storage_path('app/generated_docs'))) {
+                mkdir(storage_path('app/generated_docs'), 0755, true);
+            }
+            $thisIsTheFileName = $template->id . '-' . $letter->id . '-' . time() . '.' . $extensionDoc;
+            $templateFile->saveAs(storage_path('app/' . config('esisma.generated_docs') . '/' . $thisIsTheFileName));
+            $letter->generated_file = $thisIsTheFileName;
+            $letter->save();
+            return true;
         } catch (\Throwable $th) {
-            return response()->json([
-                'success' => false,
-                'descripton' => $th->getMessage(),
-                'data' => null
-            ], 417);
+            return $th;
         }
+    }
+
+    protected function responseFile($path, $extension, $size, $mime)
+    {
+        $contentType = $extension == 'doc' ?
+            'application/msword' :
+            $extension == 'docx' ?
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
+            '';
+
+        $headers = [
+            'Content-Type' => $mime,
+            'Content-Transfer-Encoding' => 'Binary',
+            'Content-disposition' => 'attachment',
+            'Content-length' => $size,
+            'Connection' => 'Keep-Alive'
+        ];
+
+        return new BinaryFileResponse($path, 200, $headers);
     }
 }

@@ -87,7 +87,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('villager_columns', 'TemplateController@villagerColumns');
 
     // letter_templates
-    $router->get('outcoming-letter-drafts/{id}/download', 'LetterTemplateController@download');
+    $router->get('outcoming-letter-drafts/download/{id}', 'LetterTemplateController@download');
     $router->get('outcoming-letter-drafts', 'LetterTemplateController@getList');
     $router->post('templates/{id}/letter_templates', 'LetterTemplateController@saveFieldData');
     $router->get('templates/{template}/letter_templates/{id}/generate', 'LetterTemplateController@generateDoc');

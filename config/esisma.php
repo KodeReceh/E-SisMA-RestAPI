@@ -12,6 +12,7 @@ return [
     'raw_images' => 'raw_images',
     'template_data_image' => 'templates/img',
     'signatures' => 'signatures',
+    'generated_docs' => 'generated_docs',
     'field_types' => [
         1 => 'Text',
         'Gambar',
