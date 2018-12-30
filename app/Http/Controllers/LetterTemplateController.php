@@ -104,7 +104,7 @@ class LetterTemplateController extends Controller
         $template = Template::find($id);
         $text = $template->template_fields()->where('type', 1)->get();
         $image = $template->template_fields()->where('type', 2)->get();
-
+        return $request;
         $data = [];
         foreach ($text as $key => $field) {
             $name = $field->name;

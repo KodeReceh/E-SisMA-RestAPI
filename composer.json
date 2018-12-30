@@ -51,9 +51,6 @@
     "optimize-autoloader": true
   },
   "repositories": {
-    "PHPword": {
-      "type": "vcs",
-      "url": "https://github.com/fauzipadlaw/PHPWord.git"
-    }
+    
   }
 }
