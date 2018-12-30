@@ -103,24 +103,25 @@ class LetterTemplateController extends Controller
     {
         $template = Template::find($id);
         $text = $template->template_fields()->where('type', 1)->get();
-        $image = $template->template_fields()->where('type', 2)->get();
-        return $request;
         $data = [];
+
         foreach ($text as $key => $field) {
             $name = $field->name;
             $data[$name] = $request->$name;
         }
 
-        foreach ($image as $key => $gambar) {
-            $name = $gambar->name;
-            if ($request->hasFile($name)) {
-                $theFile = $request->file($name);
+        $images = $template->template_fields()->where('type', 2)->get();
+
+        foreach ($images as $key => $image) {
+            if ($request->hasFile($image->name)) {
+                $theFile = $request->file($image->name);
                 $ext = $theFile->getClientOriginalExtension();
-                $fileName = 'raw-image-' . time() . '.' . $ext;
+                $fileName = $image->name . '-' . time() . '.' . $ext;
                 $theFile->storeAs(config('esisma.raw_images'), $fileName);
-                $data[$name] = $fileName;
+                $data[$image->name] = $fileName;
             }
         }
+
         $letter = new LetterTemplate();
         $letter->template_id = $id;
         $letter->status = 0;
