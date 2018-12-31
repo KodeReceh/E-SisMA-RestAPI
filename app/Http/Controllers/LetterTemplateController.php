@@ -164,18 +164,18 @@ class LetterTemplateController extends Controller
             $path = storage_path('app/' . config('esisma.generated_docs') . '/' . $letter->generated_file);
             $ext = pathinfo($path, PATHINFO_EXTENSION);
             $size = filesize($path);
-            $mime = mime_content_type($path);
+            $mime = \Defr\PhpMimeType\MimeType::get($letter->generated_file);
 
-            return $this->responseFile($path, $ext, $size, $mime);
+            return $this->responseFile($path, $letter->letter_name, $ext, $size, $mime);
         } else {
             $generated = $this->generateDoc($letter);
             if ($generated && is_bool($generated)) {
                 $path = storage_path('app/' . config('esisma.generated_docs') . '/' . $letter->generated_file);
                 $ext = pathinfo($path, PATHINFO_EXTENSION);
                 $size = filesize($path);
-                $mime = mime_content_type($path);
+                $mime = \Defr\PhpMimeType\MimeType::get($letter->generated_file);
 
-                return $this->responseFile($path, $ext, $size, $mime);
+                return $this->responseFile($path, $letter->letter_name, $ext, $size, $mime);
             }
 
             return response()->json([
@@ -231,18 +231,11 @@ class LetterTemplateController extends Controller
         }
     }
 
-    protected function responseFile($path, $extension, $size, $mime)
+    protected function responseFile($path, $name, $extension, $size, $mime)
     {
-        $contentType = $extension == 'doc' ?
-            'application/msword' :
-            $extension == 'docx' ?
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-            '';
-
         $headers = [
             'Content-Type' => $mime,
-            'Content-Transfer-Encoding' => 'Binary',
-            'Content-disposition' => 'attachment',
+            'Content-disposition' => 'attachment; filename=' . $name . '.' . $extension,
             'Content-length' => $size,
             'Connection' => 'Keep-Alive'
         ];

@@ -13,12 +13,12 @@
     "laravel/lumen-framework": "5.6.*",
     "vlucas/phpdotenv": "~2.2",
     "flipbox/lumen-generator": "^5.6",
-    "dingo/api": "2.0.0-alpha1",
     "symfony/config": "^4.1",
     "league/flysystem": "^1.0",
     "barryvdh/laravel-cors": "^0.11.2",
     "phpoffice/phpword": "dev-master",
-    "chillerlan/php-qrcode": "^3.0"
+    "chillerlan/php-qrcode": "^3.0",
+    "dfridrich/php-mime-type": "^2.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
