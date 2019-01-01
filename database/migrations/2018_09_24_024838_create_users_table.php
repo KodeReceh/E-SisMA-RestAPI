@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id')->comment('ID Pengguna');
             $table->string('name')->comment('Nama Pengguna');
+            $table->integer('employee_id_number')->unique()->nullable()->default(null)->comment('Nomor induk pegawai');
             $table->string('birthplace')->comment('Tempat Lahir');
             $table->date('birthdate')->comment('Tanggal Lahir');
             $table->string('email')->unique()->comment('Email Pengguna; Unik');
@@ -25,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->comment('Alamat Pengguna');
             $table->string('handphone')->comment('Nomor HP Pengguna');
             $table->integer('status')->default(1)->comment('Status Pengguna; Aktif atau Tidak aktif');
-            $table->string('signature')->nullable()->comment('File tanda tangan, dalam bentuk gambar disarankan PNG atau SVG dengan latar transparan');
+            $table->string('signature')->nullable()->comment('File tanda tangan, dalam bentuk gambar disarankan PNG dengan latar transparan');
             $table->timestamps();
         });
     }

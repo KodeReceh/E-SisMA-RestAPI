@@ -31,5 +31,9 @@ return [
         'status' => 'status',
         'alamat' => 'address',
         'foto' => 'photo'
-    ]
+    ],
+    'signatures' => 'signatures',
+    'signature_field_prefix' => 'tanda_tangan_',
+    'signer_name_field_prefix' => 'nama_',
+    'signer_ID_field_prefix' => 'nip_'
 ];

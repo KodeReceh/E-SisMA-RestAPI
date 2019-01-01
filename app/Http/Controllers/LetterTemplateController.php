@@ -210,6 +210,12 @@ class LetterTemplateController extends Controller
                     break;
 
                 case 4:
+                    $signature = $field->user->signature;
+                    $userName = $field->user->name;
+                    $IDNumber = $field->user->employee_id_number;
+                    $templateFile->setImageValue(config('esisma.signature_field_prefix').$name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
+                    $templateFile->setValue(config('esisma.signer_name_field_prefix').$name, $userName);
+                    $templateFile->setValue(config('esisma.signer_ID_field_prefix').$name, $IDNumber);
                     break;
 
                 default:

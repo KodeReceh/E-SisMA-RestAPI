@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         ];
 
         $signatures = [
-            'tandatangan.svg',
+            'tandatangan.png',
             'tandatangan2.png',
             'tandatangan3.png'
         ];
@@ -38,6 +38,7 @@ class UsersTableSeeder extends Seeder
             $user->sex = 1;
             $user->address = $faker->address;
             $user->handphone = $faker->phoneNumber;
+            $user->employee_id_number = $faker->unique()->randomNumber($nbDigits = 8);
             $user->signature = $signatures[$key];
             $user->role()->associate($role);
             $user->save();
