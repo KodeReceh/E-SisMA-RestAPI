@@ -210,12 +210,14 @@ class LetterTemplateController extends Controller
                     break;
 
                 case 4:
-                    $signature = $field->user->signature;
-                    $userName = $field->user->name;
-                    $IDNumber = $field->user->employee_id_number;
-                    $templateFile->setImageValue(config('esisma.signature_field_prefix') . $name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
-                    $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
-                    $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
+                    if ($letter->hasUserSignedIt($field->user->id)) {
+                        $signature = $field->user->signature;
+                        $userName = $field->user->name;
+                        $IDNumber = $field->user->employee_id_number;
+                        $templateFile->setImageValue(config('esisma.signature_field_prefix') . $name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
+                        $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
+                        $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
+                    }
                     break;
 
                 default:
@@ -250,6 +252,18 @@ class LetterTemplateController extends Controller
         return new BinaryFileResponse($path, 200, $headers);
     }
 
+    public function get($id)
+    {
+        $letter = LetterTemplate::find($id);
+        // dd($letter->data);
+        // $letter->data = json_decode($letter->data);
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $letter
+        ], 200);
+    }
+
     public function delete($id)
     {
         $letter = LetterTemplate::find($id);
@@ -273,5 +287,23 @@ class LetterTemplateController extends Controller
             'success' => true,
             'description' => 'Berhasil menghapus.'
         ], 200);
+    }
+
+    public function deleteGeneratedFile($id)
+    {
+        $letter = LetterTemplate::find($id);
+        if ($letter->deleteGeneratedFile()) {
+            return response()->json([
+                'succees' => true,
+                'description' => 'Berhasil menghapus data.',
+                'data' => $letter
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal menghapus data.',
+            'data' => $letter
+        ], 417);
     }
 }
