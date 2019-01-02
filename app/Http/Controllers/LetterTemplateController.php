@@ -213,9 +213,9 @@ class LetterTemplateController extends Controller
                     $signature = $field->user->signature;
                     $userName = $field->user->name;
                     $IDNumber = $field->user->employee_id_number;
-                    $templateFile->setImageValue(config('esisma.signature_field_prefix').$name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
-                    $templateFile->setValue(config('esisma.signer_name_field_prefix').$name, $userName);
-                    $templateFile->setValue(config('esisma.signer_ID_field_prefix').$name, $IDNumber);
+                    $templateFile->setImageValue(config('esisma.signature_field_prefix') . $name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
+                    $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
+                    $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
                     break;
 
                 default:
@@ -243,7 +243,8 @@ class LetterTemplateController extends Controller
             'Content-Type' => $mime,
             'Content-disposition' => 'attachment; filename=' . $name . '.' . $extension,
             'Content-length' => $size,
-            'Connection' => 'Keep-Alive'
+            'Connection' => 'Keep-Alive',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
         ];
 
         return new BinaryFileResponse($path, 200, $headers);
