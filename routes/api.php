@@ -89,6 +89,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     // letter_templates
     $router->get('outcoming-letter-drafts/download/{id}', 'LetterTemplateController@download');
     $router->delete('outcoming-letter-drafts/delete/{id}', 'LetterTemplateController@delete');
+    $router->get('outcoming-letter-drafts/sign/{id}', 'LetterTemplateController@sign');
+    $router->get('outcoming-letter-drafts/unsign/{id}', 'LetterTemplateController@unsign');
     $router->get('outcoming-letter-drafts/{id}', 'LetterTemplateController@get');
     $router->delete('outcoming-letter-drafts/generated-file/{id}', 'LetterTemplateController@deleteGeneratedFile');
     $router->get('outcoming-letter-drafts', 'LetterTemplateController@getList');

@@ -210,14 +210,17 @@ class LetterTemplateController extends Controller
                     break;
 
                 case 4:
-                    if ($letter->hasUserSignedIt($field->user->id)) {
-                        $signature = $field->user->signature;
-                        $userName = $field->user->name;
-                        $IDNumber = $field->user->employee_id_number;
-                        $templateFile->setImageValue(config('esisma.signature_field_prefix') . $name, storage_path('app/' . config('esisma.signatures') . '/' . $signature));
-                        $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
-                        $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
-                    }
+                    $signature = $field->user->signature;
+                    $userName = $field->user->name;
+                    $IDNumber = $field->user->employee_id_number;
+                    $hasSigned = $letter->hasUserSignedIt($field->user->id);
+
+                    $templateFile->setImageValue(
+                        config('esisma.signature_field_prefix') . $name,
+                        storage_path('app/' . config('esisma.signatures') . '/' . ($hasSigned ? $signature : config('esisma.empty_sign_file')))
+                    );
+                    $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
+                    $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
                     break;
 
                 default:
@@ -262,6 +265,46 @@ class LetterTemplateController extends Controller
             'description' => 'Berhasil mengambil data.',
             'data' => $letter
         ], 200);
+    }
+
+    public function sign($id)
+    {
+        $userId = app('auth')->user()->id;
+        $letter = LetterTemplate::find($id);
+
+        if ($letter->signLetter($userId)) {
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil menandatangani surat.',
+                'data' => $letter
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal menandatangani surat.',
+            'data' => $letter
+        ], 417);
+    }
+
+    public function unsign($id)
+    {
+        $userId = app('auth')->user()->id;
+        $letter = LetterTemplate::find($id);
+
+        if ($letter->unsignLetter($userId)) {
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil membatalkan tanda tangan surat.',
+                'data' => $letter
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Gagal membatalkan tanda tangan surat.',
+            'data' => $letter
+        ], 417);
     }
 
     public function delete($id)

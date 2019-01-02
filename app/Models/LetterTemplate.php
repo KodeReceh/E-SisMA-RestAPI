@@ -15,7 +15,8 @@ class LetterTemplate extends Model
         'signations_status',
         'needs_villager_data',
         'is_all_signed',
-        'villager_data'
+        'villager_data',
+        'sign'
     ];
 
     protected $fillable = [
@@ -79,12 +80,32 @@ class LetterTemplate extends Model
         return false;
     }
 
+    public function unsignLetter($userId)
+    {
+        $field = $this->template->template_fields()->where('user_id', $userId)->first();
+
+        if ($field) {
+            $name = $field->name;
+            $data = json_decode($this->data);
+            $data->$name = false;
+            $this->data = json_encode($data);
+            if ($this->save()) {
+                $this->deleteGeneratedFile();
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
     public function getSignationsStatusAttribute()
     {
         $signers = $this->template->template_fields()->where('type', 4)->get();
         $status = [];
         foreach ($signers as $key => $signer) {
-            $status[$signer->name] = $this->hasUserSignedIt($signer->user_id);
+            $status[config('esisma.signature_field_prefix') . $signer->name] = $this->hasUserSignedIt($signer->user_id);
         }
 
         return $status;
@@ -125,5 +146,20 @@ class LetterTemplate extends Model
         }
 
         return $data;
+    }
+
+    public function getSignAttribute()
+    {
+        $userId = app('auth')->user()->id;
+        $field = $this->template->template_fields()->where('user_id', $userId)->first();
+
+        if ($field) {
+            $data['has_permission'] = true;
+            $data['has_signed'] = $this->hasUserSignedIt($userId);
+
+            return $data;
+        }
+
+        return false;
     }
 }
