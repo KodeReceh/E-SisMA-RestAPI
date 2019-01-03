@@ -132,7 +132,7 @@ class IncomingLetterController extends Controller
             $incomingLetter->letter_code_id = $code->id;
         }
         $incomingLetter->user_id = IncomingLetter::where('letter_id', $incomingLetter->id)->first()->users()->pluck('id');
-
+        $incomingLetter->is_client_recipient = \App\Models\Disposition::isClientRecipient($incomingLetter->id);
         return response()->json([
             'success' => true,
             'description' => 'Data berhasil diambil',

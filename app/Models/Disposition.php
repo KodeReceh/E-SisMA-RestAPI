@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Disposition extends Model
 {
@@ -10,13 +11,26 @@ class Disposition extends Model
 
     public $incrementing = false;
 
+    protected $primaryKey = ['incoming_letter_id', 'user_id'];
+
+    public $timestamps = false;
+
     protected $fillable = [
         'incoming_letter_id',
         'summary',
         'processing_date',
         'information',
-        'user_id'
+        'user_id',
+        'status'
     ];
+
+    protected function setKeysForSaveQuery(Builder $query)
+    {
+        foreach($this->primaryKey as $pk) {
+            $query = $query->where($pk, $this->attributes[$pk]);
+        }
+        return $query;
+    }
 
     public function incoming_letter()
     {
@@ -26,5 +40,18 @@ class Disposition extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function isClientRecipient($letterId)
+    {
+        $userId = app('auth')->user()->id;
+        $letter = IncomingLetter::find($letterId);
+
+        if($letter){
+            if($letter->dispositions()->where('user_id', $userId)->first())
+                return true;
+        } 
+        
+        return false;
     }
 }
