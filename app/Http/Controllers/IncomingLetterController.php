@@ -120,7 +120,8 @@ class IncomingLetterController extends Controller
                 'tendency',
                 'sender',
                 'attachments',
-                'letter_code_id'
+                'letter_code_id',
+                'document_id'
             )->first();
 
         $letterCode = \App\Models\LetterCode::find($incomingLetter->letter_code_id);

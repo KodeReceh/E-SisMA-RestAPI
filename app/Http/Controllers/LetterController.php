@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Letter;
+
+class LetterController extends Controller
+{
+    public function get($id)
+    {
+        $letter = Letter::with('incoming_letter')->with('outcoming_letter')->find($id);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $letter
+        ], 200);
+    }
+}

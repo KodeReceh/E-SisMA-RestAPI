@@ -44,4 +44,11 @@ class Letter extends Model
     {
         return $this->belongsTo(Document::class);
     }
+
+    public function getDocument()
+    {
+        if ($this->document) return $this->document->id;
+
+        return null;
+    }
 }

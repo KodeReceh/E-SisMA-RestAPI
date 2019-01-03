@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Letter;
 
 class DocumentController extends Controller
 {
@@ -39,11 +40,20 @@ class DocumentController extends Controller
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
         $fileName = 'document-' . time() . '.' . $ext;
-        $theFile->storeAs($document->path_file, $fileName);
         $document->path = $fileName;
         $document->file_type = $request->file_type;
 
         if ($document->save()) {
+
+            if ($request->filled('letter_id')) {
+                $letter = Letter::find($request->letter_id);
+                $letter->document()->associate($document);
+                $letter->save();
+                $theFile->storeAs($document->getPathFile(), $fileName);
+            } else {
+                $theFile->storeAs($document->path_file, $fileName);
+            }
+
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil disimpan',
@@ -79,6 +89,12 @@ class DocumentController extends Controller
         }
 
         if ($document->update()) {
+            if ($request->filled('letter_id')) {
+                $letter = Letter::find($request->letter_id);
+                $letter->document()->associate($document);
+                $letter->save();
+            }
+
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil disimpan',

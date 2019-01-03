@@ -68,4 +68,23 @@ class DispositionController extends Controller
         ], 404);
 
     }
+
+    public function getByUser($id, $userId)
+    {
+        $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
+
+        if ($disposition) {
+            return response()->json([
+                'success' => true,
+                'description' => 'Berhasil ambil data.',
+                'data' => $disposition
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'description' => 'Data tidak ditemukan.'
+        ], 404);
+
+    }
 }

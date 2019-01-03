@@ -17,12 +17,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //role
     $router->get('roles', 'RoleController@index');
 
-    //letter
-
     //incoming-letter
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');
     $router->get('letters/incoming-letter', 'IncomingLetterController@getList');
     $router->get('letters/incoming-letter/{id}', 'IncomingLetterController@get');
+    $router->get('letters/incoming-letter/{id}/disposition/{user_id}', 'DispositionController@getByUser');
     $router->get('letters/incoming-letter/{id}/disposition', 'DispositionController@get');
     $router->post('letters/incoming-letter/{id}/disposition', 'DispositionController@storeDisposition');
     $router->put('letters/incoming-letter/{id}/disposition', 'DispositionController@updateDisposition');
@@ -36,6 +35,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('letters/outcoming-letter/{id}', 'OutcomingLetterController@get');
     $router->put('letters/outcoming-letter/{id}', 'OutcomingLetterController@update');
     $router->delete('letters/outcoming-letter/{id}', 'OutcomingLetterController@delete');
+
+    //letter
+    $router->get('letters/{id}', 'LetterController@get');
     
     //sub-letter-code
     $router->get('letter-codes/{id}/sub-letter-codes', 'LetterCodeController@getSubLetterCodeList');
