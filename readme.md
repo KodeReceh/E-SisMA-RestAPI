@@ -1,6 +1,9 @@
 # Rest API for E-SisMA Web & Mobile
 
-# Work in Progress
+- Format nomor surat keluar `{kode surat}/{nomor urut}/{inisial surat}/{tahun}`
+- Nomor urut direset setiap tahun
+
+## Work in Progress
 
 ## License
 
