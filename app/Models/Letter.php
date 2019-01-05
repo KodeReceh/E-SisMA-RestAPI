@@ -25,11 +25,6 @@ class Letter extends Model
         return $this->belongsTo(LetterCode::class);
     }
 
-    public function sub_letter_code()
-    {
-        return $this->belongsTo(SubLetterCode::class);
-    }
-
     public function incoming_letter()
     {
         return $this->hasOne(IncomingLetter::class);

@@ -27,6 +27,7 @@ class TemplateController extends Controller
     public function get($id)
     {
         $template = Template::findOrFail($id);
+        $template = $template->getCleanData();
 
         return response()->json([
             'success' => true,
@@ -51,6 +52,7 @@ class TemplateController extends Controller
         $template = new Template();
         $template->title = $request->title;
         $template->needs_villager_data = $request->needs_villager_data;
+        $template->letter_code_id = $request->filled('sub_letter_code_id') ? $request->sub_letter_code_id : $request->letter_code_id;
         if ($request->hasFile('template_file')) {
             $theFile = $request->file('template_file');
             $path = config('esisma.templates');
@@ -80,6 +82,7 @@ class TemplateController extends Controller
         $template = Template::find($id);
         $template->title = $request->title;
         $template->needs_villager_data = $request->needs_villager_data;
+        $template->letter_code_id = $request->filled('sub_letter_code_id') ? $request->sub_letter_code_id : $request->letter_code_id;
         if ($request->hasFile('template_file')) {
             $theFile = $request->file('template_file');
             $oldFile = $template->template_file;

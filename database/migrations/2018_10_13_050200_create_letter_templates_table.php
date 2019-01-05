@@ -17,6 +17,7 @@ class CreateLetterTemplatesTable extends Migration
             $table->increments('id');
             $table->integer('villager_id')->unsigned()->nullable()->comment('ID Penduduk');
             $table->string('letter_name')->comment('Nama Raw Data Surat');
+            $table->foreign('villager_id')->references('id')->on('villagers')->onDelete('set null');
         });
     }
 
