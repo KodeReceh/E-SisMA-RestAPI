@@ -36,5 +36,6 @@ return [
     'signature_field_prefix' => 'tanda_tangan_',
     'signer_name_field_prefix' => 'nama_',
     'signer_ID_field_prefix' => 'nip_',
-    'empty_sign_file' => 'blank.png'
+    'letter_number_field_alias' => 'nomor',
+    'empty_sign_file' => 'blank.png',
 ];

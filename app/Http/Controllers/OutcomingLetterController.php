@@ -32,13 +32,13 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        if ($request->sub_letter_code_id) {
+        if ($request->filled('sub_letter_code_id')) {
             $letter->letter_code_id = $request->sub_letter_code_id;
         }
         $letter->save();
 
         $outcomingLetter = new OutcomingLetter([
-            'ordinal' => 1, //$request->ordinal
+            'ordinal' => $request->ordinal,
             'recipient' => $request->recipient
         ]);
 
@@ -80,13 +80,13 @@ class OutcomingLetterController extends Controller
         $letter->tendency = $request->tendency;
         $letter->attachments = $request->attachments;
         $letter->letter_code_id = $request->letter_code_id;
-        if ($request->sub_letter_code_id) {
+        if ($request->filled('sub_letter_code_id')) {
             $letter->letter_code_id = $request->sub_letter_code_id;
         }
         $letter->save();
 
         $letter->outcoming_letter->update([
-            'ordinal' => 1,
+            'ordinal' => $request->ordinal,
             'recipient' => $request->recipient
         ]);
 
@@ -110,7 +110,8 @@ class OutcomingLetterController extends Controller
                 'tendency',
                 'attachments',
                 'recipient',
-                'letter_code_id'
+                'letter_code_id',
+                'ordinal'
             )
             ->first();
         $letterCode = \App\Models\LetterCode::find($outcomingLetter->letter_code_id);
@@ -126,6 +127,18 @@ class OutcomingLetterController extends Controller
             'success' => true,
             'description' => 'Data berhasil diambil',
             'data' => $outcomingLetter
+        ], 200);
+    }
+
+    public function getOrdinal(Request $request)
+    {
+        $year = $request->input('year') ?: date('Y');
+        $ordinal = OutcomingLetter::getOrdinal($year);
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $ordinal
         ], 200);
     }
 

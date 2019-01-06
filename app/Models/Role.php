@@ -14,4 +14,9 @@ class Role extends Model
     ];
 
     public $timestamps = false;
+
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
 }

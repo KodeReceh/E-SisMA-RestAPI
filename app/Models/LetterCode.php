@@ -45,4 +45,11 @@ class LetterCode extends Model
 
         return $name;
     }
+
+    public static function getCode($id)
+    {
+        $letterCode = LetterCode::find($id);
+        if ($letterCode->letter_code) return $letterCode->letter_code->code . '.' . $letterCode->code;
+        else return $letterCode->code;
+    }
 }

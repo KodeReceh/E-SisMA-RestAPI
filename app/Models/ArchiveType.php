@@ -8,11 +8,10 @@ class ArchiveType extends Model
 {
     protected $table = 'archive_types';
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'type',
-        'description'
     ];
 
     public function archives()

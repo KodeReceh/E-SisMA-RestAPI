@@ -21,6 +21,12 @@ class AuthController extends Controller
             'data' => ''
         ], 404);
 
+        if (!$user->status) return response()->json([
+            'success' => false,
+            'message' => 'User tidak aktif.',
+            'data' => ''
+        ], 403);
+
         if (Hash::check($request->password, $user->password)) {
             $api_token = base64_encode(str_random(40));
             $user->update([

@@ -20,9 +20,20 @@ class DocumentController extends Controller
         ], 200);
     }
 
+    public function getByArchive($archiveId)
+    {
+        $documents = Document::where('archive_id', $archiveId)->get();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $documents
+        ], 200);
+    }
+
     public function get($id)
     {
-        $document = Document::find($id);
+        $document = Document::with('archive')->find($id);
 
         return response()->json([
             'success' => true,
@@ -42,6 +53,7 @@ class DocumentController extends Controller
         $fileName = 'document-' . time() . '.' . $ext;
         $document->path = $fileName;
         $document->file_type = $request->file_type;
+        $document->archive_id = $request->archive_id ?: null;
 
         if ($document->save()) {
 
@@ -74,6 +86,7 @@ class DocumentController extends Controller
         $document->title = $request->title;
         $document->date = $request->date;
         $document->description = $request->description;
+        $document->archive_id = $request->archive_id ?: null;
 
         if ($request->hasFile('file')) {
             if (Storage::exists($document->path_file)) {

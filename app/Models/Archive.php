@@ -12,7 +12,6 @@ class Archive extends Model
 
     protected $fillable = [
         'title',
-        'date',
         'role_id',
         'archive_type_id',
         'description'
@@ -27,6 +26,12 @@ class Archive extends Model
     {
         return $this->hasMany(Document::class);
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function getTypeAttribute()
     {
         return $this->archive_type->type;

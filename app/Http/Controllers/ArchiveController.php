@@ -22,7 +22,7 @@ class ArchiveController extends Controller
 
     public function get($id)
     {
-        $archive = Archive::findOrFail($id);
+        $archive = Archive::with('role')->with('documents')->findOrFail($id);
 
         return response()->json([
             'success' => true,
@@ -37,7 +37,6 @@ class ArchiveController extends Controller
         $archive = new Archive();
         $archive->title = $request->title;
         $archive->role_id = $userRoleId;
-        $archive->date = $request->date;
         $archive->archive_type_id = $request->archive_type_id;
         $archive->description = $request->description;
 

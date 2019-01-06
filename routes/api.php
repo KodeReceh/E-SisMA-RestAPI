@@ -32,6 +32,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
     $router->get('letters/outcoming-letter', 'OutcomingLetterController@getList');
+    $router->get('letters/outcoming-letter/get-ordinal', 'OutcomingLetterController@getOrdinal');
     $router->get('letters/outcoming-letter/{id}', 'OutcomingLetterController@get');
     $router->put('letters/outcoming-letter/{id}', 'OutcomingLetterController@update');
     $router->delete('letters/outcoming-letter/{id}', 'OutcomingLetterController@delete');
@@ -52,6 +53,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //document
     $router->get('documents', 'DocumentController@index');
     $router->post('documents', 'DocumentController@store');
+    $router->get('documents/archives/{archiveId}', 'DocumentController@getByArchive');
     $router->put('documents/{id}', 'DocumentController@update');
     $router->delete('documents/{id}', 'DocumentController@delete');
     $router->get('documents/{id}', 'DocumentController@get');

@@ -15,8 +15,7 @@ class CreateArchiveTypesTable extends Migration
     {
         Schema::create('archive_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('type')->comment('Judul; Tipe Arsip');
-            $table->string('description')->comment('Keterangan');
+            $table->string('type')->comment('Judul; Tipe Arsip');
         });
     }
 
