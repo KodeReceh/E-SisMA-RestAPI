@@ -21,8 +21,11 @@ class CreateDocumentsTable extends Migration
             $table->date('date')->comment('Tanggal Dokumen');
             $table->integer('archive_id')->nullable()->unsigned()->comment('ID Arsip');
             $table->string('description')->nullable()->comment('Keterangan');
+            $table->integer('uploader_id')->unsigned()->comment('User pengupload');
 
             $table->foreign('archive_id')->references('id')->on('archives')
+                  ->onDelete('cascade');
+            $table->foreign('uploader_id')->references('id')->on('users')
                   ->onDelete('cascade');
             $table->timestamps();
         });

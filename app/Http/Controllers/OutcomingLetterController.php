@@ -111,7 +111,8 @@ class OutcomingLetterController extends Controller
                 'attachments',
                 'recipient',
                 'letter_code_id',
-                'ordinal'
+                'ordinal',
+                'document_id'
             )
             ->first();
         $letterCode = \App\Models\LetterCode::find($outcomingLetter->letter_code_id);

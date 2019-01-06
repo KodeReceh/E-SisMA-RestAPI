@@ -51,7 +51,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('letter-codes/{id}/get-name', 'LetterCodeController@getLetterCodeName');
 
     //document
-    $router->get('documents', 'DocumentController@index');
+    $router->get('documents', 'DocumentController@getUserDocuments');
     $router->post('documents', 'DocumentController@store');
     $router->get('documents/archives/{archiveId}', 'DocumentController@getByArchive');
     $router->put('documents/{id}', 'DocumentController@update');

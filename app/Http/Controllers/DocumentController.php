@@ -20,9 +20,22 @@ class DocumentController extends Controller
         ], 200);
     }
 
+    public function getUserDocuments()
+    {
+        $userId = app('auth')->user()->id;
+
+        $documents = Document::with('uploader')->where('uploader_id', $userId)->get();
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $documents
+        ], 200);
+    }
+
     public function getByArchive($archiveId)
     {
-        $documents = Document::where('archive_id', $archiveId)->get();
+        $documents = Document::where('archive_id', $archiveId)->with('uploader')->get();
 
         return response()->json([
             'success' => true,
@@ -33,7 +46,7 @@ class DocumentController extends Controller
 
     public function get($id)
     {
-        $document = Document::with('archive')->find($id);
+        $document = Document::with('archive')->with('uploader')->find($id);
 
         return response()->json([
             'success' => true,
@@ -52,8 +65,9 @@ class DocumentController extends Controller
         $ext = $theFile->getClientOriginalExtension();
         $fileName = 'document-' . time() . '.' . $ext;
         $document->path = $fileName;
+        $document->uploader_id = app('auth')->user()->id;
         $document->file_type = $request->file_type;
-        $document->archive_id = $request->archive_id ?: null;
+        $document->archive_id = $request->filled('archive_id') ? $request->archive_id : null;
 
         if ($document->save()) {
 
@@ -86,13 +100,14 @@ class DocumentController extends Controller
         $document->title = $request->title;
         $document->date = $request->date;
         $document->description = $request->description;
-        $document->archive_id = $request->archive_id ?: null;
+        $document->archive_id = $request->filled('archive_id') ? $request->archive_id : null;
 
         if ($request->hasFile('file')) {
             if (Storage::exists($document->path_file)) {
                 Storage::delete($document->path_file);
             }
             $document->path = '';
+            $document->uploader_id = app('auth')->user()->id;
             $theFile = $request->file('file');
             $ext = $theFile->getClientOriginalExtension();
             $fileName = 'document-' . time() . '.' . $ext;

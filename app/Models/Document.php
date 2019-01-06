@@ -14,7 +14,8 @@ class Document extends Model
         'date',
         'description',
         'archive_id',
-        'file_type'
+        'file_type',
+        'uploader_id'
     ];
 
     protected $appends = ['file_extension'];
@@ -28,6 +29,12 @@ class Document extends Model
     {
         return $this->hasOne(Letter::class);
     }
+
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploader_id');
+    }
+
     public function getPathFile()
     {
         if ($letter = $this->letter) {

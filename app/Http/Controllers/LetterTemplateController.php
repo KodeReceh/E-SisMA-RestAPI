@@ -14,6 +14,8 @@ use App\Models\TemplateField;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Helpers;
 use App\Models\Letter;
+use App\Models\OutcomingLetter;
+use App\Models\Document;
 
 class LetterTemplateController extends Controller
 {
@@ -196,14 +198,25 @@ class LetterTemplateController extends Controller
         $templateFile = new TemplateProcessor(storage_path('app/' . $templatePath . '/' . $template->template_file));
         $extensionDoc = pathinfo($templatePath . '/' . $template->template_file, PATHINFO_EXTENSION);
         $numberField = config('esisma.letter_number_field_alias');
+        $letterDateField = config('esisma.letter_date_field_alias');
+        $letterDate = \Carbon\Carbon::now();
         $letterNumber = Helpers::generateLetterNumber($template->letter_code_id, $template->title);
         $templateFile->setValue($numberField, $letterNumber);
-        $letter = new Letter();
-        $letter->number = $letterNumber;
-        $letter->date;
+        $templateFile->setValue($letterDateField, Helpers::translateDate($letterDate));
+        $outcomingLetter = new Letter();
+        $outcomingLetter->number = $letterNumber;
+        $outcomingLetter->date = $letterDate->format('Y-m-d');
+        $outcomingLetter->subject = $letter->letter_name;
+        $outcomingLetter->letter_code_id = $template->letter_code_id;
+        $outcomingLetter->save();
+        $outcomingLetter->outcoming_letter()->save(new OutcomingLetter([
+            'recipient' => $template->needs_villager_data ? 'Penduduk' : 'Lainnya',
+            'ordinal' => OutcomingLetter::getOrdinal($letterDate->format('Y'))
+        ]));
+
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
-            
+
             switch ($field->type) {
                 case 1:
                     $templateFile->setValue($name, $data->$name);
@@ -242,6 +255,19 @@ class LetterTemplateController extends Controller
             }
             $thisIsTheFileName = $template->id . '-' . $letter->id . '-' . time() . '.' . $extensionDoc;
             $templateFile->saveAs(storage_path('app/' . config('esisma.generated_docs') . '/' . $thisIsTheFileName));
+            
+            if(Storage::copy(config('esisma.generated_docs') . '/' . $thisIsTheFileName, config('esisma.dokumen.surat.keluar') . '/' . $thisIsTheFileName)) {
+                $document = new Document();
+                $document->title = $letter->letter_name;
+                $document->path = $thisIsTheFileName;
+                $document->uploader_id = app('auth')->user()->id;
+                $document->file_type = \Defr\PhpMimeType\MimeType::get($thisIsTheFileName);
+                $document->date = $outcomingLetter->date;
+                $document->save();
+                $outcomingLetter->document()->associate($document);
+                $outcomingLetter->save();
+            }
+
             $letter->generated_file = $thisIsTheFileName;
             $letter->save();
             return true;
