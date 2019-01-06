@@ -12,6 +12,8 @@ use App\Models\LetterTemplate;
 use App\Models\User;
 use App\Models\TemplateField;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Helpers;
+use App\Models\Letter;
 
 class LetterTemplateController extends Controller
 {
@@ -193,9 +195,15 @@ class LetterTemplateController extends Controller
         $templatePath = config('esisma.templates');
         $templateFile = new TemplateProcessor(storage_path('app/' . $templatePath . '/' . $template->template_file));
         $extensionDoc = pathinfo($templatePath . '/' . $template->template_file, PATHINFO_EXTENSION);
-
+        $numberField = config('esisma.letter_number_field_alias');
+        $letterNumber = Helpers::generateLetterNumber($template->letter_code_id, $template->title);
+        $templateFile->setValue($numberField, $letterNumber);
+        $letter = new Letter();
+        $letter->number = $letterNumber;
+        $letter->date;
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
+            
             switch ($field->type) {
                 case 1:
                     $templateFile->setValue($name, $data->$name);
