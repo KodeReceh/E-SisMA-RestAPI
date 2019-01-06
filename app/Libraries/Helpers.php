@@ -72,7 +72,7 @@ class Helpers
   {
     $translation = '';
     $carbonDate = Carbon::parse($date);
-    if($dayName) $translation .= Helpers::translateDay($carbonDate->format('F'), !$shortDay).', ';
+    if($dayName) $translation .= Helpers::translateDay($carbonDate->format('l'), !$shortDay).', ';
     $translation .= $carbonDate->format('d').' '.Helpers::translateMonth($carbonDate->format('M'), !$shortMon).' '.$carbonDate->format('Y');
     return $translation;
   }
