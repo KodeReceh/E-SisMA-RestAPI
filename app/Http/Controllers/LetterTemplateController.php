@@ -250,9 +250,11 @@ class LetterTemplateController extends Controller
         }
 
         try {
+
             if (!file_exists(storage_path('app/generated_docs'))) {
                 mkdir(storage_path('app/generated_docs'), 0755, true);
             }
+            
             $thisIsTheFileName = $template->id . '-' . $letter->id . '-' . time() . '.' . $extensionDoc;
             $templateFile->saveAs(storage_path('app/' . config('esisma.generated_docs') . '/' . $thisIsTheFileName));
             
