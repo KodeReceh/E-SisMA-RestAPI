@@ -64,6 +64,18 @@ class UserController extends Controller
         ], 404);
     }
 
+    public function getCurrentUser()
+    {
+        $user = app('auth')->user();
+        
+        return response()->json([
+            'success' => true,
+            'description' => '',
+            'data' => $user
+        ], 200);
+
+    }
+
     public function update(Request $request, $id)
     {
         $user = User::find($id);

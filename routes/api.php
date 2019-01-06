@@ -8,6 +8,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     
     //user
     $router->get('users/notifications', 'UserController@notifications');
+    $router->get('users/get-profile', 'UserController@getCurrentUser');
     $router->post('users/register', 'UserController@register');
     $router->get('users', 'UserController@index');
     $router->get('users/{user}', 'UserController@getUser');
