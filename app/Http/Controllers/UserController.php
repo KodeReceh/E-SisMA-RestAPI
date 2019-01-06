@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\IncomingLetter;
+use App\Models\Disposition;
+use App\Models\TemplateField;
 
 class UserController extends Controller
 {
@@ -134,5 +137,56 @@ class UserController extends Controller
             'success' => false,
             'description' => 'Status user gagal dirubah'
         ], 400);
+    }
+
+    public function notifications()
+    {
+        $user = app('auth')->user();
+        $incomingLetters = Disposition::where(['status' => false, 'user_id' => $user->id])->get();
+        $fields = TemplateField::where('user_id', $user->id)->get();
+        $data = [];
+
+        foreach ($incomingLetters as $key => $incomingLetter) {
+            $time = $incomingLetter->incoming_letter->letter->created_at;
+            $data[] = [
+                'title' => 'Surat Masuk ' . $incomingLetter->incoming_letter->letter->subject,
+                'color' => 'cyan',
+                'icon' => 'inbox',
+                'timeLabel' => \Carbon\Carbon::parse($time)->diffForHumans(),
+                'type' => 'incoming-letter',
+                'id' => $incomingLetter->incoming_letter_id,
+                'time' => $time
+            ];
+        }
+
+        foreach ($fields as $key => $field) {
+            $letters = $field->template->letter_templates;
+            foreach ($letters as $index => $letter) {
+                if(!$letter->hasUserSignedIt($user->id)) {
+                    $data[] = [
+                        'title' => 'Tanda Tangan untuk ' . $letter->letter_name,
+                        'color' => 'red',
+                        'icon' => 'border_color',
+                        'timeLabel' => \Carbon\Carbon::parse($letter->created_at)->diffForHumans(),
+                        'type' => 'signature',
+                        'id' => $letter->id,
+                        'time' => $letter->created_at
+                    ];
+                }
+            }
+        }
+
+        if (count($data) > 0) {
+            usort($data, function($a, $b) {
+                if ($a['time'] == $b['time']) return 0;
+                return ($a['time'] > $b['time']) ? -1 : 1;
+            });
+        }
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $data
+        ], 200);
     }
 }

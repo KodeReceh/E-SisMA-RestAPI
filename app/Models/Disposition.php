@@ -34,7 +34,7 @@ class Disposition extends Model
 
     public function incoming_letter()
     {
-        return $this->belongsTo(IncomingLetter::class, 'letter_id', 'incoming_letter_id');
+        return $this->belongsTo(IncomingLetter::class, 'incoming_letter_id', 'letter_id');
     }
 
     public function user()

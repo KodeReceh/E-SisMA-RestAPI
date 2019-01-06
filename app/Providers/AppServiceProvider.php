@@ -17,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Schema::defaultStringLength(191);
+        app('translator')->setLocale('id');
+        \Carbon\Carbon::setLocale(app('translator')->getLocale());
         if (env('APP_DEBUG')) {
             DB::listen(function ($query) {
                 File::append(
