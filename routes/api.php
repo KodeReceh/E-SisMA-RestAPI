@@ -18,6 +18,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //role
     $router->get('roles', 'RoleController@index');
+    $router->get('roles/permissions', 'RoleController@getPermissions');
+    $router->post('roles', 'RoleController@store');
+    $router->put('roles/{id}', 'RoleController@update');
+    $router->get('roles/{id}', 'RoleController@get');
+    $router->delete('roles/{id}', 'RoleController@delete');
 
     //incoming-letter
     $router->post('letters/incoming-letter', 'IncomingLetterController@store');

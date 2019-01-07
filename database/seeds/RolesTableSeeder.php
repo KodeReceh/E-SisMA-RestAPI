@@ -33,5 +33,12 @@ class RolesTableSeeder extends Seeder
                 'description' => $role[1]
             ]);
         }
+
+        $role = Role::create([
+            'title' => 'Super User',
+            'description' => 'Ini adalah Super User'
+        ]);
+
+        $role->syncPermissionsByName('super_user');
     }
 }

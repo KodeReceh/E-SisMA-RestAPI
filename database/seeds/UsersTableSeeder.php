@@ -43,5 +43,19 @@ class UsersTableSeeder extends Seeder
             $user->role()->associate($role);
             $user->save();
         }
+
+        $user = new User();
+        $user->name = 'Super User';
+        $user->email = 'super@email.com';
+        $user->password = app('hash')->make('rahasia');
+        $user->birthplace = 'Padang';
+        $user->birthdate = '1996-02-02';
+        $user->sex = 1;
+        $user->address = 'Padang';
+        $user->handphone = '08837733833';
+        $user->employee_id_number = '01';
+        $user->signature = null;
+        $user->role()->associate(Role::find(4));
+        $user->save();
     }
 }

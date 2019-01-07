@@ -67,7 +67,8 @@ class UserController extends Controller
     public function getCurrentUser()
     {
         $user = app('auth')->user();
-        
+        $user->role = $user->role;
+
         return response()->json([
             'success' => true,
             'description' => '',

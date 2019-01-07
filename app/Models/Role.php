@@ -13,10 +13,28 @@ class Role extends Model
         'description'
     ];
 
+    protected $appends = ['permission_ids'];
+
     public $timestamps = false;
 
     public function archives()
     {
         return $this->hasMany(Archive::class);
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_permissions');
+    }
+
+    public function getPermissionIdsAttribute()
+    {
+        return $this->permissions()->allRelatedIds();
+    }
+
+    public function syncPermissionsByName(...$permissions)
+    {
+        $permissionIds = Permission::whereIn('can', $permissions)->pluck('id');
+        $this->permissions()->sync($permissionIds);
     }
 }

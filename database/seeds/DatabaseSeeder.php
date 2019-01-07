@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubLetterCodesTableSeeder::class);
         $this->call(VillagersTableSeeder::class);
         $this->call(ArchiveTypesTableSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
         Model::reguard();
     }
 }
