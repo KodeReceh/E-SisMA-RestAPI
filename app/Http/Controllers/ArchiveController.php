@@ -45,7 +45,7 @@ class ArchiveController extends Controller
                 'success' => true,
                 'description' => 'Sukses menyimpan data.',
                 'data' => $archive
-            ], 201);
+            ], 500);
         }
 
         return response()->json([
@@ -59,7 +59,6 @@ class ArchiveController extends Controller
     {
         $archive = Archive::findOrFail($id);
         $archive->title = $request->title;
-        $archive->date = $request->date;
         $archive->archive_type_id = $request->archive_type_id;
         $archive->description = $request->description;
 
