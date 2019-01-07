@@ -8,6 +8,11 @@ use App\Models\Permission;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check:atur_jabatan');
+    }
+
     public function index()
     {
         $roles = Role::with('permissions')->get();
@@ -32,10 +37,10 @@ class RoleController extends Controller
     {
         $role = Role::create($request->all());
 
-        if($request->filled('permission_ids')) {
+        if ($request->filled('permission_ids')) {
             $role->permissions()->sync($request->permission_ids);
         }
-        
+
         return response()->json([
             'success' => true,
             'data' => $role
@@ -73,7 +78,7 @@ class RoleController extends Controller
         if ($roleId = $request->input('role')) {
             $role = Role::find($roleId);
             $asignedPermissionIds = $role->permissions()->pluck('id');
-            $permissions = Permission::whereNotIn('id',$asignedPermissionIds)->get();
+            $permissions = Permission::whereNotIn('id', $asignedPermissionIds)->get();
 
             return response()->json([
                 'success' => true,

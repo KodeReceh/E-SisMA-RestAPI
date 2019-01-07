@@ -8,6 +8,11 @@ use App\Models\OutcomingLetter;
 
 class OutcomingLetterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check:atur_surat_keluar');
+    }
+
     public function index()
     {
         $outcomingLetters = OutcomingLetter::with('letter')
@@ -133,7 +138,7 @@ class OutcomingLetterController extends Controller
 
     public function getOrdinal(Request $request)
     {
-        $year = $request->input('year') ?: date('Y');
+        $year = $request->input('year') ? : date('Y');
         $ordinal = OutcomingLetter::getOrdinal($year);
 
         return response()->json([

@@ -13,6 +13,16 @@ class IncomingLetterController extends Controller
     public function __construct()
     {
         $this->configDiskStorage = config('esisma.dokumen.surat.masuk');
+        $this->middleware('check:atur_surat_masuk', [
+            'except' => [
+                'get'
+            ]
+        ]);
+        $this->middleware('getIncomingLetter', [
+            'only' => [
+                'get'
+            ]
+        ]);
     }
 
     public function index()
@@ -123,6 +133,12 @@ class IncomingLetterController extends Controller
                 'letter_code_id',
                 'document_id'
             )->first();
+
+        if (!$incomingLetter)
+            return response()->json([
+            'success' => false,
+            'description' => 'Data tidak ditemukan'
+        ], 404);
 
         $letterCode = \App\Models\LetterCode::find($incomingLetter->letter_code_id);
         $incomingLetter->letter_code_name = $letterCode->letter_code_name;

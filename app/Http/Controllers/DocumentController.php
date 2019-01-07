@@ -9,6 +9,16 @@ use App\Models\Letter;
 
 class DocumentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('document', [
+            'only' => [
+                'get',
+                'responseFile'
+            ]
+        ]);
+    }
+
     public function index()
     {
         $documents = Document::with('archive')->get();
@@ -64,9 +74,9 @@ class DocumentController extends Controller
         $theFile = $request->file('file');
         $ext = $theFile->getClientOriginalExtension();
         $fileName = 'document-' . time() . '.' . $ext;
-        $document->path = $fileName;
         $document->uploader_id = app('auth')->user()->id;
         $document->file_type = $request->file_type;
+        $document->path = $fileName;
         $document->archive_id = $request->filled('archive_id') ? $request->archive_id : null;
 
         if ($document->save()) {
@@ -77,7 +87,7 @@ class DocumentController extends Controller
                 $letter->save();
                 $theFile->storeAs($document->getPathFile(), $fileName);
             } else {
-                $theFile->storeAs($document->path_file, $fileName);
+                $theFile->storeAs($document->getPathFile(), $fileName);
             }
 
             return response()->json([
@@ -96,6 +106,12 @@ class DocumentController extends Controller
 
     public function update($id, Request $request)
     {
+        if (!app('auth')->user()->documents()->find($id))
+            return response()->json([
+            'success' => true,
+            'description' => 'Tidak memiliki akses.'
+        ], 403);
+
         $document = Document::findOrFail($id);
         $document->title = $request->title;
         $document->date = $request->date;
@@ -138,6 +154,13 @@ class DocumentController extends Controller
 
     public function delete($id)
     {
+        if (!app('auth')->user()->documents()->find($id)
+            && !app('auth')->user()->role->has('super_user'))
+            return response()->json([
+            'success' => true,
+            'description' => 'Tidak memiliki akses.'
+        ], 403);
+
         $document = Document::find($id);
         $path = $document->path_file;
 

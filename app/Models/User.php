@@ -33,6 +33,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'status'
     ];
 
+    protected $appends = ['permissions'];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -61,6 +63,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public static function getSelectOptions()
     {
         return User::select('id', 'name')->orderBy('name', 'asc')->get();
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'uploader_id');
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return $this->role->permissions()->pluck('can');
     }
 
 }

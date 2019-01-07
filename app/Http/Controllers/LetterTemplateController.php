@@ -19,6 +19,28 @@ use App\Models\Document;
 
 class LetterTemplateController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('sign', [
+            'only' => [
+                'sign',
+                'unsign'
+            ]
+        ]);
+        $this->middleware('check:atur_draft_surat_keluar', [
+            'except' => [
+                'sign',
+                'unsign',
+                'get'
+            ]
+        ]);
+        $this->middleware('getDraft', [
+            'only' => [
+                'get'
+            ]
+        ]);
+    }
+
     public function saveFieldData($id, Request $request)
     {
         $template = Template::findOrFail($id);
@@ -254,11 +276,11 @@ class LetterTemplateController extends Controller
             if (!file_exists(storage_path('app/generated_docs'))) {
                 mkdir(storage_path('app/generated_docs'), 0755, true);
             }
-            
+
             $thisIsTheFileName = $template->id . '-' . $letter->id . '-' . time() . '.' . $extensionDoc;
             $templateFile->saveAs(storage_path('app/' . config('esisma.generated_docs') . '/' . $thisIsTheFileName));
-            
-            if(Storage::copy(config('esisma.generated_docs') . '/' . $thisIsTheFileName, config('esisma.dokumen.surat.keluar') . '/' . $thisIsTheFileName)) {
+
+            if (Storage::copy(config('esisma.generated_docs') . '/' . $thisIsTheFileName, config('esisma.dokumen.surat.keluar') . '/' . $thisIsTheFileName)) {
                 $document = new Document();
                 $document->title = $letter->letter_name;
                 $document->path = $thisIsTheFileName;

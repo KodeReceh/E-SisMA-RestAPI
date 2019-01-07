@@ -7,6 +7,17 @@ use App\Models\Archive;
 
 class ArchiveController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('archive', [
+            'only' => [
+                'get',
+                'update',
+                'delete'
+            ]
+        ]);
+    }
+
     public function getList()
     {
         $userRoleId = app('auth')->user()->id;

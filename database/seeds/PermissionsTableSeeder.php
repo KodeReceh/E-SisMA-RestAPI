@@ -14,15 +14,13 @@ class PermissionsTableSeeder extends Seeder
     {
         $permissions = [
             'atur_pengguna',
-            'atur_surat',
+            'atur_surat_masuk',
+            'atur_surat_keluar',
             'atur_jabatan',
-            'atur_dokumen',
-            'lihat_surat_masuk',
-            'tanda_tangan_surat',
-            'download_dokumen_sendiri',
             'super_user',
             'atur_template_surat',
-            'atur_draft_surat_keluar'
+            'atur_draft_surat_keluar',
+            'regular'
         ];
 
         foreach ($permissions as $key => $permission) {

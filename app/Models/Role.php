@@ -37,4 +37,11 @@ class Role extends Model
         $permissionIds = Permission::whereIn('can', $permissions)->pluck('id');
         $this->permissions()->sync($permissionIds);
     }
+
+    public function has($permission)
+    {
+        $has = $this->permissions()->where('can', $permission)->first();
+        if ($has) return true;
+        return false;
+    }
 }

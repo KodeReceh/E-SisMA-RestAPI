@@ -99,6 +99,12 @@ $app->middleware([
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'check' => App\Http\Middleware\CheckIfUserPermitted::class,
+    'getIncomingLetter' => App\Http\Middleware\CheckIfUserHasAccessToThisIncomingLetter::class,
+    'sign' => App\Http\Middleware\CheckIfUserCanSignThisOutcomingLetter::class,
+    'getDraft' => App\Http\Middleware\CheckIfUserCanGetThisDraft::class,
+    'document' => App\Http\Middleware\CheckIfUserHasAccessToDocument::class,
+    'archive' => App\Http\Middleware\CheckIfUserHasAccessToArchive::class,
 ]);
 
 /*

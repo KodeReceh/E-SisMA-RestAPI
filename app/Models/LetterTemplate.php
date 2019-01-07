@@ -162,4 +162,17 @@ class LetterTemplate extends Model
 
         return false;
     }
+
+    public static function canSign($id)
+    {
+        $userId = app('auth')->user()->id;
+        $letter = LetterTemplate::find($id);
+
+        if ($letter) {
+            $field = $letter->template->template_fields()->where('user_id', $userId)->first();
+            if ($field) return true;
+        }
+
+        return false;
+    }
 }

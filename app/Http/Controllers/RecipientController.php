@@ -12,6 +12,12 @@ class RecipientController extends Controller
     public function getRecipients($letter_id)
     {
         $incomingLetter = IncomingLetter::where('letter_id', $letter_id)->first();
+        if (!$incomingLetter)
+            return response()->json([
+            'success' => false,
+            'description' => 'Data tidak ditemukan'
+        ], 404);
+
         $data = $incomingLetter->dispositions()->join('users', 'dispositions.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'users.role_id')
             ->select('user_id', 'users.name as name', 'roles.title as role', 'dispositions.status')

@@ -12,6 +12,16 @@ use App\Models\TemplateField;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check:atur_pengguna', [
+            'except' => [
+                'notifications',
+                'getCurrentUser'
+            ]
+        ]);
+    }
+
     public function index()
     {
         $users = User::with('role')->get();
@@ -135,11 +145,18 @@ class UserController extends Controller
     public function changeStatus(Request $request)
     {
         $user = User::find($request->user_id);
+        if ($request->user_id == app('auth')->user()->id)
+            return response()->json([
+            'success' => false,
+            'description' => 'Tidak mengubah status sendiri!'
+        ], 403);
+
         if ($user->status) {
             $user->status = false;
         } else {
             $user->status = true;
         }
+
         if ($user->save())
             return response()->json([
             'success' => true,
@@ -175,7 +192,7 @@ class UserController extends Controller
         foreach ($fields as $key => $field) {
             $letters = $field->template->letter_templates;
             foreach ($letters as $index => $letter) {
-                if(!$letter->hasUserSignedIt($user->id)) {
+                if (!$letter->hasUserSignedIt($user->id)) {
                     $data[] = [
                         'title' => 'Tanda Tangan untuk ' . $letter->letter_name,
                         'color' => 'red',
@@ -190,7 +207,7 @@ class UserController extends Controller
         }
 
         if (count($data) > 0) {
-            usort($data, function($a, $b) {
+            usort($data, function ($a, $b) {
                 if ($a['time'] == $b['time']) return 0;
                 return ($a['time'] > $b['time']) ? -1 : 1;
             });

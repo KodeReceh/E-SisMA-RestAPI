@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Storage;
 
 class TemplateController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check:atur_template_surat');
+    }
+
     public function list()
     {
         $templates = Template::all();
