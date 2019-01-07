@@ -14,7 +14,7 @@ class ModifyArchivesTable extends Migration
     public function up()
     {
         Schema::table('archives', function (Blueprint $table) {
-            $table->integer('role_id')->unsigned()->after('date')->comment('ID Peran Pengguna yang mempunyai dokumen');
+            $table->integer('role_id')->unsigned()->after('description')->comment('ID Peran Pengguna yang mempunyai dokumen');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
