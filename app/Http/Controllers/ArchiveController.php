@@ -45,7 +45,7 @@ class ArchiveController extends Controller
                 'success' => true,
                 'description' => 'Sukses menyimpan data.',
                 'data' => $archive
-            ], 500);
+            ], 201);
         }
 
         return response()->json([
