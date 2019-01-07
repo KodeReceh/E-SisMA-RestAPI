@@ -72,7 +72,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getPermissionsAttribute()
     {
-        return $this->role->permissions()->pluck('can');
+        if ($this->role)
+            return $this->role->permissions()->pluck('can');
+        
+        return null;
     }
 
 }
