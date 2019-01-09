@@ -70,6 +70,7 @@ class Helpers
 
   public static function translateDate($date, $dayName = false, $shortDay = false, $shortMon = false)
   {
+    if(!$date) return null;
     $translation = '';
     $carbonDate = Carbon::parse($date);
     if($dayName) $translation .= Helpers::translateDay($carbonDate->format('l'), !$shortDay).', ';

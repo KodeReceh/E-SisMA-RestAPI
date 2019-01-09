@@ -54,4 +54,9 @@ class Disposition extends Model
         
         return false;
     }
+
+    public function getProcessingDateFormattedAttribute()
+    {
+        return \Helpers::translateDate($this->processing_date);
+    }
 }

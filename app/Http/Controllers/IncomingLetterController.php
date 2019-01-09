@@ -142,6 +142,8 @@ class IncomingLetterController extends Controller
 
         $letterCode = \App\Models\LetterCode::find($incomingLetter->letter_code_id);
         $incomingLetter->letter_code_name = $letterCode->letter_code_name;
+        $incomingLetter->receipt_date_formatted = \Helpers::translateDate($incomingLetter->receipt_date);
+        $incomingLetter->date_formatted = \Helpers::translateDate($incomingLetter->date);
         $incomingLetter->sub_letter_code_id = null;
         if ($code = $letterCode->letter_code) {
             $subLetterCodeId = $incomingLetter->letter_code_id;

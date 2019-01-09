@@ -18,7 +18,7 @@ class Document extends Model
         'uploader_id'
     ];
 
-    protected $appends = ['file_extension'];
+    protected $appends = ['file_extension', 'date_formatted'];
 
     public function archive()
     {
@@ -69,4 +69,9 @@ class Document extends Model
     {
         return pathinfo($this->path_file, PATHINFO_EXTENSION);
     }
+
+    public function getDateFormattedAttribute()
+    {
+        return \Helpers::translateDate($this->date);
+    }    
 }
