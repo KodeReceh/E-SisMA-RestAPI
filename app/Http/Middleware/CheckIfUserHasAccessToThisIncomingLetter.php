@@ -24,7 +24,7 @@ class CheckIfUserHasAccessToThisIncomingLetter
             'description' => 'Data tidak ditemukan.'
         ], 404);
 
-        $recipients = $incomingLetter->dispositions()->pluck('id')->toArray();
+        $recipients = $incomingLetter->dispositions()->pluck('user_id')->toArray();
 
         if ($user->role->has('super_user') || $user->role->has('atur_surat_masuk'))
             return $next($request);
