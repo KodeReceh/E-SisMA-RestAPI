@@ -15,6 +15,8 @@ class Disposition extends Model
 
     public $timestamps = false;
 
+    protected $appends = ['processing_date_formatted'];
+
     protected $fillable = [
         'incoming_letter_id',
         'summary',
