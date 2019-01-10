@@ -188,7 +188,7 @@ class DocumentController extends Controller
 
         return response()->download(
             storage_path('app/' . $document->path_file),
-            $document->title . '.' . pathinfo($document->path_file, PATHINFO_EXTENSION),
+            $path,
             $headers
         );
     }
