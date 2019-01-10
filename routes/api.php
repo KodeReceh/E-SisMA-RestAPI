@@ -1,6 +1,7 @@
 <?php
 
 $router->post('login', 'AuthController@login');
+$router->post('verify-letter', 'VerifyLetterController@check');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     // logout
