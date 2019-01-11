@@ -8,7 +8,7 @@ return [
         ],
         'general' => 'dokumen/general'
     ],
-    'front_end_url' => 'https://esisma.efzet.id',
+    'verify_letter_url' => env('VERIFY_LETTER_URL'),
     'templates' => 'templates',
     'raw_images' => 'raw_images',
     'template_data_image' => 'templates/img',

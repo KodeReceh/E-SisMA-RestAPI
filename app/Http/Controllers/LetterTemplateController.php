@@ -94,12 +94,6 @@ class LetterTemplateController extends Controller
         ], 417);
     }
 
-    public function testQRCode()
-    {
-        $data = "I know I am awesome! ありがごう！";
-        return '<img src="' . (new QRCode)->render($data) . '" />';
-    }
-
     public function getFields($id)
     {
         $template = Template::findOrFail($id);
@@ -235,6 +229,8 @@ class LetterTemplateController extends Controller
             'recipient' => $template->needs_villager_data ? 'Penduduk' : 'Lainnya',
             'ordinal' => OutcomingLetter::getOrdinal($letterDate->format('Y'))
         ]));
+        $url = config('esisma.verify_letter_url') . '?number=' . $outcomingLetter->number . '&date=' . $outcomingLetter->date;
+        $templateFile->setImageValue('qr_code', (new QRCode)->render($url));
 
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
