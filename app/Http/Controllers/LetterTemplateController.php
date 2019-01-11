@@ -262,7 +262,7 @@ class LetterTemplateController extends Controller
                     );
 
                     foreach (config('esisma.user_fields') as $key => $value) {
-                        if ($key != 'tanda_tangan') {
+                        if ($value != 'signature') {
                             $templateFile->setValue($key . '_' . $name, $field->user->$value);
                         }
                     }
