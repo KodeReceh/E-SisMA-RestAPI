@@ -254,16 +254,18 @@ class LetterTemplateController extends Controller
 
                 case 4:
                     $signature = $field->user->signature;
-                    $userName = $field->user->name;
-                    $IDNumber = $field->user->employee_id_number;
                     $hasSigned = $letter->hasUserSignedIt($field->user->id);
 
                     $templateFile->setImageValue(
-                        config('esisma.signature_field_prefix') . $name,
+                        array_search('signature', config('esisma.user_fields')) . '_' . $name,
                         storage_path('app/' . config('esisma.signatures') . '/' . ($hasSigned ? $signature : config('esisma.empty_sign_file')))
                     );
-                    $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
-                    $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
+
+                    foreach (config('esisma.user_fields') as $key => $value) {
+                        if ($key != 'tanda_tangan') {
+                            $templateFile->setValue($key . '_' . $name, $field->user->$value);
+                        }
+                    }
                     break;
 
                 default:

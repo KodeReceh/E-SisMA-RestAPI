@@ -8,6 +8,7 @@ return [
         ],
         'general' => 'dokumen/general'
     ],
+    'front_end_url' => 'https://esisma.efzet.id',
     'templates' => 'templates',
     'raw_images' => 'raw_images',
     'template_data_image' => 'templates/img',
@@ -33,9 +34,18 @@ return [
         'foto' => 'photo'
     ],
     'signatures' => 'signatures',
-    'signature_field_prefix' => 'tanda_tangan_',
-    'signer_name_field_prefix' => 'nama_',
-    'signer_ID_field_prefix' => 'nip_',
+    'user_fields' => [
+        'nama' => 'name',
+        'tempat_lahir' => 'birthplace',
+        'tanggal_lahir' => 'birthdate',
+        'jenis_kelamin' => 'sex',
+        'NIP' => 'employee_id_number',
+        'email' => 'email',
+        'alamat' => 'address',
+        'HP' => 'handphone',
+        'jabatan' => 'role.title',
+        'tanda_tangan' => 'signature'
+    ],
     'letter_number_field_alias' => 'nomor',
     'letter_date_field_alias' => 'tanggal',
     'empty_sign_file' => 'blank.png',
