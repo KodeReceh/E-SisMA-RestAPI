@@ -35,8 +35,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('letters/incoming-letter/{id}/disposition', 'DispositionController@updateDisposition');
     $router->put('letters/incoming-letter/{id}', 'IncomingLetterController@update');
     $router->delete('letters/incoming-letter/{id}', 'IncomingLetterController@delete');
-    // $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
-    
+
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
     $router->get('letters/outcoming-letter', 'OutcomingLetterController@getList');

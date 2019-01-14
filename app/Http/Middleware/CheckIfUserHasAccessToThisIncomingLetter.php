@@ -26,7 +26,7 @@ class CheckIfUserHasAccessToThisIncomingLetter
 
         $recipients = $incomingLetter->dispositions()->pluck('user_id')->toArray();
 
-        if ($user->role->has('super_user') || $user->role->has('atur_surat_masuk'))
+        if ($user->role->has('atur_surat_masuk'))
             return $next($request);
 
         if (in_array($user->id, $recipients)) return $next($request);

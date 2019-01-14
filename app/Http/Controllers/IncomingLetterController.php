@@ -25,22 +25,6 @@ class IncomingLetterController extends Controller
         ]);
     }
 
-    public function index()
-    {
-        $incomingLetters = IncomingLetter::with('disposition')
-            ->with('letter')
-            ->with('letter.letter_code')
-            ->with('letter.sub_letter_code')
-            ->with('letter.document.files')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'amount_of_data' => $incomingLetters->count(),
-            'data' => $incomingLetters
-        ], 200);
-    }
-
     public function store(Request $request)
     {
         $letter = new Letter();

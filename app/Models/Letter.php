@@ -20,6 +20,8 @@ class Letter extends Model
         'document_id'
     ];
 
+    protected $appends = ['is_incoming_letter', 'is_outcoming_letter'];
+
     public function letter_code()
     {
         return $this->belongsTo(LetterCode::class);
@@ -45,5 +47,17 @@ class Letter extends Model
         if ($this->document) return $this->document->id;
 
         return null;
+    }
+
+    public function getIsIncomingLetterAttribute()
+    {
+        if ($this->incoming_letter) return true;
+        return false;
+    }
+
+    public function getIsOutcomingLetterAttribute()
+    {
+        if ($this->outcoming_letter) return true;
+        return false;
     }
 }

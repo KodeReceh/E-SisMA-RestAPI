@@ -19,13 +19,11 @@ class CheckIfUserHasAccessToDocument
         $user = app('auth')->user();
         $theDocument = null;
 
-        if ($user->role->has('super_user')) return $next($request);
-
         if (isset($request->route()[2]['id']))
             $theDocument = Document::find($request->route()[2]['id']);
         else if (isset($request->route()[2]['path']))
             $theDocument = Document::where('path', $request->route()[2]['path'])->first();
-        
+
         if ($theDocument) {
             if ($theDocument->uploader_id == $user->id) return $next($request);
 

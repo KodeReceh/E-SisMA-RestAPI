@@ -67,7 +67,8 @@ class DispositionController extends Controller
     public function get($id)
     {
         $userId = app('auth')->user()->id;
-        $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
+        $disposition = Disposition::join('users', 'users.id', '=', 'dispositions.user_id')->where(['incoming_letter_id' => $id, 'user_id' => $userId])
+            ->select('dispositions.*', 'users.name as user')->first();
 
         if ($disposition) {
             return response()->json([
@@ -86,7 +87,8 @@ class DispositionController extends Controller
 
     public function getByUser($id, $userId)
     {
-        $disposition = Disposition::where(['incoming_letter_id' => $id, 'user_id' => $userId])->first();
+        $disposition = Disposition::join('users', 'users.id', '=', 'dispositions.user_id')->where(['incoming_letter_id' => $id, 'user_id' => $userId])
+            ->select('dispositions.*', 'users.name as user')->first();
 
         if ($disposition) {
             return response()->json([

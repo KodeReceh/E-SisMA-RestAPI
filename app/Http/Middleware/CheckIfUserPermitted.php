@@ -17,7 +17,7 @@ class CheckIfUserPermitted
     {
         $user = app('auth')->user();
 
-        if ($user->role->has($permission) || $user->role->has('super_user')) {
+        if ($user->role->has($permission)) {
             return $next($request);
         }
 

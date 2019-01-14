@@ -64,7 +64,7 @@ class RecipientController extends Controller
 
     public function allUsers()
     {
-        $users = User::select('id', 'name')->get();
+        $users = User::join('roles', 'roles.id', '=', 'users.role_id')->select('users.id', \DB::raw('CONCAT(users.name, " - " ,roles.title) as name'))->get();
 
         return response()->json([
             'success' => true,

@@ -22,16 +22,22 @@ class UsersTableSeeder extends Seeder
             $kasiKeuangan = Role::find(3)
         ];
 
+        $email = [
+            'wali_nagari',
+            'sekretaris',
+            'kasi'
+        ];
+
         $signatures = [
             'tandatangan.png',
             'tandatangan2.png',
             'tandatangan3.png'
         ];
-        
+
         foreach ($roles as $key => $role) {
             $user = new User();
             $user->name = $faker->name;
-            $user->email = 'email'.$key.'@email.com';
+            $user->email = $email[$key] . '@email.com';
             $user->password = app('hash')->make('rahasia');
             $user->birthplace = $faker->city;
             $user->birthdate = '1996-02-02';
@@ -45,8 +51,8 @@ class UsersTableSeeder extends Seeder
         }
 
         $user = new User();
-        $user->name = 'Super User';
-        $user->email = 'super@email.com';
+        $user->name = 'Admin';
+        $user->email = 'admin@email.com';
         $user->password = app('hash')->make('rahasia');
         $user->birthplace = 'Padang';
         $user->birthdate = '1996-02-02';
