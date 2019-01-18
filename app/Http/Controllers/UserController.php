@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\IncomingLetter;
 use App\Models\Disposition;
 use App\Models\TemplateField;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -33,25 +34,40 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function register(Request $request)
+    public function store(Request $request)
     {
-        $password = Hash::make($request->password);
-        $request['password'] = $password;
+        $user = new User();
+        $user->name = $request->name;
+        $user->employee_id_number = $request->employee_id_number;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->address = $request->address;
+        $user->sex = $request->sex;
+        $user->role_id = $request->role_id;
+        $user->handphone = $request->handphone;
+        $user->birthplace = $request->birthplace;
+        $user->birthdate = $request->birthdate;
+        $user->status = 1;
+        if ($request->hasFile('signature')) {
+            $theFile = $request->file('signature');
+            $ext = $theFile->getClientOriginalExtension();
+            $fileName = 'signature-' . time() . '.' . $ext;
+            $theFile->storeAs(config('esisma.signatures'), $fileName);
+            $user->signature = $fileName;
+        }
 
-        $save = User::create($request->all());
-
-        if ($save)
+        if ($user->save())
             return response()->json([
             'success' => true,
             'description' => 'Register successed!',
-            'data' => $save
+            'data' => $user
         ], 201);
 
         return response()->json([
             'success' => false,
             'description' => 'Register failed!',
             'data' => ''
-        ], 400);
+        ], 401);
 
     }
 
@@ -93,29 +109,42 @@ class UserController extends Controller
 
         if ($user) {
             $user->name = $request->name;
+            $user->employee_id_number = $request->employee_id_number;
             $user->email = $request->email;
+            $user->address = $request->address;
+            $user->sex = $request->sex;
+            $user->role_id = $request->role_id;
+            $user->handphone = $request->handphone;
             $user->birthplace = $request->birthplace;
             $user->birthdate = $request->birthdate;
-            $user->sex = $request->sex;
-            $user->address = $request->address;
-            $user->handphone = $request->handphone;
-            $user->role_id = $request->role_id;
-            if ($request->password)
-                $user->password = Hash::make($request->password);
+            
+            if($request->filled('password')) $user->password = Hash::make($request->password);
+            
+            if ($request->hasFile('signature')) {
+                $oldFile = $user->signature;
 
-            if ($user->update()) {
-                return response()->json([
-                    'success' => true,
-                    'description' => 'User succesfully updated!',
-                    'data' => $user
-                ], 201);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'description' => 'Something went wrong, not updated!',
-                    'data' => null
-                ], 401);
+                if(Storage::exists(config('esisma.signatures').'/'.$oldFile))
+                    Storage::delete(config('esisma.signatures').'/'.$oldFile);
+
+                $theFile = $request->file('signature');
+                $ext = $theFile->getClientOriginalExtension();
+                $fileName = 'signature-' . time() . '.' . $ext;
+                $theFile->storeAs(config('esisma.signatures'), $fileName);
+                $user->signature = $fileName;
             }
+
+            if ($user->update())
+                return response()->json([
+                'success' => true,
+                'description' => 'Updated successed!',
+                'data' => $user
+            ], 201);
+
+            return response()->json([
+                'success' => false,
+                'description' => 'Update failed!',
+                'data' => ''
+            ], 401);
         } else {
             return response()->json([
                 'success' => false,
@@ -128,6 +157,9 @@ class UserController extends Controller
     public function delete($id)
     {
         $user = User::find($id);
+
+        if($user->signature && Storage::exists(config('esisma.signatures').'/'.$user->signature))
+            Storage::delete(config('esisma.signatures').'/'.$user->signature);
 
         if ($user->delete()) {
             return response()->json([

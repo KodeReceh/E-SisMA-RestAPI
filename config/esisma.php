@@ -8,11 +8,13 @@ return [
         ],
         'general' => 'dokumen/general'
     ],
+    'verify_letter_url' => env('VERIFY_LETTER_URL'),
     'templates' => 'templates',
     'raw_images' => 'raw_images',
     'template_data_image' => 'templates/img',
     'signatures' => 'signatures',
     'generated_docs' => 'generated_docs',
+    'villager_photos' => 'villager_photos',
     'field_types' => [
         1 => 'Text',
         'Gambar',
@@ -33,10 +35,44 @@ return [
         'foto' => 'photo'
     ],
     'signatures' => 'signatures',
-    'signature_field_prefix' => 'tanda_tangan_',
-    'signer_name_field_prefix' => 'nama_',
-    'signer_ID_field_prefix' => 'nip_',
+    'user_fields' => [
+        'nama' => 'name',
+        'tempat_lahir' => 'birthplace',
+        'tanggal_lahir' => 'birthdate',
+        'jenis_kelamin' => 'sex',
+        'NIP' => 'employee_id_number',
+        'email' => 'email',
+        'alamat' => 'address',
+        'HP' => 'handphone',
+        'jabatan' => 'role.title',
+        'tanda_tangan' => 'signature'
+    ],
     'letter_number_field_alias' => 'nomor',
     'letter_date_field_alias' => 'tanggal',
     'empty_sign_file' => 'blank.png',
+    'religions' => [
+        1 => 'Islam',
+        'Protestan',
+        'Katolik',
+        'Hindu',
+        'Budha',
+        'Konghuchu'
+    ],
+    'sexes' => [
+        1 => 'Laki-laki',
+        'Perempuan'
+    ],
+    'tribes' => [
+        1 => 'Koto',
+        'Piliang',
+        'Bodi',
+        'Chaniago',
+        'Sikumbang',
+        'Melayu',
+        'Lainnya'
+    ],
+    'villager_statuses' => [
+        1 => 'WNI',
+        'WNA'
+    ],
 ];

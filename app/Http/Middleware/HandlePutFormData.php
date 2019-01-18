@@ -83,7 +83,7 @@ class HandlePutFormData
 						'size' => filesize($localFileName)
 					);
 	                // register a shutdown function to cleanup the temporary file
-					register_shutdown_function(function () {
+					register_shutdown_function(function () use ($localFileName) {
 						unlink($localFileName);
 					});
 				} else {

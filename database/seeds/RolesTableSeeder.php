@@ -35,10 +35,10 @@ class RolesTableSeeder extends Seeder
         }
 
         $role = Role::create([
-            'title' => 'Super User',
+            'title' => 'Admin',
             'description' => 'Ini adalah Super User'
         ]);
 
-        $role->syncPermissionsByName('super_user');
+        $role->syncPermissionsByName('atur_pengguna', 'atur_jabatan');
     }
 }

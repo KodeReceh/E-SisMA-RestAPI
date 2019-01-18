@@ -11,6 +11,15 @@ class DocumentController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('manageDocs', [
+            'except' => [
+                'get',
+                'responseFile',
+                'store',
+                'getUserDocuments',
+                'getByArchive'
+            ]
+        ]);
         $this->middleware('document', [
             'only' => [
                 'get',
@@ -34,7 +43,7 @@ class DocumentController extends Controller
     {
         $userId = app('auth')->user()->id;
 
-        $documents = Document::with('uploader')->where('uploader_id', $userId)->get();
+        $documents = Document::with('archive')->with('uploader')->where('uploader_id', $userId)->get();
 
         return response()->json([
             'success' => true,
@@ -56,7 +65,8 @@ class DocumentController extends Controller
 
     public function get($id)
     {
-        $document = Document::with('archive')->with('uploader')->find($id);
+        $document = Document::with('archive')->with('uploader')
+            ->with('letter')->find($id);
 
         return response()->json([
             'success' => true,
@@ -188,7 +198,7 @@ class DocumentController extends Controller
 
         return response()->download(
             storage_path('app/' . $document->path_file),
-            $document->title . '.' . pathinfo($document->path_file, PATHINFO_EXTENSION),
+            $path,
             $headers
         );
     }

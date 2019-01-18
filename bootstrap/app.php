@@ -105,6 +105,7 @@ $app->routeMiddleware([
     'getDraft' => App\Http\Middleware\CheckIfUserCanGetThisDraft::class,
     'document' => App\Http\Middleware\CheckIfUserHasAccessToDocument::class,
     'archive' => App\Http\Middleware\CheckIfUserHasAccessToArchive::class,
+    'manageDocs' => App\Http\Middleware\CheckBeforeManageDocument::class,
 ]);
 
 /*

@@ -11,9 +11,13 @@ class Disposition extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = ['incoming_letter_id', 'user_id'];
+    protected $primaryKey = null;
+
+    protected $saveKey = ['incoming_letter_id', 'user_id'];
 
     public $timestamps = false;
+
+    protected $appends = ['processing_date_formatted'];
 
     protected $fillable = [
         'incoming_letter_id',
@@ -26,7 +30,7 @@ class Disposition extends Model
 
     protected function setKeysForSaveQuery(Builder $query)
     {
-        foreach($this->primaryKey as $pk) {
+        foreach($this->saveKey as $pk) {
             $query = $query->where($pk, $this->attributes[$pk]);
         }
         return $query;
@@ -53,5 +57,10 @@ class Disposition extends Model
         } 
         
         return false;
+    }
+
+    public function getProcessingDateFormattedAttribute()
+    {
+        return \Helpers::translateDate($this->processing_date);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 $router->post('login', 'AuthController@login');
+$router->post('verify-letter', 'VerifyLetterController@check');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     // logout
@@ -9,11 +10,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //user
     $router->get('users/notifications', 'UserController@notifications');
     $router->get('users/get-profile', 'UserController@getCurrentUser');
-    $router->post('users/register', 'UserController@register');
+    $router->post('users', 'UserController@store');
     $router->get('users', 'UserController@index');
     $router->get('users/{user}', 'UserController@getUser');
-    $router->post('users/update/{user}', 'UserController@update');
-    $router->delete('users/delete/{user}', 'UserController@delete');
+    $router->put('users/{user}', 'UserController@update');
+    $router->delete('users/{user}', 'UserController@delete');
     $router->post('users/change_status', 'UserController@changeStatus');
 
     //role
@@ -34,8 +35,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('letters/incoming-letter/{id}/disposition', 'DispositionController@updateDisposition');
     $router->put('letters/incoming-letter/{id}', 'IncomingLetterController@update');
     $router->delete('letters/incoming-letter/{id}', 'IncomingLetterController@delete');
-    // $router->get('letters/incoming-letter/get-list', 'IncomingLetterController@getList');
-    
+
     //outcoming-letter
     $router->post('letters/outcoming-letter', 'OutcomingLetterController@store');
     $router->get('letters/outcoming-letter', 'OutcomingLetterController@getList');
@@ -119,5 +119,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     // villagers
     $router->get('villagers', 'VillagerController@all');
     $router->get('villagers/fields', 'VillagerController@getFields');
-
+    $router->get('villagers/{id}', 'VillagerController@get');
+    $router->post('villagers', 'VillagerController@store');
+    $router->put('villagers/{id}', 'VillagerController@update');
+    $router->delete('villager/{id}', 'VillagerController@delete');
 });

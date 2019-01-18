@@ -94,12 +94,6 @@ class LetterTemplateController extends Controller
         ], 417);
     }
 
-    public function testQRCode()
-    {
-        $data = "I know I am awesome! ありがごう！";
-        return '<img src="' . (new QRCode)->render($data) . '" />';
-    }
-
     public function getFields($id)
     {
         $template = Template::findOrFail($id);
@@ -235,6 +229,8 @@ class LetterTemplateController extends Controller
             'recipient' => $template->needs_villager_data ? 'Penduduk' : 'Lainnya',
             'ordinal' => OutcomingLetter::getOrdinal($letterDate->format('Y'))
         ]));
+        $url = config('esisma.verify_letter_url') . '?number=' . $outcomingLetter->number . '&date=' . $outcomingLetter->date;
+        $templateFile->setImageValue('qr_code', (new QRCode)->render($url));
 
         foreach ($template->template_fields as $key => $field) {
             $name = $field->name;
@@ -254,16 +250,18 @@ class LetterTemplateController extends Controller
 
                 case 4:
                     $signature = $field->user->signature;
-                    $userName = $field->user->name;
-                    $IDNumber = $field->user->employee_id_number;
                     $hasSigned = $letter->hasUserSignedIt($field->user->id);
 
                     $templateFile->setImageValue(
-                        config('esisma.signature_field_prefix') . $name,
+                        array_search('signature', config('esisma.user_fields')) . '_' . $name,
                         storage_path('app/' . config('esisma.signatures') . '/' . ($hasSigned ? $signature : config('esisma.empty_sign_file')))
                     );
-                    $templateFile->setValue(config('esisma.signer_name_field_prefix') . $name, $userName);
-                    $templateFile->setValue(config('esisma.signer_ID_field_prefix') . $name, $IDNumber);
+
+                    foreach (config('esisma.user_fields') as $key => $value) {
+                        if ($value != 'signature') {
+                            $templateFile->setValue($key . '_' . $name, $field->user->$value);
+                        }
+                    }
                     break;
 
                 default:

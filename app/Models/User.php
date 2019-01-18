@@ -33,7 +33,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'status'
     ];
 
-    protected $appends = ['permissions'];
+    protected $appends = ['permissions', 'birthdate_formatted'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -76,6 +76,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             return $this->role->permissions()->pluck('can');
         
         return null;
+    }
+
+    public function getBirthdateFormattedAttribute()
+    {
+        return \Helpers::translateDate($this->birthdate);
     }
 
 }
