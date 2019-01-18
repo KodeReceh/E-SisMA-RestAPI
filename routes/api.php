@@ -119,5 +119,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     // villagers
     $router->get('villagers', 'VillagerController@all');
     $router->get('villagers/fields', 'VillagerController@getFields');
-
+    $router->get('villagers/{id}', 'VillagerController@get');
+    $router->post('villagers', 'VillagerController@store');
+    $router->put('villagers/{id}', 'VillagerController@update');
+    $router->delete('villager/{id}', 'VillagerController@delete');
 });

@@ -14,6 +14,7 @@ return [
     'template_data_image' => 'templates/img',
     'signatures' => 'signatures',
     'generated_docs' => 'generated_docs',
+    'villager_photos' => 'villager_photos',
     'field_types' => [
         1 => 'Text',
         'Gambar',
@@ -49,4 +50,29 @@ return [
     'letter_number_field_alias' => 'nomor',
     'letter_date_field_alias' => 'tanggal',
     'empty_sign_file' => 'blank.png',
+    'religions' => [
+        1 => 'Islam',
+        'Protestan',
+        'Katolik',
+        'Hindu',
+        'Budha',
+        'Konghuchu'
+    ],
+    'sexes' => [
+        1 => 'Laki-laki',
+        'Perempuan'
+    ],
+    'tribes' => [
+        1 => 'Koto',
+        'Piliang',
+        'Bodi',
+        'Chaniago',
+        'Sikumbang',
+        'Melayu',
+        'Lainnya'
+    ],
+    'villager_statuses' => [
+        1 => 'WNI',
+        'WNA'
+    ],
 ];

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\Document;
 
-class CheckIfUserHasAccessToDocument
+class CheckBeforeManageDocument
 {
     /**
      * Handle an incoming request.
@@ -30,18 +30,11 @@ class CheckIfUserHasAccessToDocument
             if ($theDocument->archive) {
                 if ($theDocument->archive->role_id == $user->role_id) return $next($request);
             }
-
-            if ($theDocument->letter) {
-                if ($incomingLetter = $theDocument->letter->incoming_letter) {
-                    $users = $incomingLetter->dispositions()->pluck('user_id')->toArray();
-                    if (in_array($user->id, $users)) return $next($request);
-                }
-            }
         }
 
         return response()->json([
             'success' => true,
-            'description' => 'Tidak bisa melihat data ini.'
+            'description' => 'Tidak bisa melakukan aksi ini.'
         ], 403);
     }
 }

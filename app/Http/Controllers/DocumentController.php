@@ -11,6 +11,15 @@ class DocumentController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('manageDocs', [
+            'except' => [
+                'get',
+                'responseFile',
+                'store',
+                'getUserDocuments',
+                'getByArchive'
+            ]
+        ]);
         $this->middleware('document', [
             'only' => [
                 'get',

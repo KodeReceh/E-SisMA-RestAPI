@@ -8,8 +8,6 @@ class Villager extends Model
 {
     protected $table = 'villagers';
 
-    protected $appends = ['select_name'];
-
     protected $fillable = [
         'name',
         'birthplace',
@@ -20,6 +18,15 @@ class Villager extends Model
         'status',
         'address',
         'photo'
+    ];
+
+    protected $appends = [
+        'birthdate_formatted',
+        'religion_text',
+        'sex_text',
+        'tribe_text',
+        'status_text',
+        'select_name'
     ];
 
     public function getSelectNameAttribute()
@@ -39,5 +46,30 @@ class Villager extends Model
         }
 
         return $fields;
+    }
+
+    public function getBirthdateFormattedAttribute()
+    {
+        return \Helpers::translateDate($this->birthdate);
+    }
+
+    public function getSexTextAttribute()
+    {
+        return config('esisma.sexes')[$this->sex];
+    }
+
+    public function getReligionTextAttribute()
+    {
+        return config('esisma.religions')[$this->religion];
+    }
+
+    public function getTribeTextAttribute()
+    {
+        return config('esisma.tribes')[$this->tribe];
+    }
+
+    public function getStatusTextAttribute()
+    {
+        return config('esisma.villager_statuses')[$this->status];
     }
 }
