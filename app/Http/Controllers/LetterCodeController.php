@@ -55,7 +55,6 @@ class LetterCodeController extends Controller
         if ($code->letter_code)
             $name = $code->letter_code->code . '.' . $code->code . ' ' . $code->title;
 
-
         return response()->json([
             'success' => true,
             'description' => 'Berhasil mengambil data.',
@@ -68,6 +67,7 @@ class LetterCodeController extends Controller
         $code = new LetterCode();
         $code->code = $request->code;
         $code->title = $request->title;
+
         if ($code->save()) {
             return response()->json([
                 'success' => true,
@@ -88,6 +88,7 @@ class LetterCodeController extends Controller
         $code = LetterCode::findOrFail($id);
         $code->code = $request->code;
         $code->title = $request->title;
+
         if ($code->update()) {
             return response()->json([
                 'success' => true,
