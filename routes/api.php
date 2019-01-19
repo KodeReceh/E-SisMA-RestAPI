@@ -10,6 +10,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     //user
     $router->get('users/notifications', 'UserController@notifications');
     $router->get('users/get-profile', 'UserController@getCurrentUser');
+    $router->get('users/get-uniques', 'UserController@getUniques');
     $router->post('users', 'UserController@store');
     $router->get('users', 'UserController@index');
     $router->get('users/{user}', 'UserController@getUser');
@@ -122,5 +123,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('villagers/{id}', 'VillagerController@get');
     $router->post('villagers', 'VillagerController@store');
     $router->put('villagers/{id}', 'VillagerController@update');
-    $router->delete('villager/{id}', 'VillagerController@delete');
+    $router->delete('villagers/{id}', 'VillagerController@delete');
+    $router->get('villagers/get-pic/{filename}', 'VillagerController@getPic');
 });

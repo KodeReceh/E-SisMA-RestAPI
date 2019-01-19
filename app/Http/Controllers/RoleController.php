@@ -43,6 +43,7 @@ class RoleController extends Controller
 
         return response()->json([
             'success' => true,
+            'description' => 'Berhasil menyimpan data.',
             'data' => $role
         ], 201);
     }
@@ -57,6 +58,7 @@ class RoleController extends Controller
 
         return response()->json([
             'success' => true,
+            'description' => 'Berhasil merubah data.',
             'data' => $role
         ], 201);
     }

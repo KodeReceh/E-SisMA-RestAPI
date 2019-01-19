@@ -59,13 +59,13 @@ class UserController extends Controller
         if ($user->save())
             return response()->json([
             'success' => true,
-            'description' => 'Register successed!',
+            'description' => 'Berhasil menambah data user!',
             'data' => $user
         ], 201);
 
         return response()->json([
             'success' => false,
-            'description' => 'Register failed!',
+            'description' => 'Gagal menambah data user!',
             'data' => ''
         ], 401);
 
@@ -78,7 +78,7 @@ class UserController extends Controller
         if ($user) {
             return response()->json([
                 'success' => true,
-                'description' => '',
+                'description' => 'Data berhasil ditemukan',
                 'data' => $user
             ], 200);
         }
@@ -136,19 +136,19 @@ class UserController extends Controller
             if ($user->update())
                 return response()->json([
                 'success' => true,
-                'description' => 'Updated successed!',
+                'description' => 'Berhasil mengubah data user!',
                 'data' => $user
             ], 201);
 
             return response()->json([
                 'success' => false,
-                'description' => 'Update failed!',
+                'description' => 'Gagal mengubah data user!',
                 'data' => ''
             ], 401);
         } else {
             return response()->json([
                 'success' => false,
-                'description' => 'User not found!',
+                'description' => 'User tidak ditemukan!',
                 'data' => null
             ], 404);
         }
@@ -249,6 +249,17 @@ class UserController extends Controller
             'success' => true,
             'description' => 'Berhasil mengambil data.',
             'data' => $data
+        ], 200);
+    }
+
+    public function getUniques()
+    {
+        $email = User::pluck('email');
+        $nip = User::pluck('employee_id_number');
+
+        return response()->json([
+            'email' => $email,
+            'NIP' => $nip
         ], 200);
     }
 }

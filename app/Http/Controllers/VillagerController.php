@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Storage;
 
 class VillagerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check:atur_penduduk', [
+            'except' => [
+                'all',
+                'getFields',
+                'get'
+            ]
+        ]);
+    }
+
     public function all()
     {
         $villagers = Villager::orderBy('name', 'asc')->get();
@@ -55,10 +66,10 @@ class VillagerController extends Controller
         $villager->address = $request->address;
         $villager->save();
 
-        if($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $theFile = $request->file('photo');
-            $filename = 'villager-'.$villager->id;
             $extension = $theFile->getClientOriginalExtension();
+            $filename = 'villager-' . $villager->id . '.' . $extension;
             $theFile->storeAs(config('esisma.villager_photos'), $filename);
             $villager->photo = $filename;
             $villager->save();
@@ -84,18 +95,17 @@ class VillagerController extends Controller
         $villager->tribe = $request->tribe;
         $villager->status = $request->status;
         $villager->address = $request->address;
-        $villager->update();
 
-        if($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $theFile = $request->file('photo');
-            $filename = 'villager-'.$villager->id;
             $extension = $theFile->getClientOriginalExtension();
-            $oldFile = $villager->photo;
-            if(Storage::exists(config('esisma/villager_photos').'/'.$oldFile)) Storage::delete(config('esisma/villager_photos').'/'.$oldFile);
+            $filename = 'villager-' . $villager->id . '.' . $extension;
+            if (Storage::exists(config('esisma.villager_photos') . '/' . $villager->photo))
+                Storage::delete(config('esisma.villager_photos') . '/' . $villager->photo);
             $theFile->storeAs(config('esisma.villager_photos'), $filename);
             $villager->photo = $filename;
-            $villager->update();
         }
+        $villager->update();
 
         return response()->json([
             'success' => true,
@@ -107,12 +117,36 @@ class VillagerController extends Controller
     public function delete($id)
     {
         $villager = Villager::findOrFail($id);
-        if(Storage::exists(config('esisma/villager_photos').'/'.$oldFile)) Storage::delete(config('esisma/villager_photos').'/'.$oldFile);
+        if (Storage::exists(config('esisma/villager_photos') . '/' . $villager->photo)) Storage::delete(config('esisma/villager_photos') . '/' . $villager->photo);
         $villager->delete();
-        
+
         return response()->json([
             'success' => true,
             'description' => 'Berhasil menghapus data.'
         ], 200);
+    }
+
+    public function getPic($filename)
+    {
+        $file = config('esisma.villager_photos') . '/' . $filename;
+        $appFile = 'app/' . $file;
+        $mime = \Defr\PhpMimeType\MimeType::get($appFile);
+        $headers = [
+            'Content-Type' => $mime,
+            'content-disposition' => 'attachment'
+        ];
+
+
+        if (Storage::exists($file))
+            return response()->download(
+            storage_path($appFile),
+            $filename,
+            $headers
+        );
+
+        return response()->json([
+            'success' => false,
+            'description' => 'File gambar tidak ditemukan.'
+        ], 417);
     }
 }

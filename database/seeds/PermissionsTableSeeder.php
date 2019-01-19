@@ -17,9 +17,9 @@ class PermissionsTableSeeder extends Seeder
             'atur_surat_masuk',
             'atur_surat_keluar',
             'atur_jabatan',
-            'super_user',
             'atur_template_surat',
             'atur_draft_surat_keluar',
+            'atur_penduduk',
             'regular'
         ];
 

@@ -23,7 +23,7 @@ class CreateVillagersTable extends Migration
             $table->integer('religion')->comment('Agama');
             $table->integer('tribe')->nullable()->comment('Suku');
             $table->string('NIK')->unique()->comment('NIK');
-            $table->string('status')->nullable()->comment('Status Kependudukan');
+            $table->integer('status')->nullable()->comment('Status Kependudukan');
             $table->text('address')->comment('Alamat');
             $table->string('photo')->nullable()->comment('Foto');
             $table->timestamps();

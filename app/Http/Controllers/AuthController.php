@@ -19,7 +19,7 @@ class AuthController extends Controller
             'success' => false,
             'message' => 'Email tidak ditemukan!',
             'data' => ''
-        ], 404);
+        ], 417);
 
         if (!$user->status) return response()->json([
             'success' => false,
@@ -47,7 +47,7 @@ class AuthController extends Controller
             'success' => false,
             'message' => 'Kombinasi password tidak cocok!',
             'data' => ''
-        ], 401);
+        ], 417);
     }
 
     public function logout()

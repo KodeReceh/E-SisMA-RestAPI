@@ -25,6 +25,5 @@ $factory->define(App\Models\Villager::class, function (Faker\Generator $faker) {
         'address' => $faker->address,
         'NIK' => $faker->unique()->randomNumber($nbDigits = 8),
         'status' => rand(1, 2),
-        'photo' => $faker->imageUrl($width = 640, $height = 480),
     ];
 });
