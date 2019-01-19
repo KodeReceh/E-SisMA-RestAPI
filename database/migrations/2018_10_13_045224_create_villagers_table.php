@@ -18,12 +18,12 @@ class CreateVillagersTable extends Migration
             $table->string('name')->comment('Nama Penduduk');
             $table->string('birthplace')->comment('Tempat Lahir');
             $table->date('birthdate')->comment('Tanggal Lahir');
-            $table->integer('sex');
+            $table->tinyInteger('sex')->commnet('Jenis Kelamin');
             $table->string('job')->nullable()->comment('Pekerjaan');
-            $table->integer('religion')->comment('Agama');
-            $table->integer('tribe')->nullable()->comment('Suku');
+            $table->tinyInteger('religion')->comment('Agama');
+            $table->tinyInteger('tribe')->nullable()->comment('Suku');
             $table->string('NIK')->unique()->comment('NIK');
-            $table->integer('status')->nullable()->comment('Status Kependudukan');
+            $table->tinyInteger('status')->nullable()->comment('Status Kependudukan');
             $table->text('address')->comment('Alamat');
             $table->string('photo')->nullable()->comment('Foto');
             $table->timestamps();

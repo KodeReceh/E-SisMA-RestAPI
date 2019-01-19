@@ -15,7 +15,7 @@ class CreateLettersTable extends Migration
     {
         Schema::create('letters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('number')->comment('Nomor Surat');
+            $table->string('number')->unique()->comment('Nomor Surat');
             $table->date('date')->comment('Tanggal Surat');
             $table->string('subject')->comment('Judul Surat');
             $table->string('tendency')->nullable()->comment('Perihal Surat');

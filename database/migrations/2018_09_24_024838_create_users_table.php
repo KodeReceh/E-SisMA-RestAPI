@@ -22,10 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->comment('Email Pengguna; Unik');
             $table->string('password')->comment('Password Pengguna');
             $table->string('api_token')->nullable()->comment('Token client');
-            $table->integer('sex')->comment('Jenis Kelamin; 1 = Laki-laki, 2 = Perempuan');
+            $table->tinyInteger('sex')->comment('Jenis Kelamin; 1 = Laki-laki, 2 = Perempuan');
             $table->string('address')->comment('Alamat Pengguna');
             $table->string('handphone')->comment('Nomor HP Pengguna');
-            $table->integer('status')->default(1)->comment('Status Pengguna; Aktif atau Tidak aktif');
+            $table->tinyInteger('status')->default(1)->comment('Status Pengguna; Aktif atau Tidak aktif');
             $table->string('signature')->nullable()->comment('File tanda tangan, dalam bentuk gambar disarankan PNG dengan latar transparan');
             $table->timestamps();
         });

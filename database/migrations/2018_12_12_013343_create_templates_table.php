@@ -17,7 +17,7 @@ class CreateTemplatesTable extends Migration
             $table->increments('id');
             $table->string('title')->comment('Nama Template');
             $table->string('template_file')->comment('File Template; Dalam doc atau docx');
-            $table->integer('needs_villager_data')->default(0)->comment('Apakah membutuhkan data penduduk?; 0=false, 1=true');
+            $table->boolean('needs_villager_data')->default(false)->comment('Apakah membutuhkan data penduduk?; 0=false, 1=true');
             $table->integer('letter_code_id')->unsigned()->comment('kode jenis surat');
             $table->timestamps();
             $table->foreign('letter_code_id')->references('id')->on('letter_codes')->onDelete('cascade');

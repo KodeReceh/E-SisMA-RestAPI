@@ -226,7 +226,7 @@ class LetterTemplateController extends Controller
         $outcomingLetter->letter_code_id = $template->letter_code_id;
         $outcomingLetter->save();
         $outcomingLetter->outcoming_letter()->save(new OutcomingLetter([
-            'recipient' => $template->needs_villager_data ? 'Penduduk' : 'Lainnya',
+            'recipient' => $templateFile->villager ? $templateFile->villager->name : 'Lainnya',
             'ordinal' => OutcomingLetter::getOrdinal($letterDate->format('Y'))
         ]));
         $url = config('esisma.verify_letter_url') . '?number=' . $outcomingLetter->number . '&date=' . $outcomingLetter->date;
@@ -291,6 +291,7 @@ class LetterTemplateController extends Controller
             }
 
             $letter->generated_file = $thisIsTheFileName;
+            $letter->status = 1;
             $letter->save();
             return true;
         } catch (\Throwable $th) {

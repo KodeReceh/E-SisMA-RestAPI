@@ -15,7 +15,7 @@ class ModifyLetterTemplatesTable extends Migration
     {
         Schema::table('letter_templates', function (Blueprint $table) {
             $table->json('data')->nullable()->comment('Data raw untuk men-generate Surat');
-            $table->integer('status')->default(0)->comment('Status Raw Surat');
+            $table->boolean('status')->default(false)->comment('Status Raw Surat');
             $table->string('generated_file')->nullable()->comment('File Surat yang telah di-generate');
             $table->timestamps();
             $table->integer('template_id')->unsigned()->comment('ID Template Surat');
