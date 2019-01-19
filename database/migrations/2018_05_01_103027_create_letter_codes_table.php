@@ -21,6 +21,7 @@ class CreateLetterCodesTable extends Migration
             $table->integer('letter_code_id')->unsigned()->nullable()->comment('Jika null berarti Sub Kode Surat; Relasi ke tabel sendiri');
 
             $table->foreign('letter_code_id')->references('id')->on('letter_codes')->onDelete('cascade');
+            $table->unique(['code', 'letter_code_id']);
         });
 
         // DB::statement("ALTER TABLE `$tableName` comment 'Tabel untuk Kode dan Sub Kode Surat'");
