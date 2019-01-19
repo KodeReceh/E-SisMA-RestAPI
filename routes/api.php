@@ -127,4 +127,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('villagers/{id}', 'VillagerController@update');
     $router->delete('villagers/{id}', 'VillagerController@delete');
     $router->get('villagers/get-pic/{filename}', 'VillagerController@getPic');
+
+    // profile
+    $router->get('profile', 'ProfileController@get');
+    $router->put('profile', 'ProfileController@update');
+    $router->get('profile/get-sign/{filename}', 'ProfileController@getSign');
 });

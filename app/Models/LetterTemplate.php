@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
+use App\AdditionalClass\Draft;
 
 class LetterTemplate extends Model
 {
@@ -67,7 +68,8 @@ class LetterTemplate extends Model
         if ($field) {
             $name = $field->name;
             $data = json_decode($this->data);
-            $data->$name = true;
+            if (is_object($data)) $data->$name = true;
+            else $data = new Draft([$name => true]);
             $this->data = json_encode($data);
             if ($this->save()) {
                 $this->deleteGeneratedFile();

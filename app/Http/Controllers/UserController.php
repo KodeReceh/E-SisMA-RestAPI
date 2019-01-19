@@ -18,7 +18,8 @@ class UserController extends Controller
         $this->middleware('check:atur_pengguna', [
             'except' => [
                 'notifications',
-                'getCurrentUser'
+                'getCurrentUser',
+                'getUniques'
             ]
         ]);
     }
@@ -224,7 +225,7 @@ class UserController extends Controller
         foreach ($fields as $key => $field) {
             $letters = $field->template->letter_templates;
             foreach ($letters as $index => $letter) {
-                if (!$letter->hasUserSignedIt($user->id)) {
+                if (!$letter->hasUserSignedIt($user->id) && !$letter->status) {
                     $data[] = [
                         'title' => 'Tanda Tangan untuk ' . $letter->letter_name,
                         'color' => 'red',

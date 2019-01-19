@@ -39,7 +39,7 @@ class IncomingLetterController extends Controller
         $incomingLetter = new IncomingLetter([
             'sender' => $request->sender,
             'receipt_date' => $request->receipt_date,
-            'ordinal' => 1
+            'ordinal' => IncomingLetter::getOrdinal($letter->date)
         ]);
 
         $letter->incoming_letter()->save($incomingLetter);
@@ -68,7 +68,7 @@ class IncomingLetterController extends Controller
         $letter->incoming_letter->update([
             'sender' => $request->sender,
             'receipt_date' => $request->receipt_date,
-            'ordinal' => 1
+            'ordinal' => IncomingLetter::getOrdinal($letter->date)
         ]);
 
         $letter->incoming_letter->users()->sync($request->user_id);

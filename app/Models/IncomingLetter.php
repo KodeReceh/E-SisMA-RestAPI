@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class IncomingLetter extends Model
 {
@@ -34,5 +35,19 @@ class IncomingLetter extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'dispositions', 'incoming_letter_id', 'user_id');
+    }
+
+    public static function getOrdinal($date)
+    {
+        $theYear = Carbon::parse($letter->date)->year;
+        $last = IncomingLetter::join('letters', 'letters.id', '=', 'incoming_letters.letter_id')
+            ->whereYear('date', $theYear)
+            ->orderBy('ordinal', 'desc')
+            ->select('ordinal')
+            ->first();
+
+        if (!$last) $last = 0;
+
+        return $last + 1;
     }
 }
