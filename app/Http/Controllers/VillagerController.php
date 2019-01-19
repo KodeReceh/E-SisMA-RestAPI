@@ -149,4 +149,15 @@ class VillagerController extends Controller
             'description' => 'File gambar tidak ditemukan.'
         ], 417);
     }
+
+    public function getNIKs()
+    {
+        $niks = Villager::pluck('NIK');
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data',
+            'data' => $niks
+        ], 200);
+    }
 }

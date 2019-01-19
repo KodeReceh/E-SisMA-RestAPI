@@ -117,14 +117,14 @@ class UserController extends Controller
             $user->handphone = $request->handphone;
             $user->birthplace = $request->birthplace;
             $user->birthdate = $request->birthdate;
-            
-            if($request->filled('password')) $user->password = Hash::make($request->password);
-            
+
+            if ($request->filled('password')) $user->password = Hash::make($request->password);
+
             if ($request->hasFile('signature')) {
                 $oldFile = $user->signature;
 
-                if(Storage::exists(config('esisma.signatures').'/'.$oldFile))
-                    Storage::delete(config('esisma.signatures').'/'.$oldFile);
+                if (Storage::exists(config('esisma.signatures') . '/' . $oldFile))
+                    Storage::delete(config('esisma.signatures') . '/' . $oldFile);
 
                 $theFile = $request->file('signature');
                 $ext = $theFile->getClientOriginalExtension();
@@ -158,8 +158,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if($user->signature && Storage::exists(config('esisma.signatures').'/'.$user->signature))
-            Storage::delete(config('esisma.signatures').'/'.$user->signature);
+        if ($user->signature && Storage::exists(config('esisma.signatures') . '/' . $user->signature))
+            Storage::delete(config('esisma.signatures') . '/' . $user->signature);
 
         if ($user->delete()) {
             return response()->json([

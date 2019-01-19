@@ -17,4 +17,15 @@ class LetterController extends Controller
             'data' => $letter
         ], 200);
     }
+
+    public function getNumbers()
+    {
+        $numbers = Letter::pluck('number');
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data',
+            'data' => $numbers
+        ], 200);
+    }
 }

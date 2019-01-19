@@ -46,6 +46,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->delete('letters/outcoming-letter/{id}', 'OutcomingLetterController@delete');
 
     //letter
+    $router->get('letters/get-numbers', 'LetterController@getNumbers');
     $router->get('letters/{id}', 'LetterController@get');
     
     //sub-letter-code
@@ -120,6 +121,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     // villagers
     $router->get('villagers', 'VillagerController@all');
     $router->get('villagers/fields', 'VillagerController@getFields');
+    $router->get('villagers/get-niks', 'VillagerController@getNIKs');
     $router->get('villagers/{id}', 'VillagerController@get');
     $router->post('villagers', 'VillagerController@store');
     $router->put('villagers/{id}', 'VillagerController@update');
