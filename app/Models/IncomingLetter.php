@@ -39,7 +39,7 @@ class IncomingLetter extends Model
 
     public static function getOrdinal($date)
     {
-        $theYear = Carbon::parse($letter->date)->year;
+        $theYear = Carbon::parse($date)->year;
         $last = IncomingLetter::join('letters', 'letters.id', '=', 'incoming_letters.letter_id')
             ->whereYear('date', $theYear)
             ->orderBy('ordinal', 'desc')
