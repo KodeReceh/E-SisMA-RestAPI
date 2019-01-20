@@ -66,6 +66,7 @@ class LetterTemplate extends Model
         $field = $this->template->template_fields()->where('user_id', $userId)->first();
 
         if ($field) {
+            if (!User::find($userId)->signature) return false;
             $name = $field->name;
             $data = json_decode($this->data);
             if (is_object($data)) $data->$name = true;
