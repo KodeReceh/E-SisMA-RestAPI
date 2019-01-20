@@ -54,6 +54,13 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     //letter-code
     $router->get('letter-codes', 'LetterCodeController@getLetterCodeList');
+    $router->get('letter-codes/taken-code', 'LetterCodeController@getTakenCodes');
+    $router->get('letter-codes/{id}/taken-sub-code', 'LetterCodeController@getTakenSubCodes');
+    $router->post('letter-codes', 'LetterCodeController@store');
+    $router->put('letter-codes/{id}', 'LetterCodeController@update');
+    $router->delete('letter-codes/{id}', 'LetterCodeController@delete');
+    $router->post('letter-codes/{id}/sub-letter-codes', 'LetterCodeController@storeSub');
+    $router->delete('letter-codes/{id}/sub-letter-codes/{subId}', 'LetterCodeController@deleteSub');
 
     //get letter code or sub letter code
     $router->get('letter-codes/{id}', 'LetterCodeController@get');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LetterCode;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class LetterCodeController extends Controller
 {
@@ -12,7 +13,8 @@ class LetterCodeController extends Controller
         $letterCodes = LetterCode::getLetterCodes()->select(
             'id',
             DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"),
-            'code'
+            'code',
+            'title'
         )->get();
 
         return response()->json([
@@ -26,7 +28,7 @@ class LetterCodeController extends Controller
     {
         $letterCode = LetterCode::find($letter_code);
         $subLetterCodes = $letterCode->sub_letter_codes()
-            ->select('id', DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"), 'code')
+            ->select('id', DB::raw("CONCAT(letter_codes.code,' - ',letter_codes.title) as code_title"), 'code', 'title')
             ->get();
 
         return response()->json([
@@ -115,15 +117,14 @@ class LetterCodeController extends Controller
         ], 200);
     }
 
-    public function addSub($id, Request $request)
+    public function storeSub($id, Request $request)
     {
-        $code = LetterCode::findOrFail($id);
-        $subCode = new LetterCode([
-            'code' => $request->code,
-            'title' => $request->title,
-        ]);
+        $subCode = new LetterCode();
+        $subCode->code = $request->code;
+        $subCode->title = $request->title;
+        $subCode->letter_code_id = $id;
 
-        if ($code->sub_letter_codes()->save($subCode)) {
+        if ($subCode->save()) {
             return response()->json([
                 'success' => true,
                 'description' => 'Berhasil menambah data.',
@@ -138,14 +139,36 @@ class LetterCodeController extends Controller
         ], 417);
     }
 
-    public function deleteSub($id)
+    public function deleteSub($id, $subId)
     {
-        $code = LetterCode::findOrFail($id);
+        $code = LetterCode::findOrFail($subId);
         $code->delete();
 
         return response()->json([
             'success' => true,
             'description' => 'Berhasil menghapus data.',
+        ], 200);
+    }
+
+    public function getTakenCodes()
+    {
+        $codes = LetterCode::whereNull('letter_code_id')->pluck('code');
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $codes
+        ], 200);
+    }
+
+    public function getTakenSubCodes($id)
+    {
+        $codes = LetterCode::where('letter_code_id', $id)->pluck('code');
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $codes
         ], 200);
     }
 }
