@@ -19,7 +19,8 @@ class UserController extends Controller
             'except' => [
                 'notifications',
                 'getCurrentUser',
-                'getUniques'
+                'getUniques',
+                'allNotifications'
             ]
         ]);
     }
@@ -236,6 +237,55 @@ class UserController extends Controller
                         'time' => $letter->created_at
                     ];
                 }
+            }
+        }
+
+        if (count($data) > 0) {
+            usort($data, function ($a, $b) {
+                if ($a['time'] == $b['time']) return 0;
+                return ($a['time'] > $b['time']) ? -1 : 1;
+            });
+        }
+
+        return response()->json([
+            'success' => true,
+            'description' => 'Berhasil mengambil data.',
+            'data' => $data
+        ], 200);
+    }
+
+    public function allNotifications()
+    {
+        $user = app('auth')->user();
+        $incomingLetters = Disposition::where(['user_id' => $user->id])->get();
+        $fields = TemplateField::where('user_id', $user->id)->get();
+        $data = [];
+
+        foreach ($incomingLetters as $key => $incomingLetter) {
+            $time = $incomingLetter->incoming_letter->letter->created_at;
+            $data[] = [
+                'title' => $incomingLetter->incoming_letter->letter->subject,
+                'timeLabel' => \Carbon\Carbon::parse($time)->diffForHumans(),
+                'type' => 'incoming-letter',
+                'type_translated' => "Surat Masuk",
+                'id' => $incomingLetter->incoming_letter_id,
+                'time' => $time,
+                'status' => $incomingLetter->status ? "Selesai" : "Belum Diselesaikan"
+            ];
+        }
+
+        foreach ($fields as $key => $field) {
+            $letters = $field->template->letter_templates;
+            foreach ($letters as $index => $letter) {
+                $data[] = [
+                    'title' => $letter->letter_name,
+                    'timeLabel' => \Carbon\Carbon::parse($letter->created_at)->diffForHumans(),
+                    'type' => 'signature',
+                    'type_translated' => "Tanda Tangan",
+                    'id' => $letter->id,
+                    'time' => $letter->created_at,
+                    'status' => $letter->status ? "Selesai" : "Belum Diselesaikan"
+                ];
             }
         }
 

@@ -8,6 +8,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('logout', 'AuthController@logout');
     
     //user
+    $router->get('users/notifications/all', 'UserController@allNotifications');
     $router->get('users/notifications', 'UserController@notifications');
     $router->get('users/get-profile', 'UserController@getCurrentUser');
     $router->get('users/get-uniques', 'UserController@getUniques');
