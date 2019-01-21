@@ -25,6 +25,7 @@ class CheckIfUserHasAccessToDocument
             $theDocument = Document::where('path', $request->route()[2]['path'])->first();
 
         if ($theDocument) {
+            if ($theDocument->public) return $next($request);
             if ($theDocument->uploader_id == $user->id) return $next($request);
 
             if ($theDocument->archive) {

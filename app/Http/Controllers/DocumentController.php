@@ -43,7 +43,7 @@ class DocumentController extends Controller
     {
         $userId = app('auth')->user()->id;
 
-        $documents = Document::with('archive')->with('uploader')->where('uploader_id', $userId)->get();
+        $documents = Document::with('archive')->with('uploader')->where('uploader_id', $userId)->orWhere('public', true)->get();
 
         return response()->json([
             'success' => true,
@@ -87,6 +87,7 @@ class DocumentController extends Controller
         $document->uploader_id = app('auth')->user()->id;
         $document->file_type = $request->file_type;
         $document->path = $fileName;
+        $document->public = $request->public;
         $document->archive_id = $request->filled('archive_id') ? $request->archive_id : null;
 
         if ($document->save()) {
@@ -125,6 +126,7 @@ class DocumentController extends Controller
         $document = Document::findOrFail($id);
         $document->title = $request->title;
         $document->date = $request->date;
+        $document->public = $request->public;
         $document->description = $request->description;
         $document->archive_id = $request->filled('archive_id') ? $request->archive_id : null;
 

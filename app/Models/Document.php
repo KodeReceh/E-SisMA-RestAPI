@@ -14,11 +14,17 @@ class Document extends Model
         'date',
         'description',
         'archive_id',
+        'public',
         'file_type',
         'uploader_id'
     ];
 
-    protected $appends = ['file_extension', 'date_formatted'];
+    protected $appends = [
+        'file_extension',
+        'date_formatted',
+        'public_text',
+        'this_user_can_manage_the_doc'
+    ];
 
     public function archive()
     {
@@ -73,5 +79,23 @@ class Document extends Model
     public function getDateFormattedAttribute()
     {
         return \Helpers::translateDate($this->date);
-    }    
+    }
+
+    public function getPublicTextAttribute()
+    {
+        return $this->public ? "Iya" : "Tidak";
+    }
+
+    public function getThisUserCanManageTheDocAttribute()
+    {
+        $user = app('auth')->user();
+
+        if ($this->uploader_id == $user->id) return true;
+
+        if ($this->archive) {
+            if ($this->archive->role_id == $user->role_id) return true;
+        }
+
+        return false;
+    }
 }
