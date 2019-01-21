@@ -58,10 +58,10 @@ $router->post('webhook', function (Request $request) {
         if ($composerUpdate) $cmd .= ' && composer update';
 
         if ($migrateFresh) {
-            $cmd .= ' && php artisan migrate:fresh && rm -rf storage/app/*';
+            $cmd .= ' && php artisan migrate:fresh && rm -rf storage/app/* && cp example/signatures storage/app/';
             if ($seed) $cmd .= ' && php artisan db:seed';
         } elseif ($migrateRefresh) {
-            $cmd .= ' && php artisan migrate:refresh && rm -rf storage/app/*';
+            $cmd .= ' && php artisan migrate:refresh && rm -rf storage/app/* && cp example/signatures storage/app/';
             if ($seed) $cmd .= ' && php artisan db:seed';
         } elseif ($migrate) {
             $cmd .= ' && php artisan migrate';
