@@ -47,6 +47,7 @@ class IncomingLetter extends Model
             ->first();
 
         if (!$last) $last = 0;
+        else $last = $last->ordinal;
 
         return $last + 1;
     }
