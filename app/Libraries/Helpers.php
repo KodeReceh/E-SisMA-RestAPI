@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Helpers
 {
-  public static function showFullColumn($table, array $columns = null)
+  public static function showFullColumn($table, array $columns)
   {
     return DB::select(
       'SHOW FULL COLUMNS FROM ' . $table . ' ' . ($columns ? 'where FIELD IN (' . implode(',', $columns) . ')' : '')
