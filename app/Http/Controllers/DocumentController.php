@@ -54,7 +54,7 @@ class DocumentController extends Controller
 
     public function getByArchive($archiveId)
     {
-        $documents = Document::where('archive_id', $archiveId)->with('uploader')->get();
+        $documents = Document::where('archive_id', $archiveId)->with('archive')->with('uploader')->get();
 
         return response()->json([
             'success' => true,
