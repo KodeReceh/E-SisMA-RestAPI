@@ -91,8 +91,7 @@ class IncomingLetterController extends Controller
                 'letters.subject as subject',
                 'letters.tendency as tendency',
                 'incoming_letters.sender as sender'
-            )
-            ->get();
+            )->orderBy('letters.date', 'desc')->get();
 
         return response()->json([
             'success' => true,

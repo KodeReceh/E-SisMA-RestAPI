@@ -179,7 +179,7 @@ class LetterTemplateController extends Controller
 
     public function getList()
     {
-        $letterTemplates = LetterTemplate::all();
+        $letterTemplates = LetterTemplate::orderBy('id', 'desc')->get();
 
         return response()->json([
             'success' => true,

@@ -66,8 +66,7 @@ class OutcomingLetterController extends Controller
                 'letters.subject as subject',
                 'letters.tendency as tendency',
                 'outcoming_letters.recipient as recipient'
-            )
-            ->get();
+            )->orderBy('letters.date', 'desc')->get();
 
         return response()->json([
             'success' => true,

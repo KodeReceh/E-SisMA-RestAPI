@@ -30,7 +30,7 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $documents = Document::with('archive')->get();
+        $documents = Document::with('archive')->orderBy('date', 'desc')->get();
 
         return response()->json([
             'success' => true,
