@@ -23,7 +23,8 @@
     "barryvdh/laravel-cors": "^0.11.2",
     "phpoffice/phpword": "dev-master",
     "chillerlan/php-qrcode": "^3.0",
-    "dfridrich/php-mime-type": "^2.0"
+    "dfridrich/php-mime-type": "^2.0",
+    "pusher/pusher-php-server": "^3.3"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

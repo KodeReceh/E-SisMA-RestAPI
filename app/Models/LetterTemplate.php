@@ -145,7 +145,17 @@ class LetterTemplate extends Model
         $data = [];
         foreach ($villagerFields as $key => $villagerField) {
             $field = config('esisma.villager_fields')[$villagerField->name];
-            $data[$villagerField->name] = $this->villager->$field;
+            if ($field == "religion") {
+                $data[$villagerField->name] = config('esisma.religions')[$this->villager->$field];
+            } else if ($field == "sex") {
+                $data[$villagerField->name] = config('esisma.sexes')[$this->villager->$field];
+            } else if ($field == "tribe") {
+                $data[$villagerField->name] = config('esisma.tribes')[$this->villager->$field];
+            } else if ($field == "status") {
+                $data[$villagerField->name] = config('esisma.villager_statuses')[$this->villager->$field];
+            } else {
+                $data[$villagerField->name] = $this->villager->$field;
+            }
         }
 
         return $data;

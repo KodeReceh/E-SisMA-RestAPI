@@ -68,8 +68,20 @@ class LetterTemplateController extends Controller
                     $villager_id = $request->$name[0];
                     $villager_field = $request->$name[1];
                     $villager = Villager::find($villager_id);
-                    $templateData[$name] = $villager->$villager_field;
 
+                    if ($villager_field == "religion") {
+                        $templateData[$name] = config('esisma.religions')[$villager->$villager_field];
+                    } else if ($villager_field == "sex") {
+                        $templateData[$name] = config('esisma.sexes')[$villager->$villager_field];
+                    } else if ($villager_field == "tribe") {
+                        $templateData[$name] = config('esisma.tribes')[$villager->$villager_field];
+                    } else if ($villager_field == "status") {
+                        $templateData[$name] = config('esisma.villager_statuses')[$villager->$villager_field];
+                    } else {
+                        $templateData[$name] = $villager->$villager_field;
+                    }
+                    break;
+                    
                 default:
                     break;
             }
@@ -153,7 +165,7 @@ class LetterTemplateController extends Controller
         if ($letter->save()) {
             return response()->json([
                 'success' => false,
-                'description' => 'Gagal menyimpan data',
+                'description' => 'Berhasil menyimpan data',
                 'data' => $letter
             ], 201);
         }
@@ -245,7 +257,21 @@ class LetterTemplateController extends Controller
                     break;
                 case 3:
                     $field = config('esisma.villager_fields')[$name];
-                    $templateFile->setValue($name, $letter->villager->$field);
+                    if ($field == "religion") {
+                        $templateFile->setValue($name, config('esisma.religions')[$letter->villager->$field]);
+                    } else if ($field == "sex") {
+                        $templateFile->setValue($name, config('esisma.sexes')[$letter->villager->$field]);
+                    } else if ($field == "tribe") {
+                        $templateFile->setValue($name, config('esisma.tribes')[$letter->villager->$field]);
+                    } else if ($field == "status") {
+                        $templateFile->setValue($name, config('esisma.villager_statuses')[$letter->villager->$field]);
+                    } else if ($field == "photo") {
+                        if ($letter->villager->photo)
+                            $templateFile->setImageValue($name, storage_path('app/' . config('esisma.villager_photos') . '/' . $letter->villager->photo));
+                    } else {
+                        $templateFile->setValue($name, $letter->villager->$field);
+                    }
+
                     break;
 
                 case 4:
