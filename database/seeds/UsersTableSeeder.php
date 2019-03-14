@@ -19,13 +19,13 @@ class UsersTableSeeder extends Seeder
         $roles = [
             $waliNagari = Role::find(1),
             $sekretaris = Role::find(2),
-            $kasiKeuangan = Role::find(3)
+            $kaurBangun = Role::find(3)
         ];
 
         $email = [
             'wali_nagari',
             'sekretaris',
-            'kasi'
+            'kaur_bangun'
         ];
 
         $signatures = [

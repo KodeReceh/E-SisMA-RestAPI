@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id')->comment('ID Pengguna');
             $table->string('name')->comment('Nama Pengguna');
-            $table->integer('employee_id_number')->unique()->nullable()->default(null)->comment('Nomor induk pegawai');
+            $table->string('employee_id_number')->length(18)->unique()->nullable()->default(null)->comment('Nomor induk pegawai');
             $table->string('birthplace')->comment('Tempat Lahir');
             $table->date('birthdate')->comment('Tanggal Lahir');
             $table->string('email')->unique()->comment('Email Pengguna; Unik');

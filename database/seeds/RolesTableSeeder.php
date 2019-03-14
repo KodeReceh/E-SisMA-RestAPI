@@ -22,8 +22,8 @@ class RolesTableSeeder extends Seeder
                 'Ini sekretaris'
             ],
             [
-                'Kasi Keuangan',
-                'Ini Kepala Seksi Keuangan'
+                'Kaur Pembangunan',
+                'Ini Kepala Urusan Pembangunan'
             ]
         ];
 
