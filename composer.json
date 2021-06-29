@@ -19,7 +19,7 @@
     "vlucas/phpdotenv": "~2.2",
     "flipbox/lumen-generator": "^5.6",
     "symfony/config": "^4.1",
-    "league/flysystem": "^1.0",
+    "league/flysystem": "^2.1",
     "barryvdh/laravel-cors": "^0.11.2",
     "phpoffice/phpword": "dev-master",
     "chillerlan/php-qrcode": "^3.0",
